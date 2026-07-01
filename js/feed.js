@@ -95,7 +95,7 @@ const FeedView = {
       <div class="card-top">
         <span class="badge badge-${item.category}">${cat.short}</span>
         <span class="sev-badge sev-${item.severity.toLowerCase()}">${item.severity}</span>
-        ${item.cve ? `<span class="cve-tag">${item.cve}</span>` : ''}
+        ${item.cve ? `<span class="cve-tag">${App.escapeHtml(item.cve)}</span>` : ''}
         ${item.cvss ? `<span class="cvss-tag">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
         <span class="date-tag">${App.formatDate(item.date)}</span>
       </div>
@@ -103,8 +103,8 @@ const FeedView = {
       <p class="card-summary">${App.escapeHtml(item.summary)}</p>
       <div class="card-footer">
         ${item.actor ? `<span class="actor-tag">▲ ${App.escapeHtml(item.actor)}</span>` : ''}
-        ${item.tags.map(t => `<span class="hash-tag">#${t}</span>`).join('')}
-        <span class="source-link"><a href="${item.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
+        ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
+        <span class="source-link"><a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
       </div>
     </article>`;
   },
@@ -154,7 +154,7 @@ const FeedView = {
             <div class="article-badges">
               <span class="badge badge-${item.category}" style="font-size:11px;padding:4px 12px">${cat.short}</span>
               <span class="sev-badge sev-${item.severity.toLowerCase()}" style="font-size:11px;padding:4px 10px">${item.severity}</span>
-              ${item.cve ? `<span class="cve-tag" style="font-size:12px;padding:3px 10px">${item.cve}</span>` : ''}
+              ${item.cve ? `<span class="cve-tag" style="font-size:12px;padding:3px 10px">${App.escapeHtml(item.cve)}</span>` : ''}
               ${item.cvss ? `<span class="cvss-tag" style="font-size:12px">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
             </div>
 
@@ -162,13 +162,13 @@ const FeedView = {
 
             <div class="article-meta">
               <span class="meta-item"><span class="meta-label">Published:</span> ${App.formatDate(item.date)}</span>
-              <span class="meta-item"><span class="meta-label">Source:</span> <a href="${item.url}" target="_blank" rel="noopener" style="color:var(--accent)">${App.escapeHtml(item.source)}</a></span>
+              <span class="meta-item"><span class="meta-label">Source:</span> <a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" style="color:var(--accent)">${App.escapeHtml(item.source)}</a></span>
               <span class="meta-item"><span class="meta-label">Reading time:</span> ${readTime} min</span>
               ${item.actor ? `<span class="meta-item"><span class="meta-label">Threat Actor:</span> <span style="color:var(--cat-kev);font-weight:600">${App.escapeHtml(item.actor)}</span></span>` : ''}
             </div>
 
             <div class="article-tags">
-              ${item.tags.map(t => `<span class="hash-tag">#${t}</span>`).join('')}
+              ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
             </div>
           </header>
 
@@ -319,7 +319,7 @@ const FeedView = {
           <div class="article-section" style="margin-top:32px">
             <div class="article-source-box">
               <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px">Original Source</div>
-              <a href="${item.url}" target="_blank" rel="noopener" class="article-source-link">
+              <a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" class="article-source-link">
                 <span>${App.escapeHtml(item.source)}</span>
                 <span style="color:var(--accent)">Open Source →</span>
               </a>
@@ -337,33 +337,41 @@ const FeedView = {
      ═══════════════════════════════════════════════════════════════════ */
   generateDetailContent(item) {
     const catInfo = TIP_DATA.categories[item.category];
+    // Free-text fields may originate from AI-curated/web-sourced content — escape
+    // before splicing into any HTML string built in this file's generators.
+    const s = {
+      cve: item.cve ? App.escapeHtml(item.cve) : null,
+      actor: item.actor ? App.escapeHtml(item.actor) : null,
+      summary: App.escapeHtml(item.summary),
+      tags: item.tags.map(t => App.escapeHtml(t)),
+    };
 
     // --- TL;DR ---
-    let tldr = item.summary;
-    if (item.cve) tldr += ` Track as ${item.cve}.`;
+    let tldr = s.summary;
+    if (s.cve) tldr += ` Track as ${s.cve}.`;
     if (item.cvss) tldr += ` CVSS score: ${item.cvss.toFixed(1)}.`;
-    if (item.actor) tldr += ` Attribution: ${item.actor}.`;
+    if (s.actor) tldr += ` Attribution: ${s.actor}.`;
     tldr += ` Immediate action required: review exposure, apply patches if available, and monitor for exploitation indicators.`;
 
     // --- Context: Why This Matters ---
     const context = [];
     if (item.category === 'zeroday') {
       context.push(`This advisory tracks an actively-exploited zero-day vulnerability — a flaw that was being weaponized in the wild before a patch was available. Zero-days represent the highest-priority class of vulnerability because traditional patch-management cycles cannot defend against them; detection and containment must operate independently of vendor remediation timelines.`);
-      context.push(`${item.summary} The exploitation window for this vulnerability began before public disclosure, meaning that organizations running affected software during the exploitation period must treat their environments as potentially compromised, not merely "at risk."`);
+      context.push(`${s.summary} The exploitation window for this vulnerability began before public disclosure, meaning that organizations running affected software during the exploitation period must treat their environments as potentially compromised, not merely "at risk."`);
     } else if (item.category === 'kev') {
       context.push(`This vulnerability has been added to the CISA Known Exploited Vulnerabilities (KEV) catalog, which means there is confirmed evidence of active exploitation in the wild. Federal agencies are required to patch KEV entries within deadlines set by BOD 22-01, but all organizations should treat KEV additions as emergency-priority patching events.`);
-      context.push(`${item.summary} The presence of this CVE in the KEV catalog transforms it from a theoretical risk into a confirmed, operational threat. Defenders should assume that exploit code is reliable and widely available.`);
+      context.push(`${s.summary} The presence of this CVE in the KEV catalog transforms it from a theoretical risk into a confirmed, operational threat. Defenders should assume that exploit code is reliable and widely available.`);
     } else if (item.category === 'supplychain') {
       context.push(`Supply chain attacks target the trust relationships between software producers and consumers. Instead of attacking the target directly, adversaries compromise an upstream dependency, build system, or distribution channel — converting routine software updates into delivery mechanisms for malicious code. This class of attack is particularly dangerous because it bypasses perimeter defenses entirely.`);
-      context.push(`${item.summary} The convergence of supply chain attacks targeting developer tooling signals a maturing attack playbook: the developer environment is the new perimeter.`);
+      context.push(`${s.summary} The convergence of supply chain attacks targeting developer tooling signals a maturing attack playbook: the developer environment is the new perimeter.`);
     } else if (item.category === 'ransomware') {
       context.push(`Ransomware operations continue to evolve both technically and operationally. Modern ransomware groups operate as structured businesses with affiliate programs, specialized initial-access brokers, and data-extortion capabilities that don't depend on successful encryption. The financial incentive structure ensures that these operations will continue to intensify.`);
-      context.push(`${item.summary} Organizations in targeted sectors should review their backup integrity, incident response playbooks, and network segmentation controls immediately.`);
+      context.push(`${s.summary} Organizations in targeted sectors should review their backup integrity, incident response playbooks, and network segmentation controls immediately.`);
     } else if (item.category === 'rce') {
       context.push(`Remote Code Execution vulnerabilities allow attackers to execute arbitrary code on target systems without requiring local access. When combined with "unauthenticated" and "no user interaction" characteristics, RCE flaws become wormable — capable of self-propagating across networks without any human involvement. These represent the most severe class of vulnerability in any risk framework.`);
-      context.push(`${item.summary} Internet-facing assets running affected software should be patched with maximum urgency. If patching cannot be completed immediately, network-level mitigations (firewall rules, IPS signatures) should be deployed as interim controls.`);
+      context.push(`${s.summary} Internet-facing assets running affected software should be patched with maximum urgency. If patching cannot be completed immediately, network-level mitigations (firewall rules, IPS signatures) should be deployed as interim controls.`);
     } else {
-      context.push(`${item.summary}`);
+      context.push(`${s.summary}`);
       context.push(`This advisory warrants immediate review by security operations teams. The technical details and exploitation context should inform prioritization decisions for patching, detection engineering, and threat hunting activities.`);
     }
 
@@ -371,7 +379,7 @@ const FeedView = {
     if (item.actor) {
       const adv = TIP_DATA.adversaries.find(a => item.actor.toLowerCase().includes(a.name.toLowerCase()));
       if (adv) {
-        context.push(`The attributed threat actor, ${adv.name}, is a ${adv.type} group with ${adv.motivation.toLowerCase()} motivation, known to target ${adv.sectors.join(', ')} sectors. Organizations in these sectors should elevate their monitoring posture and consider proactive threat hunting for related TTPs.`);
+        context.push(`The attributed threat actor, ${App.escapeHtml(adv.name)}, is a ${App.escapeHtml(adv.type)} group with ${App.escapeHtml(adv.motivation.toLowerCase())} motivation, known to target ${adv.sectors.map(x => App.escapeHtml(x)).join(', ')} sectors. Organizations in these sectors should elevate their monitoring posture and consider proactive threat hunting for related TTPs.`);
       }
     }
 
@@ -381,9 +389,9 @@ const FeedView = {
     // --- Technical Analysis ---
     const technical = [];
     if (item.cve && item.cvss) {
-      technical.push(`<strong>${item.cve}</strong> carries a CVSS base score of ${item.cvss.toFixed(1)}, placing it in the <strong>${item.severity}</strong> severity tier. ${item.cvss >= 9.0 ? 'Scores at or above 9.0 indicate that the vulnerability is trivially exploitable, requires no special privileges, and delivers maximum impact on confidentiality, integrity, or availability — often all three.' : item.cvss >= 7.0 ? 'Scores in this range indicate significant exploitability and impact, typically involving either a complex attack vector or requiring some level of privileges.' : 'While not rated as critical, this vulnerability still poses a meaningful risk in environments where the affected component is exposed.'}`);
+      technical.push(`<strong>${s.cve}</strong> carries a CVSS base score of ${item.cvss.toFixed(1)}, placing it in the <strong>${App.escapeHtml(item.severity)}</strong> severity tier. ${item.cvss >= 9.0 ? 'Scores at or above 9.0 indicate that the vulnerability is trivially exploitable, requires no special privileges, and delivers maximum impact on confidentiality, integrity, or availability — often all three.' : item.cvss >= 7.0 ? 'Scores in this range indicate significant exploitability and impact, typically involving either a complex attack vector or requiring some level of privileges.' : 'While not rated as critical, this vulnerability still poses a meaningful risk in environments where the affected component is exposed.'}`);
     }
-    technical.push(`The vulnerability's exploitation characteristics — ${item.tags.join(', ')} — align with known attack patterns. ${item.category === 'rce' ? 'Remote code execution without authentication represents the most dangerous vulnerability class, as it enables both initial access and lateral movement without requiring any pre-existing foothold.' : item.category === 'zeroday' ? 'Zero-day exploitation indicates that the attacker invested significant resources in vulnerability research and weaponization, suggesting either a sophisticated threat actor or access to an exploit broker marketplace.' : 'The exploitation pattern observed in the wild should inform detection engineering efforts.'}`);
+    technical.push(`The vulnerability's exploitation characteristics — ${s.tags.join(', ')} — align with known attack patterns. ${item.category === 'rce' ? 'Remote code execution without authentication represents the most dangerous vulnerability class, as it enables both initial access and lateral movement without requiring any pre-existing foothold.' : item.category === 'zeroday' ? 'Zero-day exploitation indicates that the attacker invested significant resources in vulnerability research and weaponization, suggesting either a sophisticated threat actor or access to an exploit broker marketplace.' : 'The exploitation pattern observed in the wild should inform detection engineering efforts.'}`);
     technical.push(`Defenders should monitor for the specific exploitation patterns associated with this vulnerability class. Network-based detection should focus on anomalous traffic patterns to/from affected services, while endpoint-based detection should monitor for post-exploitation indicators such as unusual process creation, credential access, or data staging activities.`);
 
     // --- IOCs ---
@@ -399,14 +407,14 @@ const FeedView = {
     // --- Recommended Actions ---
     const actions = [];
     actions.push(`<strong>Identify exposure:</strong> Enumerate all instances of affected software across your environment. Prioritize internet-facing and business-critical assets.`);
-    if (item.cve) {
-      actions.push(`<strong>Apply patches:</strong> Deploy vendor-provided patches for ${item.cve} immediately. If patching requires a maintenance window, implement compensating controls (WAF rules, network ACLs, IPS signatures) in the interim.`);
+    if (s.cve) {
+      actions.push(`<strong>Apply patches:</strong> Deploy vendor-provided patches for ${s.cve} immediately. If patching requires a maintenance window, implement compensating controls (WAF rules, network ACLs, IPS signatures) in the interim.`);
     } else {
       actions.push(`<strong>Apply mitigations:</strong> Follow vendor-recommended mitigations. Monitor vendor channels for patch availability.`);
     }
-    actions.push(`<strong>Hunt for indicators:</strong> Search historical logs for the IOCs listed above. Focus on the exploitation window (${item.date} and earlier) to identify any pre-disclosure compromise.`);
-    if (item.actor) {
-      actions.push(`<strong>Actor-specific TTPs:</strong> Review MITRE ATT&CK mappings for ${item.actor} and validate that your detection coverage addresses their known tradecraft.`);
+    actions.push(`<strong>Hunt for indicators:</strong> Search historical logs for the IOCs listed above. Focus on the exploitation window (${App.escapeHtml(item.date)} and earlier) to identify any pre-disclosure compromise.`);
+    if (s.actor) {
+      actions.push(`<strong>Actor-specific TTPs:</strong> Review MITRE ATT&CK mappings for ${s.actor} and validate that your detection coverage addresses their known tradecraft.`);
     }
     actions.push(`<strong>Monitor for exploitation:</strong> Deploy detection rules targeting the specific exploitation pattern. Use the DataPrime, KQL, or Sigma rules above depending on your SIEM platform.`);
     actions.push(`<strong>Update incident response:</strong> Ensure your IR playbook covers this vulnerability class. Pre-stage containment procedures for affected systems.`);
@@ -419,29 +427,33 @@ const FeedView = {
 
   generateTopology(item) {
     const steps = [];
+    const safeCve = item.cve ? App.escapeHtml(item.cve) : null;
+    const safeActor = item.actor ? App.escapeHtml(item.actor) : null;
+    const safeTags = item.tags.map(t => App.escapeHtml(t));
+    const safeSummary = App.escapeHtml(item.summary);
 
     if (item.category === 'zeroday' || item.category === 'kev') {
-      steps.push({ phase: 'RECON', title: 'Target Identification', description: `Adversary identifies ${item.tags[0] || 'target'} systems exposed to the internet via Shodan, Censys, or similar reconnaissance tools.` });
-      steps.push({ phase: 'WEAPON', title: 'Exploit Development', description: `${item.cve ? item.cve + ' ' : ''}exploit is weaponized — ${item.cvss >= 9.0 ? 'unauthenticated, no user interaction required' : 'requires minimal prerequisites to execute'}.` });
-      steps.push({ phase: 'DELIVER', title: 'Exploitation', description: `Exploit payload delivered to vulnerable ${item.tags[0] || 'service'}. ${item.category === 'zeroday' ? 'No patch available at time of exploitation.' : 'Unpatched systems are targeted.'}` });
+      steps.push({ phase: 'RECON', title: 'Target Identification', description: `Adversary identifies ${safeTags[0] || 'target'} systems exposed to the internet via Shodan, Censys, or similar reconnaissance tools.` });
+      steps.push({ phase: 'WEAPON', title: 'Exploit Development', description: `${safeCve ? safeCve + ' ' : ''}exploit is weaponized — ${item.cvss >= 9.0 ? 'unauthenticated, no user interaction required' : 'requires minimal prerequisites to execute'}.` });
+      steps.push({ phase: 'DELIVER', title: 'Exploitation', description: `Exploit payload delivered to vulnerable ${safeTags[0] || 'service'}. ${item.category === 'zeroday' ? 'No patch available at time of exploitation.' : 'Unpatched systems are targeted.'}` });
       steps.push({ phase: 'EXPLOIT', title: 'Code Execution', description: `Arbitrary code execution achieved on target system. ${item.severity === 'Critical' ? 'SYSTEM/root level access obtained.' : 'Elevated privileges obtained.'}` });
       steps.push({ phase: 'C2', title: 'Post-Exploitation', description: `Attacker establishes persistence and begins lateral movement, credential harvesting, or data exfiltration.` });
     } else if (item.category === 'supplychain') {
       steps.push({ phase: 'INFILT', title: 'Supply Chain Infiltration', description: `Adversary compromises upstream package registry, build system, or trusted publisher credentials.` });
-      steps.push({ phase: 'INJECT', title: 'Malicious Code Injection', description: `Backdoored code is injected into legitimate packages or updates. ${item.summary.substring(0, 80)}…` });
+      steps.push({ phase: 'INJECT', title: 'Malicious Code Injection', description: `Backdoored code is injected into legitimate packages or updates. ${safeSummary.substring(0, 80)}…` });
       steps.push({ phase: 'DISTRIB', title: 'Distribution via Trust', description: `Compromised packages distributed through official channels. Victims install them as routine dependency updates.` });
       steps.push({ phase: 'EXECUTE', title: 'Payload Activation', description: `Malicious code activates in victim environments — credential theft, C2 establishment, or destructive payload delivery.` });
       steps.push({ phase: 'PERSIST', title: 'Persistence & Spread', description: `Backdoor maintains access across updates. In worm variants, the malware self-propagates to additional packages and systems.` });
     } else if (item.category === 'ransomware') {
-      steps.push({ phase: 'ACCESS', title: 'Initial Access', description: `${item.actor || 'Ransomware operator'} obtains initial access — typically via VPN exploitation, phishing, or initial access broker.` });
+      steps.push({ phase: 'ACCESS', title: 'Initial Access', description: `${safeActor || 'Ransomware operator'} obtains initial access — typically via VPN exploitation, phishing, or initial access broker.` });
       steps.push({ phase: 'RECON', title: 'Internal Discovery', description: `Attacker maps the network, identifies domain controllers, backup systems, and high-value data stores.` });
       steps.push({ phase: 'STAGE', title: 'Data Exfiltration', description: `Sensitive data is staged and exfiltrated to attacker-controlled infrastructure before encryption begins.` });
       steps.push({ phase: 'DEPLOY', title: 'Ransomware Deployment', description: `Encryption payload is deployed across the network via Group Policy, PsExec, or similar lateral deployment tools.` });
       steps.push({ phase: 'EXTORT', title: 'Extortion', description: `Victim receives ransom demand. Double-extortion: pay for decryption AND to prevent data publication on leak site.` });
     } else {
       steps.push({ phase: 'RECON', title: 'Reconnaissance', description: `Target systems identified and profiled for exploitation.` });
-      steps.push({ phase: 'EXPLOIT', title: 'Exploitation', description: `${item.cve || 'Vulnerability'} exploited to gain access or execute code on target systems.` });
-      steps.push({ phase: 'IMPACT', title: 'Impact', description: `${item.severity} severity impact on affected systems — ${item.tags.join(', ')}.` });
+      steps.push({ phase: 'EXPLOIT', title: 'Exploitation', description: `${safeCve || 'Vulnerability'} exploited to gain access or execute code on target systems.` });
+      steps.push({ phase: 'IMPACT', title: 'Impact', description: `${App.escapeHtml(item.severity)} severity impact on affected systems — ${safeTags.join(', ')}.` });
     }
 
     return steps;
@@ -449,9 +461,11 @@ const FeedView = {
 
   generateIOCs(item) {
     const iocs = [];
+    const safeCve = item.cve ? App.escapeHtml(item.cve) : null;
+    const safeActor = item.actor ? App.escapeHtml(item.actor) : null;
 
-    if (item.cve) {
-      iocs.push({ type: 'CVE', value: `<code>${item.cve}</code>`, context: `Primary vulnerability identifier — use for patch management and vulnerability scanning` });
+    if (safeCve) {
+      iocs.push({ type: 'CVE', value: `<code>${safeCve}</code>`, context: `Primary vulnerability identifier — use for patch management and vulnerability scanning` });
     }
 
     // Generate contextual IOCs based on category and tags
@@ -461,7 +475,7 @@ const FeedView = {
     if (item.tags.includes('rce') || item.category === 'rce') {
       iocs.push({ type: 'PROCESS', value: '<code>Unexpected child processes from service accounts</code>', context: 'Post-exploitation indicator — web server or service spawning cmd/powershell/bash' });
     }
-    if (item.actor) {
+    if (safeActor) {
       const adv = TIP_DATA.adversaries.find(a => item.actor.toLowerCase().includes(a.name.toLowerCase()));
       if (adv && adv.iocs.length) {
         adv.iocs.forEach(ioc => {

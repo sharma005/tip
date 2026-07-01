@@ -74,6 +74,43 @@ function stableId(item) {
   return item.cve ? `auto-${item.cve.toLowerCase()}` : `auto-${slugify(item.title)}`;
 }
 
+const CVE_RE = /^CVE-\d{4}-\d{4,7}$/i;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const TAG_RE = /^[\w.-]{1,32}$/;
+
+// Model output is text an LLM read from arbitrary web pages while searching —
+// validate/clamp every field before it's ever written to disk. Reject rather
+// than repair fields we can't verify (a real threat item always has a real
+// http(s) source URL; one without one is dropped, not "fixed").
+function sanitizeItem(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  if (!CATEGORIES.includes(raw.category)) return null;
+  if (!SEVERITIES.includes(raw.severity)) return null;
+  if (typeof raw.url !== 'string' || !/^https?:\/\//i.test(raw.url.trim())) return null;
+  if (typeof raw.title !== 'string' || !raw.title.trim()) return null;
+  if (typeof raw.summary !== 'string' || !raw.summary.trim()) return null;
+
+  const cve = typeof raw.cve === 'string' && CVE_RE.test(raw.cve.trim()) ? raw.cve.trim().toUpperCase() : null;
+  const cvss = typeof raw.cvss === 'number' && raw.cvss >= 0 && raw.cvss <= 10 ? raw.cvss : null;
+  const date = typeof raw.date === 'string' && DATE_RE.test(raw.date.trim()) ? raw.date.trim() : new Date().toISOString().slice(0, 10);
+  const actor = typeof raw.actor === 'string' && raw.actor.trim() ? raw.actor.trim().slice(0, 120) : null;
+  const tags = Array.isArray(raw.tags) ? raw.tags.filter((t) => typeof t === 'string' && TAG_RE.test(t)).slice(0, 8) : [];
+
+  return {
+    title: raw.title.trim().slice(0, 200),
+    category: raw.category,
+    severity: raw.severity,
+    cve,
+    cvss,
+    date,
+    actor,
+    source: (typeof raw.source === 'string' && raw.source.trim() ? raw.source.trim() : 'Unknown').slice(0, 100),
+    url: raw.url.trim(),
+    summary: raw.summary.trim().slice(0, 800),
+    tags,
+  };
+}
+
 async function main() {
   const response = await client.messages.create({
     model: 'claude-opus-4-8',
@@ -106,8 +143,14 @@ async function main() {
     process.exit(1);
   }
 
+  const rawItems = Array.isArray(parsed.items) ? parsed.items : [];
+  const sanitized = rawItems.map(sanitizeItem).filter(Boolean);
+  if (sanitized.length < rawItems.length) {
+    console.warn(`Dropped ${rawItems.length - sanitized.length} item(s) that failed validation (bad url/category/severity/etc).`);
+  }
+
   const now = new Date().toISOString();
-  const autoFeedItems = (parsed.items || []).map((item) => ({
+  const autoFeedItems = sanitized.map((item) => ({
     id: stableId(item),
     ...item,
     fetchedAt: now,

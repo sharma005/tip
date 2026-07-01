@@ -89,15 +89,15 @@ const AdminView = {
         <div class="card-top">
           <span class="badge badge-${item.category}">${cat.short}</span>
           <span class="sev-badge sev-${item.severity?.toLowerCase() || 'medium'}">${item.severity || 'Medium'}</span>
-          ${item.cve ? `<span class="cve-tag">${item.cve}</span>` : ''}
+          ${item.cve ? `<span class="cve-tag">${App.escapeHtml(item.cve)}</span>` : ''}
           <span class="date-tag">${App.formatDate(item.date)}</span>
           <span style="margin-left:auto;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:${type === 'approved' ? 'var(--success)' : 'var(--danger)'}">${type === 'approved' ? '✓ Published' : '✕ Rejected'}</span>
         </div>
         <h3 style="margin:2px 0 6px;font-size:15px;color:var(--heading);font-weight:650">${App.escapeHtml(item.title)}</h3>
         <p class="card-summary">${App.escapeHtml(item.summary)}</p>
         <div class="card-footer">
-          ${(item.tags || []).map(t => `<span class="hash-tag">#${t}</span>`).join('')}
-          <span class="source-link"><a href="${item.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
+          ${(item.tags || []).map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
+          <span class="source-link"><a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
         </div>
       </div>`;
     }).join('');
@@ -134,7 +134,7 @@ const AdminView = {
         <div class="card-top">
           <span class="badge badge-${item.category}">${cat.short}</span>
           <span class="sev-badge sev-${item.severity.toLowerCase()}">${item.severity}</span>
-          ${item.cve ? `<span class="cve-tag">${item.cve}</span>` : ''}
+          ${item.cve ? `<span class="cve-tag">${App.escapeHtml(item.cve)}</span>` : ''}
           ${item.cvss ? `<span class="cvss-tag">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
           <span class="date-tag">${App.formatDate(item.date)}</span>
         </div>
@@ -142,8 +142,8 @@ const AdminView = {
         <p class="card-summary">${App.escapeHtml(item.summary)}</p>
         <div class="card-footer">
           ${item.actor ? `<span class="actor-tag">▲ ${App.escapeHtml(item.actor)}</span>` : ''}
-          ${item.tags.map(t => `<span class="hash-tag">#${t}</span>`).join('')}
-          <span class="source-link"><a href="${item.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
+          ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
+          <span class="source-link"><a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
         </div>
         <div class="pending-actions" onclick="event.stopPropagation()">
           <button class="btn btn-success btn-sm" onclick="AdminView.approve('${item.id}')">
@@ -198,7 +198,7 @@ const AdminView = {
             <div class="article-badges">
               <span class="badge badge-${item.category}" style="font-size:11px;padding:4px 12px">${cat.short}</span>
               <span class="sev-badge sev-${(item.severity || 'medium').toLowerCase()}" style="font-size:11px;padding:4px 10px">${item.severity || 'Medium'}</span>
-              ${item.cve ? `<span class="cve-tag" style="font-size:12px;padding:3px 10px">${item.cve}</span>` : ''}
+              ${item.cve ? `<span class="cve-tag" style="font-size:12px;padding:3px 10px">${App.escapeHtml(item.cve)}</span>` : ''}
               ${item.cvss ? `<span class="cvss-tag" style="font-size:12px">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
               <span style="margin-left:auto;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;padding:4px 10px;border-radius:6px;background:${source === 'approved' ? 'var(--success-bg)' : source === 'rejected' ? 'var(--danger-bg)' : 'var(--accent-bg)'};color:${source === 'approved' ? 'var(--success)' : source === 'rejected' ? 'var(--danger)' : 'var(--accent)'}">${source === 'approved' ? '✓ Published' : source === 'rejected' ? '✕ Rejected' : '⏳ Pending'}</span>
             </div>
@@ -207,12 +207,12 @@ const AdminView = {
 
             <div class="article-meta">
               <span class="meta-item"><span class="meta-label">Date:</span> ${App.formatDate(item.date)}</span>
-              <span class="meta-item"><span class="meta-label">Source:</span> <a href="${item.url}" target="_blank" rel="noopener" style="color:var(--accent)">${App.escapeHtml(item.source)}</a></span>
+              <span class="meta-item"><span class="meta-label">Source:</span> <a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" style="color:var(--accent)">${App.escapeHtml(item.source)}</a></span>
               ${item.actor ? `<span class="meta-item"><span class="meta-label">Threat Actor:</span> <span style="color:var(--cat-kev);font-weight:600">${App.escapeHtml(item.actor)}</span></span>` : ''}
             </div>
 
             <div class="article-tags">
-              ${(item.tags || []).map(t => `<span class="hash-tag">#${t}</span>`).join('')}
+              ${(item.tags || []).map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
             </div>
           </header>
 
@@ -231,7 +231,7 @@ const AdminView = {
             <h2 class="article-h2">
               <span class="section-num">2.</span> Vulnerability Details
             </h2>
-            <p class="article-p"><strong>${item.cve || 'N/A'}</strong> — CVSS base score of <strong>${item.cvss.toFixed(1)}</strong> (${item.severity}). ${item.cvss >= 9.0 ? 'This is a critical-severity vulnerability that is trivially exploitable with maximum impact.' : item.cvss >= 7.0 ? 'High-severity vulnerability requiring prioritized remediation.' : 'Moderate severity — assess exposure before prioritizing.'}</p>
+            <p class="article-p"><strong>${App.escapeHtml(item.cve || 'N/A')}</strong> — CVSS base score of <strong>${item.cvss.toFixed(1)}</strong> (${App.escapeHtml(item.severity)}). ${item.cvss >= 9.0 ? 'This is a critical-severity vulnerability that is trivially exploitable with maximum impact.' : item.cvss >= 7.0 ? 'High-severity vulnerability requiring prioritized remediation.' : 'Moderate severity — assess exposure before prioritizing.'}</p>
           </div>
           ` : ''}
 
@@ -262,7 +262,7 @@ const AdminView = {
           <div class="article-section" style="margin-top:28px">
             <div class="article-source-box">
               <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px">Original Source</div>
-              <a href="${item.url}" target="_blank" rel="noopener" class="article-source-link">
+              <a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" class="article-source-link">
                 <span>${App.escapeHtml(item.source)}</span>
                 <span style="color:var(--accent)">Open Source →</span>
               </a>

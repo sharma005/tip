@@ -181,7 +181,7 @@ const HuntLabView = {
         </div>` : ''}
         ${feedItem ? `<div class="detail-row">
           <span class="detail-label">Linked Advisory</span>
-          <span class="detail-value"><a href="${feedItem.url}" target="_blank" style="color:var(--accent)">${App.escapeHtml(feedItem.title)}</a></span>
+          <span class="detail-value"><a href="${App.escapeHtml(App.safeUrl(feedItem.url))}" target="_blank" style="color:var(--accent)">${App.escapeHtml(feedItem.title)}</a></span>
         </div>` : ''}
         <div class="detail-row">
           <span class="detail-label">Created</span>

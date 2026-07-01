@@ -134,7 +134,7 @@ const DarkWebView = {
       <h3 style="margin:6px 0 8px;font-size:15px;color:var(--heading);font-weight:650">${App.escapeHtml(item.title)}</h3>
       <p class="card-summary">${App.escapeHtml(item.snippet)}</p>
       <div class="card-footer" style="margin-top:8px">
-        ${item.tags.map(t => `<span class="hash-tag">#${t}</span>`).join('')}
+        ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
         <span style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-xs admin-only ${item.flagged ? 'btn-danger' : 'btn-ghost'}" onclick="event.stopPropagation();DarkWebView.toggleFlag('${item.id}')">
             ${item.flagged ? '🚩 Unflag' : '🏳️ Flag'}
@@ -200,7 +200,7 @@ const DarkWebView = {
             </div>
 
             <div class="article-tags">
-              ${item.tags.map(t => `<span class="hash-tag">#${t}</span>`).join('')}
+              ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
             </div>
           </header>
 

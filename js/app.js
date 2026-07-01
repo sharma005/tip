@@ -360,6 +360,13 @@ const App = {
     return div.innerHTML;
   },
 
+  // Only allow http(s) links through to href attributes — blocks javascript:/data:/vbscript:
+  // URIs from source fields that may originate from AI-curated/web-sourced content.
+  safeUrl(url) {
+    if (typeof url !== 'string' || !/^https?:\/\//i.test(url.trim())) return '#';
+    return url.trim();
+  },
+
   timeAgo(dateStr) {
     const now = new Date();
     const then = new Date(dateStr);
