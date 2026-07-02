@@ -284,10 +284,12 @@ const App = {
 
   updateSidebarMeta() {
     const meta = DataManager.getMeta();
+    // Intl's short timeZoneName renders Asia/Kolkata as "GMT+5:30", not "IST" —
+    // format without it and append the literal label to match the UTC style before it.
     const dateStr = new Date(meta.lastFetch).toLocaleString('en-US', {
       month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-      timeZone: 'UTC', timeZoneName: 'short'
-    });
+      timeZone: 'Asia/Kolkata'
+    }) + ' IST';
     const builtEl = document.getElementById('sidebarUpdated');
     if (builtEl) builtEl.textContent = dateStr;
     const totalEl = document.getElementById('sidebarTotal');

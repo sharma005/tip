@@ -38,8 +38,8 @@ const FeedView = {
     if (metaUpdated) {
       metaUpdated.textContent = new Date(meta.lastFetch).toLocaleString('en-US', {
         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-        timeZone: 'UTC', timeZoneName: 'short'
-      });
+        timeZone: 'Asia/Kolkata'
+      }) + ' IST';
     }
     if (showingEl) {
       showingEl.innerHTML = `<b>${meta.totalPublished}</b> advisories`;
