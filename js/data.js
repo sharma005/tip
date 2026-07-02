@@ -567,6 +567,9 @@ const DataManager = {
       }
     }
     this.mergeAutoFetched();
+    this.mergeAutoFetchedHypotheses();
+    this.mergeAutoFetchedAdversaries();
+    this.mergeAutoFetchedDarkweb();
     this.save();
   },
 
@@ -626,6 +629,155 @@ const DataManager = {
     });
     TIP_DATA.meta.totalPending = this.getPendingItems().length;
     TIP_DATA.meta.lastFetch = new Date().toISOString();
+  },
+
+  // Best-effort name/ref -> id resolution for auto-fetched hypotheses, which
+  // can't know internal ids. Returns null rather than guessing on no match.
+  _resolveAdversaryIdByName(name) {
+    if (typeof name !== 'string' || !name.trim()) return null;
+    const needle = name.trim().toLowerCase();
+    const match = TIP_DATA.adversaries.find(a =>
+      a.name.toLowerCase() === needle ||
+      (Array.isArray(a.aliases) && a.aliases.some(al => al.toLowerCase() === needle))
+    );
+    return match ? match.id : null;
+  },
+
+  _resolveFeedItemIdByRef(ref) {
+    if (typeof ref !== 'string' || !ref.trim()) return null;
+    const needle = ref.trim().toLowerCase();
+    const pool = [...TIP_DATA.feedItems, ...TIP_DATA.pendingItems];
+    const match = pool.find(i =>
+      (i.cve && i.cve.toLowerCase() === needle) ||
+      i.title.toLowerCase().includes(needle) ||
+      needle.includes(i.title.toLowerCase())
+    );
+    return match ? match.id : null;
+  },
+
+  // Same trust-boundary posture as _sanitizeAutoFetchedItem above: this is LLM
+  // output derived from arbitrary web pages, re-validate everything even
+  // though the generator (lib/intel/schemas.mjs) already sanitized it.
+  _sanitizeAutoFetchedHypothesis(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (typeof raw.id !== 'string' || !raw.id.startsWith('auto-hypo-')) return null;
+    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title.trim().slice(0, 200) : null;
+    const description = typeof raw.description === 'string' && raw.description.trim() ? raw.description.trim().slice(0, 800) : null;
+    const mitreTactic = typeof raw.mitreTactic === 'string' && raw.mitreTactic.trim() ? raw.mitreTactic.trim().slice(0, 80) : null;
+    const mitreTechnique = typeof raw.mitreTechnique === 'string' && raw.mitreTechnique.trim() ? raw.mitreTechnique.trim().slice(0, 120) : null;
+    if (!title || !description || !mitreTactic || !mitreTechnique) return null;
+    if (!['P1', 'P2', 'P3', 'P4'].includes(raw.priority)) return null;
+
+    const dataSources = Array.isArray(raw.dataSources)
+      ? raw.dataSources.filter(s => typeof s === 'string' && s.trim()).slice(0, 6).map(s => s.trim().slice(0, 60))
+      : [];
+    const queries = Array.isArray(raw.queries)
+      ? raw.queries
+        .filter(q => q && typeof q.name === 'string' && q.name.trim() && typeof q.query === 'string' && q.query.trim())
+        .slice(0, 3)
+        .map(q => ({ name: q.name.trim().slice(0, 100), query: q.query.trim().slice(0, 2000) }))
+      : [];
+
+    return {
+      id: raw.id,
+      title,
+      description,
+      mitreTactic,
+      mitreTechnique,
+      dataSources,
+      priority: raw.priority,
+      status: 'active',
+      linkedAdversary: this._resolveAdversaryIdByName(raw.linkedAdversaryName),
+      linkedFeedItem: this._resolveFeedItemIdByRef(raw.linkedFeedItemRef),
+      createdAt: new Date().toISOString().split('T')[0],
+      queries,
+    };
+  },
+
+  _sanitizeAutoFetchedAdversary(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (typeof raw.id !== 'string' || !raw.id.startsWith('auto-adv-')) return null;
+    const name = typeof raw.name === 'string' && raw.name.trim() ? raw.name.trim().slice(0, 120) : null;
+    const notes = typeof raw.notes === 'string' && raw.notes.trim() ? raw.notes.trim().slice(0, 800) : null;
+    if (!name || !notes) return null;
+    if (!['apt', 'criminal', 'hacktivist'].includes(raw.type)) return null;
+
+    const strArr = (v, max, len) => Array.isArray(v)
+      ? v.filter(s => typeof s === 'string' && s.trim()).slice(0, max).map(s => s.trim().slice(0, len))
+      : [];
+
+    return {
+      id: raw.id,
+      name,
+      aliases: strArr(raw.aliases, 8, 60),
+      type: raw.type,
+      origin: typeof raw.origin === 'string' && raw.origin.trim() ? raw.origin.trim().slice(0, 60) : 'Unknown',
+      motivation: typeof raw.motivation === 'string' && raw.motivation.trim() ? raw.motivation.trim().slice(0, 60) : 'Unknown',
+      sectors: strArr(raw.sectors, 10, 60),
+      ttps: strArr(raw.ttps, 15, 20).filter(t => /^T\d{4}(\.\d{3})?$/i.test(t)).map(t => t.toUpperCase()),
+      campaigns: strArr(raw.campaigns, 10, 150),
+      iocs: strArr(raw.iocs, 20, 120),
+      notes,
+      active: true,
+    };
+  },
+
+  _sanitizeAutoFetchedDarkweb(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (typeof raw.id !== 'string' || !raw.id.startsWith('auto-dw-')) return null;
+    if (!['leak', 'credential', 'exploit', 'ransomware', 'chatter'].includes(raw.type)) return null;
+    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title.trim().slice(0, 200) : null;
+    const snippet = typeof raw.snippet === 'string' && raw.snippet.trim() ? raw.snippet.trim().slice(0, 600) : null;
+    if (!title || !snippet) return null;
+
+    const relevance = typeof raw.relevance === 'number' ? Math.max(0, Math.min(100, Math.round(raw.relevance))) : 50;
+    const tags = Array.isArray(raw.tags) ? raw.tags.filter(t => typeof t === 'string' && /^[\w.-]{1,32}$/.test(t)).slice(0, 8) : [];
+
+    return {
+      id: raw.id,
+      title,
+      type: raw.type,
+      source: typeof raw.source === 'string' && raw.source.trim() ? raw.source.trim().slice(0, 100) : 'Unknown',
+      date: typeof raw.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.date.trim()) ? raw.date.trim() : new Date().toISOString().slice(0, 10),
+      snippet,
+      relevance,
+      flagged: false,
+      tags,
+    };
+  },
+
+  // Auto-fetched hypotheses/adversaries/dark-web items publish directly into
+  // their live arrays — unlike feed items, there's no pending queue for these
+  // sections (manual adds don't go through one either). Only the existing
+  // admin-only edit/delete controls gate them after the fact.
+  mergeAutoFetchedHypotheses() {
+    if (typeof TIP_AUTOFEED_HUNTLAB === 'undefined' || !Array.isArray(TIP_AUTOFEED_HUNTLAB) || !TIP_AUTOFEED_HUNTLAB.length) return;
+    const knownIds = new Set(TIP_DATA.hypotheses.map(h => h.id));
+    TIP_AUTOFEED_HUNTLAB
+      .filter(item => item && !knownIds.has(item.id))
+      .map(item => this._sanitizeAutoFetchedHypothesis(item))
+      .filter(Boolean)
+      .forEach(item => TIP_DATA.hypotheses.push(item));
+  },
+
+  mergeAutoFetchedAdversaries() {
+    if (typeof TIP_AUTOFEED_ADVERSARY === 'undefined' || !Array.isArray(TIP_AUTOFEED_ADVERSARY) || !TIP_AUTOFEED_ADVERSARY.length) return;
+    const knownIds = new Set(TIP_DATA.adversaries.map(a => a.id));
+    TIP_AUTOFEED_ADVERSARY
+      .filter(item => item && !knownIds.has(item.id))
+      .map(item => this._sanitizeAutoFetchedAdversary(item))
+      .filter(Boolean)
+      .forEach(item => TIP_DATA.adversaries.push(item));
+  },
+
+  mergeAutoFetchedDarkweb() {
+    if (typeof TIP_AUTOFEED_DARKWEB === 'undefined' || !Array.isArray(TIP_AUTOFEED_DARKWEB) || !TIP_AUTOFEED_DARKWEB.length) return;
+    const knownIds = new Set(TIP_DATA.darkwebItems.map(d => d.id));
+    TIP_AUTOFEED_DARKWEB
+      .filter(item => item && !knownIds.has(item.id))
+      .map(item => this._sanitizeAutoFetchedDarkweb(item))
+      .filter(Boolean)
+      .forEach(item => TIP_DATA.darkwebItems.unshift(item));
   },
 
   save() {
