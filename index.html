@@ -87,7 +87,6 @@
         </svg>
         Admin Panel
         <svg id="adminLockIcon" style="margin-left:auto;width:12px;height:12px;color:var(--text-muted);flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span class="nav-badge" id="pendingBadge" style="display:none">0</span>
       </a>
       <a class="nav-link" data-view="adversaries" href="#adversaries">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -112,6 +111,28 @@
         </svg>
         Dark Web Intel
         <span style="font-size:9px;font-weight:700;color:var(--warning);font-family:var(--font-mono);letter-spacing:0.3px;margin-left:auto">BETA*</span>
+      </a>
+      <a class="nav-link" data-view="snowbit" href="#snowbit">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v6M12 16v6M4.2 4.2l4.2 4.2M15.5 15.5l4.3 4.3M2 12h6M16 12h6M4.2 19.8l4.2-4.2M15.5 8.5l4.3-4.3"/>
+        </svg>
+        Snowbit Advisory
+      </a>
+      <a class="nav-link" data-view="connectors" href="#connectors">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="6" cy="6" r="3"/>
+          <circle cx="18" cy="6" r="3"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="18" r="3"/>
+          <path d="M8.5 7.5l7 7M15.5 7.5l-7 7"/>
+        </svg>
+        Connectors
+      </a>
+      <a class="nav-link nav-sublink" data-view="tweetfeed" href="#tweetfeed">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.5-1.3 1.8-2.3-.8.5-1.6.8-2.5 1-.7-.8-1.7-1.2-2.8-1.2-2.1 0-3.8 1.7-3.8 3.8 0 .3 0 .6.1.9-3.2-.2-6-1.7-7.9-4-.3.6-.5 1.3-.5 2 0 1.3.7 2.5 1.7 3.2-.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.3 3.4 3.1 3.8-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.7-1.3 1-3 1.7-4.8 1.7-.3 0-.6 0-.9-.1 1.7 1.1 3.7 1.7 5.9 1.7 7.1 0 11-5.9 11-11v-.5c.8-.5 1.4-1.2 1.9-2z"/>
+        </svg>
+        Tweetfeed
       </a>
     </nav>
 
@@ -171,7 +192,7 @@
         <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
           <div>
             <h1>Admin Panel</h1>
-            <p class="page-lead">Review, approve, or reject advisories fetched by Claude. Manage manual entries and configure feed settings.</p>
+            <p class="page-lead">Add or delete advisories. Auto-fetched threat intel publishes directly to the feed — no review step.</p>
           </div>
           <button class="btn btn-danger btn-sm" onclick="App.adminLogout()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
@@ -180,36 +201,57 @@
         </div>
       </div>
 
-      <div class="admin-stats" id="adminStats"></div>
-
-      <!-- Audit Log Panel (hidden by default, shown on stat click) -->
-      <div id="adminAuditPanel" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div class="section-divider" id="auditTitle" style="flex:1">Audit Log</div>
-          <button class="btn btn-ghost btn-xs" onclick="AdminView.closeAudit()" style="margin-left:12px">✕ Close</button>
-        </div>
-        <div id="adminAuditList"></div>
+      <div class="tabs" id="adminTabs">
+        <div class="tab active" data-tab="queue" onclick="AdminView.switchTab('queue')">Advisories</div>
+        <div class="tab" data-tab="settings" onclick="AdminView.switchTab('settings')">Settings</div>
       </div>
 
-      <div id="adminPendingSection">
-        <div class="section-divider">Pending Review Queue</div>
+      <div id="adminQueueSection">
+        <div class="admin-stats" id="adminStats"></div>
 
-        <div class="admin-actions">
-          <button class="btn btn-success btn-sm" onclick="AdminView.approveAll()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
-            Approve All Pending
-          </button>
-          <button class="btn btn-primary btn-sm" onclick="AdminView.openManualEntry()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>
-            Add Manual Entry
-          </button>
+        <div id="adminFeedSection">
+          <div class="section-divider">All Advisories</div>
+
+          <div class="admin-actions">
+            <button class="btn btn-primary btn-sm" onclick="AdminView.openManualEntry()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>
+              Add Manual Entry
+            </button>
+          </div>
+
+          <div id="adminFeedList"></div>
         </div>
 
-        <div id="pendingQueue"></div>
+        <!-- Admin detail view renders here -->
+        <div id="adminDetailView" style="display:none"></div>
       </div>
 
-      <!-- Admin detail view renders here -->
-      <div id="adminDetailView" style="display:none"></div>
+      <!-- Settings tab: change admin password -->
+      <div id="adminSettingsSection" style="display:none">
+        <div class="section-divider">Change Admin Password</div>
+
+        <div style="max-width:420px">
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input type="password" class="form-input" id="changePwCurrent" placeholder="Enter current password" autocomplete="current-password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" class="form-input" id="changePwNew" placeholder="Enter new password" autocomplete="new-password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" class="form-input" id="changePwConfirm" placeholder="Re-enter new password" autocomplete="new-password" onkeydown="if(event.key==='Enter')AdminView.changePassword()">
+          </div>
+          <div id="changePwError" style="display:none;background:var(--danger-bg);color:var(--danger);padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;font-weight:500"></div>
+          <div id="changePwSuccess" style="display:none;background:var(--success-bg);color:var(--success);padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;font-weight:500"></div>
+          <button class="btn btn-primary btn-sm" onclick="AdminView.changePassword()">Update Password</button>
+        </div>
+
+        <p style="margin-top:16px;font-size:12px;color:var(--text-muted);max-width:480px">
+          This updates the admin credential stored in this browser only. It won't carry over to other browsers or devices — for a permanent, site-wide change, update <code>ADMIN_HASH</code> in js/app.js.
+        </p>
+      </div>
     </div>
 
     <!-- ═══ ADVERSARIES VIEW ═══ -->
@@ -302,89 +344,42 @@
       <div class="results-count" id="dwCount"></div>
       <div class="darkweb-feed" id="dwFeed"></div>
     </div>
+
+    <!-- ═══ SNOWBIT ADVISORY VIEW ═══ -->
+    <div class="view" id="view-snowbit">
+      <div class="page-header" id="snowbitHeader">
+        <h1>Snowbit Advisory</h1>
+        <p class="page-lead">Threat intelligence advisories from Snowbit by Coralogix — proactive research distributed to managed customers.</p>
+      </div>
+
+      <div id="snowbitContent"></div>
+    </div>
+
+    <!-- ═══ CONNECTORS VIEW ═══ -->
+    <div class="view" id="view-connectors">
+      <div class="page-header" id="connectorsHeader">
+        <h1>Connectors</h1>
+        <p class="page-lead">Open-source threat-intel platform connectors — AI-curated emerging threats sourced per community, refreshed on the same 6-hour cycle as the rest of the feed.</p>
+      </div>
+
+      <div id="connectorsContent"></div>
+    </div>
+
+    <!-- ═══ TWEETFEED VIEW ═══ -->
+    <div class="view" id="view-tweetfeed">
+      <div class="page-header" id="tweetfeedHeader">
+        <h1>Tweetfeed</h1>
+        <p class="page-lead">Real posts from tracked Twitter/X accounts, researched via web search and refreshed on the same 6-hour cycle as the rest of the feed. Manage tracked accounts from here (admin only).</p>
+      </div>
+
+      <div id="tweetfeedContent"></div>
+    </div>
   </main>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
      MODALS
      ═══════════════════════════════════════════════════════════════ -->
-
-<!-- Edit Item Modal (Admin) -->
-<div class="modal-overlay" id="editItemModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>Edit Advisory</h2>
-      <button class="modal-close" onclick="App.closeModal('editItemModal')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="editItemId">
-      <div class="form-group">
-        <label class="form-label">Title</label>
-        <input type="text" class="form-input" id="editTitle">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Category</label>
-          <select class="form-select" id="editCategory">
-            <option value="kev">Actively Exploited (KEV)</option>
-            <option value="zeroday">Zero-Day</option>
-            <option value="supplychain">Supply Chain</option>
-            <option value="ransomware">Ransomware</option>
-            <option value="rce">Critical RCE</option>
-            <option value="darkweb">Dark Web</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Severity</label>
-          <select class="form-select" id="editSeverity">
-            <option value="Critical">Critical</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CVE</label>
-          <input type="text" class="form-input" id="editCve" placeholder="CVE-2026-XXXXX">
-        </div>
-        <div class="form-group">
-          <label class="form-label">CVSS Score</label>
-          <input type="number" class="form-input" id="editCvss" min="0" max="10" step="0.1" placeholder="9.8">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Summary</label>
-        <textarea class="form-textarea" id="editSummary" rows="4"></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Source</label>
-          <input type="text" class="form-input" id="editSource" placeholder="CISA, Rapid7, etc.">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Threat Actor</label>
-          <input type="text" class="form-input" id="editActor" placeholder="Optional">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Source URL</label>
-        <input type="url" class="form-input" id="editUrl">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tags (comma-separated)</label>
-        <input type="text" class="form-input" id="editTags" placeholder="windows, rce, kev">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="App.closeModal('editItemModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="AdminView.saveEdit()">Save Changes</button>
-    </div>
-  </div>
-</div>
 
 <!-- Manual Entry Modal (Admin) -->
 <div class="modal-overlay" id="manualEntryModal">
@@ -700,6 +695,22 @@
   </div>
 </div>
 
+<!-- Tweetfeed Manage Accounts Modal -->
+<div class="modal-overlay" id="tweetfeedAccountsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Manage Tweetfeed Accounts</h2>
+      <button class="modal-close" onclick="App.closeModal('tweetfeedAccountsModal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="tweetfeedAccountsModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="App.closeModal('tweetfeedAccountsModal')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Admin Login Modal -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal" style="max-width:420px">
@@ -739,15 +750,21 @@
 
 <!-- Scripts (order matters: data → app modules → app core) -->
 <script src="js/data.js"></script>
+<script src="js/tweetfeed-accounts.js"></script>
 <script src="js/autofeed.js"></script>
 <script src="js/autofeed-huntlab.js"></script>
 <script src="js/autofeed-adversary.js"></script>
 <script src="js/autofeed-darkweb.js"></script>
+<script src="js/autofeed-connectors.js"></script>
+<script src="js/autofeed-tweetfeed.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/admin.js"></script>
 <script src="js/adversary.js"></script>
 <script src="js/huntlab.js"></script>
 <script src="js/darkweb.js"></script>
+<script src="js/snowbit.js"></script>
+<script src="js/connectors.js"></script>
+<script src="js/tweetfeed.js"></script>
 <script src="js/app.js"></script>
 
 </body>

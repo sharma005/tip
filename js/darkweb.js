@@ -128,6 +128,7 @@ const DarkWebView = {
       <div class="card-top">
         <span class="dw-type-tag ${typeClass[item.type]}">${typeLabels[item.type] || item.type}</span>
         ${item.flagged ? '<span class="sev-badge sev-critical">⚠ FLAGGED</span>' : ''}
+        ${App.isFreshFetch(item, TIP_DATA.darkwebItems) ? '<span class="new-badge">New</span>' : ''}
         <span class="hash-tag">${App.escapeHtml(item.source)}</span>
         <span class="date-tag">${App.formatDate(item.date)}</span>
       </div>

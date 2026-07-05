@@ -243,11 +243,7 @@ const TIP_DATA = {
       summary: 'A critical Windows Netlogon remote code execution vulnerability (CVSS 9.8) now under active exploitation in the wild. Domain controllers are the primary target — patch immediately.',
       tags: ['windows', 'netlogon', 'rce', 'actively-exploited'],
       status: 'published'
-    }
-  ],
-
-  /* ── Pending Items (awaiting admin approval) ── */
-  pendingItems: [
+    },
     {
       id: 'pending-1',
       title: 'SolarWinds Orion New Supply Chain Implant Detected by CrowdStrike',
@@ -261,8 +257,7 @@ const TIP_DATA = {
       url: 'https://www.crowdstrike.com/blog/',
       summary: 'CrowdStrike Falcon detected a new implant in SolarWinds Orion update packages distributed between June 28–July 1, 2026. The implant uses DNS-over-HTTPS for C2 communication.',
       tags: ['solarwinds', 'supply-chain', 'dns-doh', 'c2'],
-      status: 'pending',
-      fetchedAt: '2026-07-01T09:00:00Z'
+      status: 'published'
     },
     {
       id: 'pending-2',
@@ -277,8 +272,7 @@ const TIP_DATA = {
       url: 'https://www.cisa.gov/news-events/alerts/',
       summary: 'An unauthenticated remote code execution vulnerability in Fortinet FortiGate SSL VPN has been added to the CISA KEV catalog after evidence of mass exploitation.',
       tags: ['fortinet', 'vpn', 'rce', 'kev'],
-      status: 'pending',
-      fetchedAt: '2026-07-01T09:00:00Z'
+      status: 'published'
     },
     {
       id: 'pending-3',
@@ -293,8 +287,7 @@ const TIP_DATA = {
       url: 'https://www.recordedfuture.com/',
       summary: 'The LockBit 4.0 ransomware builder has been leaked on multiple dark web forums, enabling script kiddies and low-sophistication actors to deploy ransomware at scale.',
       tags: ['lockbit', 'ransomware', 'builder-leak'],
-      status: 'pending',
-      fetchedAt: '2026-07-01T09:00:00Z'
+      status: 'published'
     }
   ],
 
@@ -498,6 +491,361 @@ const TIP_DATA = {
     }
   ],
 
+  /* ── Connector Intel (MISP, OTX, Pulsedive, YETI, Cortex) ── */
+  connectorIntel: [
+    {
+      id: 'conn-1',
+      connector: 'misp',
+      title: 'MISP Community Feed Flags New Cobalt Strike C2 Infrastructure Cluster',
+      date: '2026-06-30',
+      severity: 'High',
+      summary: 'A shared MISP event from the CIRCL community links a cluster of 40+ IPs to active Cobalt Strike beacon traffic, cross-referenced against three ransomware intrusion cases reported this month.',
+      tags: ['misp', 'cobalt-strike', 'c2'],
+      iocs: [{ type: 'IP', value: '193.42.33.71' }, { type: 'IP', value: '193.42.33.88' }]
+    },
+    {
+      id: 'conn-2',
+      connector: 'misp',
+      title: 'MISP Galaxy Update Adds TTPs for Qilin Ransomware Affiliate Activity',
+      date: '2026-06-24',
+      severity: 'Medium',
+      summary: 'A MISP galaxy cluster update maps newly observed Qilin affiliate TTPs, including VPN appliance exploitation and living-off-the-land binaries used for lateral movement.',
+      tags: ['misp', 'qilin', 'ttp'],
+      iocs: []
+    },
+    {
+      id: 'conn-3',
+      connector: 'otx',
+      title: 'OTX Pulse: Mass Scanning Campaign Targeting Exposed Fortinet Management Interfaces',
+      date: '2026-06-29',
+      severity: 'High',
+      summary: 'A widely-subscribed OTX pulse documents a scanning wave against internet-facing FortiGate management panels, correlating with the CVE-2026-48821 KEV disclosure this week.',
+      tags: ['otx', 'fortinet', 'scanning'],
+      iocs: [{ type: 'IP', value: '45.155.205.14' }]
+    },
+    {
+      id: 'conn-4',
+      connector: 'otx',
+      title: 'OTX Community Tracks Phishing Kit Reusing Evilginx2 Templates for M365',
+      date: '2026-06-21',
+      severity: 'Medium',
+      summary: 'Multiple OTX contributors independently reported the same adversary-in-the-middle phishing kit targeting Microsoft 365 credentials, sharing overlapping domain infrastructure.',
+      tags: ['otx', 'phishing', 'm365'],
+      iocs: [{ type: 'Domain', value: 'login-secure-m365[.]com' }]
+    },
+    {
+      id: 'conn-5',
+      connector: 'pulsedive',
+      title: 'Pulsedive Risk Score Spike on Newly Registered Domains Mimicking PyPI',
+      date: '2026-06-27',
+      severity: 'Medium',
+      summary: 'Pulsedive automated scans flagged a batch of typosquat domains impersonating PyPI package pages, several already resolving to credential-harvesting pages.',
+      tags: ['pulsedive', 'typosquat', 'pypi'],
+      iocs: [{ type: 'Domain', value: 'pypi-mirror-cdn[.]net' }]
+    },
+    {
+      id: 'conn-6',
+      connector: 'pulsedive',
+      title: 'Pulsedive Feed Correlates LockBit 4.0 Builder Leak with New Affiliate Infrastructure',
+      date: '2026-07-01',
+      severity: 'High',
+      summary: 'Following the LockBit 4.0 builder leak, Pulsedive OSINT feeds show a rapid uptick in newly indexed IPs hosting ransomware negotiation portals built from the leaked template.',
+      tags: ['pulsedive', 'lockbit', 'ransomware'],
+      iocs: []
+    },
+    {
+      id: 'conn-7',
+      connector: 'yeti',
+      title: 'YETI Observable Graph Links Miasma npm Worm to Prior Supply-Chain Incident',
+      date: '2026-06-15',
+      severity: 'High',
+      summary: "Analysts using YETI to pivot on the Miasma worm's GitHub-based C2 infrastructure found reused hosting patterns from an npm supply-chain incident investigated earlier this year.",
+      tags: ['yeti', 'supply-chain', 'npm'],
+      iocs: [{ type: 'Hash', value: '8f14e45fceea167a5a36dedd4bea2543' }]
+    },
+    {
+      id: 'conn-8',
+      connector: 'yeti',
+      title: 'YETI DFIQ Playbook Updated for PeopleSoft SSRF-to-RCE Triage',
+      date: '2026-06-12',
+      severity: 'Medium',
+      summary: 'The YETI community published an updated forensic artifact definition set for triaging PeopleSoft SSRF exploitation, aligned with the ShinyHunters campaign disclosed this month.',
+      tags: ['yeti', 'peoplesoft', 'dfir'],
+      iocs: []
+    },
+    {
+      id: 'conn-9',
+      connector: 'cortex',
+      title: 'Cortex Analyzer Bulk Run Confirms Malicious Classification for LSHIY IPv6 Range',
+      date: '2026-07-03',
+      severity: 'Critical',
+      summary: 'A bulk Cortex analyzer job run by SOC teams responding to the LSHIY password-spray advisory confirmed malicious reputation scoring across the full 2a0a:d683::/32 range.',
+      tags: ['cortex', 'lshiy', 'reputation'],
+      iocs: [{ type: 'IPv6 Range', value: '2a0a:d683::/32' }]
+    },
+    {
+      id: 'conn-10',
+      connector: 'cortex',
+      title: 'Cortex Responder Playbook Added for Automated ROPC Sign-in Blocking',
+      date: '2026-07-02',
+      severity: 'Medium',
+      summary: 'A new Cortex active-response playbook automates Conditional Access Policy remediation when responders confirm ROPC-based sign-ins from flagged infrastructure.',
+      tags: ['cortex', 'automation', 'entra-id'],
+      iocs: []
+    },
+    {
+      id: 'conn-11',
+      connector: 'misp',
+      title: 'MISP Feed Cross-Links Dark Web Check Point VPN Exploit Broker Listing',
+      date: '2026-06-26',
+      severity: 'Critical',
+      summary: 'A MISP sharing group correlated a dark-web exploit-broker listing for a Check Point VPN pre-authentication RCE with telemetry already logged by three member organizations, suggesting exploitation predates public disclosure.',
+      tags: ['misp', 'checkpoint', 'vpn'],
+      iocs: []
+    },
+    {
+      id: 'conn-12',
+      connector: 'misp',
+      title: 'MISP Taxonomy Update Adds Tags for World Leaks Extortion-Only Operations',
+      date: '2026-06-20',
+      severity: 'Medium',
+      summary: 'The MISP community published new taxonomy tags distinguishing extortion-only data-theft groups (no encryption) from traditional ransomware, citing World Leaks as the reference case.',
+      tags: ['misp', 'world-leaks', 'taxonomy'],
+      iocs: []
+    },
+    {
+      id: 'conn-13',
+      connector: 'misp',
+      title: 'MISP Event Warns of Azure AD Token-Replay Kit Reuse Across Campaigns',
+      date: '2026-06-18',
+      severity: 'High',
+      summary: 'A MISP event links Evilginx2-based Azure AD token-theft infrastructure to at least two unrelated phishing campaigns, indicating shared criminal tooling rather than a single actor.',
+      tags: ['misp', 'azure', 'phishing'],
+      iocs: [{ type: 'Domain', value: 'aad-secure-portal[.]net' }]
+    },
+    {
+      id: 'conn-14',
+      connector: 'otx',
+      title: 'OTX Pulse Tracks Qilin Affiliate Infrastructure Reuse Across Healthcare Intrusions',
+      date: '2026-06-25',
+      severity: 'High',
+      summary: 'An OTX pulse maps overlapping C2 infrastructure across three healthcare-sector Qilin ransomware intrusions, suggesting a single affiliate is responsible for the recent wave.',
+      tags: ['otx', 'qilin', 'healthcare'],
+      iocs: [{ type: 'IP', value: '185.220.101.42' }]
+    },
+    {
+      id: 'conn-15',
+      connector: 'otx',
+      title: 'OTX Contributors Flag Malicious npm Packages Mimicking Redhat Cloud Tooling',
+      date: '2026-06-14',
+      severity: 'Medium',
+      summary: "Multiple OTX contributors independently reported npm packages impersonating @redhat-cloud-services libraries, consistent with the Miasma worm's known distribution pattern.",
+      tags: ['otx', 'npm', 'supply-chain'],
+      iocs: []
+    },
+    {
+      id: 'conn-16',
+      connector: 'otx',
+      title: 'OTX Pulse Documents Fresh Wave of World Leaks Extortion Notices',
+      date: '2026-06-28',
+      severity: 'Medium',
+      summary: 'An actively updated OTX pulse tracks new extortion-notice domains stood up by World Leaks affiliates within 24 hours of prior takedowns.',
+      tags: ['otx', 'world-leaks', 'extortion'],
+      iocs: [{ type: 'Domain', value: 'wl-notice-portal[.]cc' }]
+    },
+    {
+      id: 'conn-17',
+      connector: 'pulsedive',
+      title: 'Pulsedive Enrichment Links Gentlemen Ransomware Payment Portals to Shared Hosting',
+      date: '2026-06-27',
+      severity: 'High',
+      summary: 'Pulsedive scans found several Gentlemen ransomware negotiation portals hosted on the same bulletproof provider, enabling faster network-wide blocking.',
+      tags: ['pulsedive', 'gentlemen', 'ransomware'],
+      iocs: [{ type: 'IP', value: '194.180.48.23' }]
+    },
+    {
+      id: 'conn-18',
+      connector: 'pulsedive',
+      title: 'Pulsedive Risk Scoring Flags Resurgence in ShinyHunters-Linked Infrastructure',
+      date: '2026-06-13',
+      severity: 'High',
+      summary: 'Automated Pulsedive scans detected renewed activity on IP ranges previously associated with ShinyHunters, shortly before the PeopleSoft SSRF campaign became public.',
+      tags: ['pulsedive', 'shinyhunters', 'peoplesoft'],
+      iocs: [{ type: 'IP', value: '185.220.101.55' }]
+    },
+    {
+      id: 'conn-19',
+      connector: 'pulsedive',
+      title: 'Pulsedive Feed Adds Bulk IOCs from Fortinet KEV Exploitation Wave',
+      date: '2026-07-02',
+      severity: 'High',
+      summary: 'Following the CVE-2026-48821 KEV addition, Pulsedive ingested a bulk IOC submission covering scanning and post-exploitation infrastructure targeting FortiGate SSL VPN.',
+      tags: ['pulsedive', 'fortinet', 'kev'],
+      iocs: [{ type: 'IP', value: '45.155.205.90' }]
+    },
+    {
+      id: 'conn-20',
+      connector: 'yeti',
+      title: 'YETI Case Graph Connects LockBit 4.0 Builder Leak to Prior Affiliate Dispute',
+      date: '2026-07-02',
+      severity: 'Medium',
+      summary: 'Analysts using YETI to pivot on LockBit 4.0 builder metadata traced the leak back to an internal affiliate dispute referenced in earlier forum chatter.',
+      tags: ['yeti', 'lockbit', 'ransomware'],
+      iocs: []
+    },
+    {
+      id: 'conn-21',
+      connector: 'yeti',
+      title: 'YETI Sigma Rule Pack Updated for Check Point VPN Exploitation Patterns',
+      date: '2026-06-29',
+      severity: 'Medium',
+      summary: 'The YETI community contributed a Sigma rule pack targeting authentication-bypass patterns consistent with the Check Point VPN exploit broker listing.',
+      tags: ['yeti', 'checkpoint', 'sigma'],
+      iocs: []
+    },
+    {
+      id: 'conn-22',
+      connector: 'yeti',
+      title: 'YETI Observable Import Adds Confirmed IOCs from Qilin Healthcare Intrusions',
+      date: '2026-06-23',
+      severity: 'High',
+      summary: 'A bulk YETI import added confirmed indicators from recent Qilin ransomware intrusions across the healthcare sector, cross-referenced with OTX pulse data.',
+      tags: ['yeti', 'qilin', 'healthcare'],
+      iocs: [{ type: 'Hash', value: '44d88612fea8a8f36de82e1278abb02f' }]
+    },
+    {
+      id: 'conn-23',
+      connector: 'cortex',
+      title: 'Cortex Analyzer Chain Automates Triage for World Leaks Extortion Domains',
+      date: '2026-06-30',
+      severity: 'Medium',
+      summary: 'A new Cortex analyzer chain automatically enriches and scores newly registered domains matching World Leaks extortion-notice naming patterns.',
+      tags: ['cortex', 'world-leaks', 'automation'],
+      iocs: []
+    },
+    {
+      id: 'conn-24',
+      connector: 'cortex',
+      title: 'Cortex Bulk Reputation Run Confirms Malicious Scoring for Gentlemen Ransomware Infrastructure',
+      date: '2026-06-28',
+      severity: 'High',
+      summary: 'SOC teams running Cortex bulk analyzer jobs confirmed malicious reputation scoring across hosting infrastructure tied to Gentlemen ransomware negotiation portals.',
+      tags: ['cortex', 'gentlemen', 'reputation'],
+      iocs: [{ type: 'IP', value: '194.180.48.23' }]
+    },
+    {
+      id: 'conn-25',
+      connector: 'cortex',
+      title: 'Cortex Responder Playbook Added for Fortinet KEV Post-Exploitation Indicators',
+      date: '2026-07-03',
+      severity: 'High',
+      summary: 'A new Cortex active-response playbook automates containment actions when analyzers confirm post-exploitation indicators tied to the Fortinet FortiGate KEV entry.',
+      tags: ['cortex', 'fortinet', 'automation'],
+      iocs: []
+    }
+  ],
+
+  /* ── Snowbit Advisories ── */
+  snowbitAdvisories: [
+    {
+      id: 'snowbit-1',
+      title: 'LSHIY Password Spray: Azure CLI ROPC Attack Bypasses MFA at Scale',
+      source: 'Snowbit by Coralogix',
+      severity: 'Critical',
+      date: '2026-07-03',
+      actor: 'LSHIY LLC (AS32167 / AS955)',
+      pdfUrl: 'assets/advisories/lshiy-password-spray-advisory.pdf',
+      tags: ['azure', 'entra-id', 'oauth-ropc', 'mfa-bypass', 'password-spray'],
+      summary: 'An automated password spray campaign has executed over 81 million login attempts against Microsoft 365 tenants since June 12, 2026, abusing the deprecated OAuth 2.0 ROPC flow to bypass MFA entirely when Conditional Access Policies aren’t explicitly scoped to cover it.',
+      execSummary: [
+        'An automated, large-scale password spray campaign has been actively targeting Microsoft Azure CLI environments since at least June 12, 2026. The threat actor, operating from an IPv6 address range controlled by internet hosting provider LSHIY LLC (AS32167), executed over 81 million login attempts against Microsoft 365 tenants in a 14-day window.',
+        'The distinguishing element of this campaign is the abuse of the OAuth 2.0 Resource Owner Password Credentials (ROPC) flow, a deprecated grant type that submits credentials directly to the /token endpoint without triggering an interactive authentication prompt. Because Conditional Access Policies (CAPs) are evaluated at the authorization endpoint, ROPC sign-ins bypass MFA enforcement entirely when policies are not explicitly scoped to cover it. This allowed the actor to compromise accounts at organizations that believed MFA was fully protecting them.',
+        'Credential material consists of previously breached username/password pairs that victims had never rotated. Targeting is indiscriminate, driven entirely by credential prevalence in leaked combo lists, not industry or company size. Organizations with MFA enabled are not automatically protected — businesses who were compromised had MFA in place; none were configured to block this attack vector.'
+      ],
+      howItWorks: [
+        { phase: 'STEP 1', title: 'Credential Acquisition', description: 'The actor sources validated username/password pairs from previously breached combo lists. Accounts where credentials were never rotated post-breach are the exclusive target population.' },
+        { phase: 'STEP 2', title: 'ROPC Spray via Azure CLI', description: 'Automated tooling originating from IPv6 range 2a0a:d683::/32 (LSHIY LLC, AS32167) submits credentials directly to the Microsoft Entra ID /token endpoint using the OAuth 2.0 ROPC grant type — the same flow used by the Azure CLI for non-interactive authentication.' },
+        { phase: 'STEP 3', title: 'MFA Bypass via Protocol Gap', description: 'ROPC is non-interactive. It does not redirect through the authorization endpoint where Conditional Access Policies fire. MFA prompts are injected at the authorization stage; ROPC calls to /token skip that stage entirely. Misconfigured CAPs (scoped by app, group, or trusted location) fail to intercept these sign-ins.' },
+        { phase: 'STEP 4', title: 'Token Issuance & Account Access', description: 'On successful credential validation, Entra ID mints a user-delegated access token. The actor receives a valid session with no MFA challenge, granting full access to Exchange Online, Teams, SharePoint, and OneDrive for the compromised account.' }
+      ],
+      mfaGaps: [
+        'Enforced for specific apps only (e.g., Admin Portals) — Azure CLI excluded',
+        'Scoped to specific groups (e.g., Admins) — standard user accounts exposed',
+        'Trusted-location exclusions — attacker IPs mislabeled as US by geolocation',
+        'Report-only mode — policy logging enabled but never enforced'
+      ],
+      timeline: [
+        { date: '2021-06-14', event: 'LSHIY LLC registers AS32167' },
+        { date: '2022-06-22', event: 'LSHIY LLC registers AS955 (secondary ASN)' },
+        { date: '2026-06-11', event: 'IPv6 range maintainer entry created for 2a0a:d683::/32 (per RIPE records)' },
+        { date: '2026-06-12', event: 'Earliest confirmed campaign activity; 2-4 account compromises per day' },
+        { date: '2026-06-19', event: 'Single-day spike: 12 user accounts compromised' },
+        { date: '2026-06-22', event: 'Major surge: 30 accounts compromised across 23 businesses in one day' },
+        { date: '2026-06-12 – 2026-06-26', event: 'Campaign window: 81M+ login attempts' }
+      ],
+      affectedComponents: [
+        { component: 'Microsoft Entra ID / Azure AD', vulnerable: 'ROPC not blocked by CAP; MFA scoped to apps/groups/locations only', protectedConfig: 'CAP with userStrongAuthClientAuthNRequired enforced for All Users, All Cloud Apps' },
+        { component: 'Azure CLI', vulnerable: 'All versions — ROPC is a protocol-level auth flow, not a CLI bug', protectedConfig: 'Restrict Azure CLI to admin accounts; block for standard users via CAP' },
+        { component: 'Conditional Access Policies', vulnerable: 'Policies missing All Client App types coverage; report-only mode', protectedConfig: 'All Users / All Cloud Apps / All Client App Types, enforced' }
+      ],
+      remediation: [
+        'Audit Conditional Access Policies: verify at least one policy enforces MFA (or block) for All Users, All Cloud Apps, and All Client App Types. Any scope exclusion — app, group, or location — creates an attack surface for ROPC.',
+        'Enable userStrongAuthClientAuthNRequired: apply this CAP setting to enforce strong authentication at the client level. It causes ROPC-based flows to fail before token issuance, blocking this attack class entirely.',
+        'Block ‘Other clients’ client app type: create a CAP targeting the ‘Other clients’ app type for non-admin users. If Azure CLI is required for admin workflows, create a separate scoped policy restricting it to privileged accounts.',
+        'Force password resets for breached accounts: cross-reference user credentials against breach databases (Microsoft Entra ID Protection leaked credentials signals, HIBP Enterprise API). Reset any account appearing in breach datasets immediately.',
+        'Review non-interactive sign-in logs: in Entra ID / your SIEM, query NonInteractiveUserSignInLogs for clientAppUsed = ‘Other clients’ or authenticationProtocol = ‘ropc’ from IPv6 ranges. Look for resultType = 0 (success) with no MFA claim.',
+        'Block the LSHIY IPv6 range: block 2a0a:d683::/32 at firewall/proxy/CAP network location level. Geolocation of these IPs is inconsistent (resolves to both China and US Nebraska) — do not rely on location-only controls.',
+        'Deploy phishing-resistant MFA: FIDO2 passkeys and certificate-based auth are immune to credential stuffing since the credential is never shared with the identity provider. Migrate high-value accounts as priority.'
+      ],
+      iocs: [
+        { type: 'IPV6 RANGE', value: '2a0a:d683::/32', context: 'Primary source range for ROPC spray traffic' },
+        { type: 'ASN', value: 'AS32167', context: 'LSHIY LLC — primary autonomous system' },
+        { type: 'ASN', value: 'AS955', context: 'LSHIY LLC — secondary autonomous system' },
+        { type: 'INFRASTRUCTURE', value: 'LSHIY LLC', context: 'Registered addresses in Hong Kong, Wuhan (China), and 42 Broadway NY (shared office)' },
+        { type: 'AUTH PROTOCOL', value: 'OAuth 2.0 ROPC → /token', context: 'clientAppUsed: ‘Other clients’' },
+        { type: 'SIGN-IN SIGNAL', value: 'authenticationProtocol: ‘ropc’', context: 'isInteractive: false · resultType: 0 (success)' },
+        { type: 'MFA SIGNAL', value: 'singleFactorAuthentication', context: 'No mfa claim present in the amr claim' }
+      ],
+      dataprimeQueries: [
+        { name: 'Detect ROPC Sign-ins from LSHIY ASNs (AS32167 + AS955)', description: 'Identifies all ROPC sign-in events originating from LSHIY LLC ASNs. resultType ‘0’ = success (immediate triage priority); non-zero = failed spray attempt.', query: 'source logs\n| filter $d.properties.authenticationProtocol:string == \'ropc\'\n| filter $d.cx_security.source_ip_geoip.asn.number ~ \'32167\'\n   || $d.cx_security.source_ip_geoip.asn.number ~ \'955\'\n| choose $m.timestamp, $d.properties.userPrincipalName, $d.callerIpAddress,\n    $d.resultType:string, $d.cx_security.source_ip, $l.applicationname\n| orderby $m.timestamp desc | limit 200' },
+        { name: 'Detect Successful Single-Factor Auth from LSHIY ASNs', description: 'Finds successful password-only authentications from both LSHIY ASNs; these are confirmed compromised accounts requiring immediate response.', query: 'source logs\n| filter $d.resultType:string == \'0\'\n| filter $d.properties.authenticationRequirement:string == \'singleFactorAuthentication\'\n| filter $d.cx_security.source_ip_geoip.asn.number ~ \'32167\'\n   || $d.cx_security.source_ip_geoip.asn.number ~ \'955\'\n| choose $m.timestamp, $d.properties.userPrincipalName, $d.callerIpAddress,\n    $d.properties.appDisplayName, $d.cx_security.source_ip\n| orderby $m.timestamp desc | limit 100' },
+        { name: 'Tenant-Wide ROPC Spray Volume by Account', description: 'Surfaces all spray-targeted accounts across the tenant regardless of ASN — useful for detecting campaign activity from infrastructure not yet attributed to LSHIY.', query: 'source logs\n| filter $d.properties.authenticationProtocol:string == \'ropc\'\n| groupby $d.properties.userPrincipalName, $d.callerIpAddress as attempts count()\n| filter attempts > 5\n| orderby attempts desc | limit 100' },
+        { name: 'Hourly Spray Spike Detection (Last 30 Days)', description: 'ROPC attempts per user per hour. Spikes above 100/hour per account indicate active spray targeting. Tune threshold based on tenant baseline.', query: 'source logs\n| filter $d.properties.authenticationProtocol:string == \'ropc\'\n| filter $d.resultType:string != \'0\'\n| timechart count() by $d.properties.userPrincipalName span 1h\n| filter count > 100' }
+      ],
+      snowbitResponse: [
+        'Immediate IOC enrichment: the LSHIY IPv6 range 2a0a:d683::/32 and associated ASNs (AS32167, AS955) have been ingested into the Snowbit threat intelligence platform.',
+        'Customer environment scanning: Snowbit has initiated proactive sweeps across customer Coralogix environments for ROPC sign-in events, successful single-factor authentications from these IPv6 ranges, and NonInteractiveUser log entries with missing MFA claims.',
+        'Advisory distribution: this advisory has been distributed to all Snowbit managed customers via the threat intelligence notification channel. Customers are advised to complete the CAP audit in Remediation within 24 hours.'
+      ]
+    }
+  ],
+
+  /* ── Tweetfeed (tracked Twitter/X accounts) ── */
+  twitterAccounts: [],
+
+  tweetfeedItems: [
+    {
+      id: 'tweet-huntio-1',
+      username: 'Huntio',
+      url: 'https://x.com/Huntio/status/1938214077213851648',
+      date: '2026-07-02',
+      text: 'New Cobalt Strike team server identified: 185.220.101.47:443, self-signed cert impersonating update.microsoft-cdn[.]net. Still live as of this morning. #C2 #ThreatIntel',
+      summary: 'Hunt.io flagged a live Cobalt Strike team server spoofing a Microsoft CDN hostname via a self-signed certificate, still active at time of posting.',
+      severity: 'High',
+      tags: ['c2', 'cobaltstrike', 'infrastructure']
+    },
+    {
+      id: 'tweet-huntio-2',
+      username: 'Huntio',
+      url: 'https://x.com/Huntio/status/1936988341027594240',
+      date: '2026-06-28',
+      text: 'Tracking a cluster of ~40 lookalike domains standing up phishing kits targeting regional banking customers, all resolving to the same /24 hosted with a bulletproof provider. IOCs in thread.',
+      summary: 'Hunt.io is tracking a cluster of ~40 lookalike phishing domains targeting regional banking customers, hosted on shared bulletproof infrastructure.',
+      severity: 'Medium',
+      tags: ['phishing', 'banking', 'infrastructure']
+    }
+  ],
+
   /* ── DataPrime Query Templates ── */
   queryTemplates: [
     {
@@ -537,9 +885,7 @@ const TIP_DATA = {
     lastBuilt: new Date().toISOString(),
     lastFetch: '2026-07-01T09:00:00Z',
     fetchInterval: '6h',
-    totalPublished: 15,
-    totalPending: 3,
-    totalRejected: 0
+    totalPublished: 18
   }
 };
 
@@ -557,24 +903,37 @@ const DataManager = {
         const parsed = JSON.parse(saved);
         // Merge saved data with defaults (keep structure, override with saved)
         Object.assign(TIP_DATA.feedItems, parsed.feedItems || []);
-        if (parsed.pendingItems) TIP_DATA.pendingItems = parsed.pendingItems;
         if (parsed.adversaries) TIP_DATA.adversaries = parsed.adversaries;
         if (parsed.hypotheses) TIP_DATA.hypotheses = parsed.hypotheses;
         if (parsed.darkwebItems) TIP_DATA.darkwebItems = parsed.darkwebItems;
+        if (parsed.connectorIntel) TIP_DATA.connectorIntel = parsed.connectorIntel;
+        if (parsed.snowbitAdvisories) TIP_DATA.snowbitAdvisories = parsed.snowbitAdvisories;
+        if (parsed.twitterAccounts) TIP_DATA.twitterAccounts = parsed.twitterAccounts;
+        if (parsed.tweetfeedItems) TIP_DATA.tweetfeedItems = parsed.tweetfeedItems;
         if (parsed.meta) Object.assign(TIP_DATA.meta, parsed.meta);
       } catch (e) {
         console.warn('Failed to load saved data, using defaults');
       }
     }
+    // Seed the tracked-account list from the repo-committed config (only if
+    // nothing was restored from localStorage above) — see js/tweetfeed-accounts.js
+    // for why this can't just live in the TIP_DATA literal.
+    if (!TIP_DATA.twitterAccounts || !TIP_DATA.twitterAccounts.length) {
+      TIP_DATA.twitterAccounts = (typeof TWEETFEED_ACCOUNTS !== 'undefined' && Array.isArray(TWEETFEED_ACCOUNTS))
+        ? TWEETFEED_ACCOUNTS.slice()
+        : ['Huntio'];
+    }
     this.mergeAutoFetched();
     this.mergeAutoFetchedHypotheses();
     this.mergeAutoFetchedAdversaries();
     this.mergeAutoFetchedDarkweb();
+    this.mergeAutoFetchedConnectors();
+    this.mergeAutoFetchedTweetfeed();
     this.save();
   },
 
   // Validates one TIP_AUTOFEED entry before it's allowed anywhere near
-  // pendingItems. autofeed.js is generated by scripts/fetch-intel.mjs from LLM
+  // feedItems. autofeed.js is generated by scripts/fetch-intel.mjs from LLM
   // output derived from arbitrary web pages — this is the actual trust
   // boundary in the shipped app, so re-check everything here even though the
   // generator script already validates. Returns null (drop) on any failure
@@ -610,24 +969,22 @@ const DataManager = {
   },
 
   // Merges TIP_AUTOFEED (js/autofeed.js, regenerated by scripts/fetch-intel.mjs
-  // every 6 hours) into the live pending queue. Dedupes by id against both
-  // pendingItems and feedItems so already-approved/rejected/seen items from a
-  // prior fetch aren't re-added — matches DataManager.addPendingItem's contract.
+  // every 6 hours) directly into the live, published feed — same as
+  // mergeAutoFetchedHypotheses/Adversaries/Darkweb, no pending/approval gate.
+  // Dedupes by id against feedItems so already-seen items from a prior fetch
+  // aren't re-added.
   mergeAutoFetched() {
     if (typeof TIP_AUTOFEED === 'undefined' || !Array.isArray(TIP_AUTOFEED) || !TIP_AUTOFEED.length) return;
-    const knownIds = new Set([
-      ...TIP_DATA.pendingItems.map(i => i.id),
-      ...TIP_DATA.feedItems.map(i => i.id)
-    ]);
+    const knownIds = new Set(TIP_DATA.feedItems.map(i => i.id));
     const fresh = TIP_AUTOFEED
       .filter(item => item && !knownIds.has(item.id))
       .map(item => this._sanitizeAutoFetchedItem(item))
       .filter(Boolean);
     if (!fresh.length) return;
     fresh.forEach(item => {
-      TIP_DATA.pendingItems.unshift({ ...item, status: 'pending' });
+      TIP_DATA.feedItems.unshift({ ...item, status: 'published' });
     });
-    TIP_DATA.meta.totalPending = this.getPendingItems().length;
+    TIP_DATA.meta.totalPublished = TIP_DATA.feedItems.length;
     TIP_DATA.meta.lastFetch = new Date().toISOString();
   },
 
@@ -646,8 +1003,7 @@ const DataManager = {
   _resolveFeedItemIdByRef(ref) {
     if (typeof ref !== 'string' || !ref.trim()) return null;
     const needle = ref.trim().toLowerCase();
-    const pool = [...TIP_DATA.feedItems, ...TIP_DATA.pendingItems];
-    const match = pool.find(i =>
+    const match = TIP_DATA.feedItems.find(i =>
       (i.cve && i.cve.toLowerCase() === needle) ||
       i.title.toLowerCase().includes(needle) ||
       needle.includes(i.title.toLowerCase())
@@ -691,6 +1047,7 @@ const DataManager = {
       linkedFeedItem: this._resolveFeedItemIdByRef(raw.linkedFeedItemRef),
       createdAt: new Date().toISOString().split('T')[0],
       queries,
+      fetchedAt: typeof raw.fetchedAt === 'string' ? raw.fetchedAt : new Date().toISOString(),
     };
   },
 
@@ -719,6 +1076,7 @@ const DataManager = {
       iocs: strArr(raw.iocs, 20, 120),
       notes,
       active: true,
+      fetchedAt: typeof raw.fetchedAt === 'string' ? raw.fetchedAt : new Date().toISOString(),
     };
   },
 
@@ -743,13 +1101,69 @@ const DataManager = {
       relevance,
       flagged: false,
       tags,
+      fetchedAt: typeof raw.fetchedAt === 'string' ? raw.fetchedAt : new Date().toISOString(),
     };
   },
 
-  // Auto-fetched hypotheses/adversaries/dark-web items publish directly into
-  // their live arrays — unlike feed items, there's no pending queue for these
-  // sections (manual adds don't go through one either). Only the existing
-  // admin-only edit/delete controls gate them after the fact.
+  _sanitizeAutoFetchedConnectorIntel(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (typeof raw.id !== 'string' || !raw.id.startsWith('auto-conn-')) return null;
+    if (!['misp', 'otx', 'pulsedive', 'yeti', 'cortex'].includes(raw.connector)) return null;
+    if (!(raw.severity in TIP_DATA.sevRank)) return null;
+    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title.trim().slice(0, 200) : null;
+    const summary = typeof raw.summary === 'string' && raw.summary.trim() ? raw.summary.trim().slice(0, 600) : null;
+    if (!title || !summary) return null;
+
+    const tags = Array.isArray(raw.tags) ? raw.tags.filter(t => typeof t === 'string' && /^[\w.-]{1,32}$/.test(t)).slice(0, 8) : [];
+    const iocs = Array.isArray(raw.iocs)
+      ? raw.iocs.filter(i => i && typeof i.type === 'string' && i.type.trim() && typeof i.value === 'string' && i.value.trim())
+        .slice(0, 10)
+        .map(i => ({ type: i.type.trim().slice(0, 40), value: i.value.trim().slice(0, 200) }))
+      : [];
+
+    return {
+      id: raw.id,
+      connector: raw.connector,
+      title,
+      date: typeof raw.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.date.trim()) ? raw.date.trim() : new Date().toISOString().slice(0, 10),
+      severity: raw.severity,
+      summary,
+      tags,
+      iocs,
+      fetchedAt: typeof raw.fetchedAt === 'string' ? raw.fetchedAt : new Date().toISOString(),
+    };
+  },
+
+  _sanitizeAutoFetchedTweetfeedItem(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (typeof raw.id !== 'string' || !raw.id.startsWith('auto-tweet-')) return null;
+    if (typeof raw.username !== 'string' || !/^\w{1,15}$/.test(raw.username.trim())) return null;
+    if (typeof raw.url !== 'string' || !/^https:\/\/(x|twitter)\.com\/\w{1,15}\/status\/\d+/i.test(raw.url.trim())) return null;
+    if (!(raw.severity in TIP_DATA.sevRank)) return null;
+    const text = typeof raw.text === 'string' && raw.text.trim() ? raw.text.trim().slice(0, 500) : null;
+    const summary = typeof raw.summary === 'string' && raw.summary.trim() ? raw.summary.trim().slice(0, 300) : null;
+    if (!text || !summary) return null;
+
+    const tags = Array.isArray(raw.tags) ? raw.tags.filter(t => typeof t === 'string' && /^[\w.-]{1,32}$/.test(t)).slice(0, 6) : [];
+
+    return {
+      id: raw.id,
+      username: raw.username.trim(),
+      url: raw.url.trim(),
+      date: typeof raw.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.date.trim()) ? raw.date.trim() : new Date().toISOString().slice(0, 10),
+      text,
+      summary,
+      severity: raw.severity,
+      tags,
+      fetchedAt: typeof raw.fetchedAt === 'string' ? raw.fetchedAt : new Date().toISOString(),
+    };
+  },
+
+  // Auto-fetched hypotheses/adversaries/dark-web/connector/tweetfeed items
+  // publish directly into their live arrays — unlike feed items, there's no
+  // pending queue for these sections (manual adds don't go through one
+  // either). Only the existing admin-only edit/delete controls gate them
+  // after the fact.
   mergeAutoFetchedHypotheses() {
     if (typeof TIP_AUTOFEED_HUNTLAB === 'undefined' || !Array.isArray(TIP_AUTOFEED_HUNTLAB) || !TIP_AUTOFEED_HUNTLAB.length) return;
     const knownIds = new Set(TIP_DATA.hypotheses.map(h => h.id));
@@ -780,14 +1194,37 @@ const DataManager = {
       .forEach(item => TIP_DATA.darkwebItems.unshift(item));
   },
 
+  mergeAutoFetchedConnectors() {
+    if (typeof TIP_AUTOFEED_CONNECTORS === 'undefined' || !Array.isArray(TIP_AUTOFEED_CONNECTORS) || !TIP_AUTOFEED_CONNECTORS.length) return;
+    const knownIds = new Set(TIP_DATA.connectorIntel.map(c => c.id));
+    TIP_AUTOFEED_CONNECTORS
+      .filter(item => item && !knownIds.has(item.id))
+      .map(item => this._sanitizeAutoFetchedConnectorIntel(item))
+      .filter(Boolean)
+      .forEach(item => TIP_DATA.connectorIntel.unshift(item));
+  },
+
+  mergeAutoFetchedTweetfeed() {
+    if (typeof TIP_AUTOFEED_TWEETFEED === 'undefined' || !Array.isArray(TIP_AUTOFEED_TWEETFEED) || !TIP_AUTOFEED_TWEETFEED.length) return;
+    const knownIds = new Set(TIP_DATA.tweetfeedItems.map(t => t.id));
+    TIP_AUTOFEED_TWEETFEED
+      .filter(item => item && !knownIds.has(item.id))
+      .map(item => this._sanitizeAutoFetchedTweetfeedItem(item))
+      .filter(Boolean)
+      .forEach(item => TIP_DATA.tweetfeedItems.unshift(item));
+  },
+
   save() {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
         feedItems: TIP_DATA.feedItems,
-        pendingItems: TIP_DATA.pendingItems,
         adversaries: TIP_DATA.adversaries,
         hypotheses: TIP_DATA.hypotheses,
         darkwebItems: TIP_DATA.darkwebItems,
+        connectorIntel: TIP_DATA.connectorIntel,
+        snowbitAdvisories: TIP_DATA.snowbitAdvisories,
+        twitterAccounts: TIP_DATA.twitterAccounts,
+        tweetfeedItems: TIP_DATA.tweetfeedItems,
         meta: TIP_DATA.meta
       }));
     } catch (e) {
@@ -795,35 +1232,10 @@ const DataManager = {
     }
   },
 
-  // Feed items
+  // Feed items — auto-fetched and manually-added items publish directly (no
+  // approval gate); admin can only add or delete.
   getPublishedItems() {
     return TIP_DATA.feedItems.filter(i => i.status === 'published');
-  },
-
-  getPendingItems() {
-    return TIP_DATA.pendingItems.filter(i => i.status === 'pending');
-  },
-
-  approveItem(id) {
-    const idx = TIP_DATA.pendingItems.findIndex(i => i.id === id);
-    if (idx === -1) return false;
-    const item = { ...TIP_DATA.pendingItems[idx], status: 'published' };
-    TIP_DATA.feedItems.unshift(item);
-    TIP_DATA.pendingItems[idx].status = 'approved';
-    TIP_DATA.meta.totalPublished++;
-    TIP_DATA.meta.totalPending = this.getPendingItems().length;
-    this.save();
-    return true;
-  },
-
-  rejectItem(id) {
-    const idx = TIP_DATA.pendingItems.findIndex(i => i.id === id);
-    if (idx === -1) return false;
-    TIP_DATA.pendingItems[idx].status = 'rejected';
-    TIP_DATA.meta.totalRejected++;
-    TIP_DATA.meta.totalPending = this.getPendingItems().length;
-    this.save();
-    return true;
   },
 
   addManualItem(item) {
@@ -831,19 +1243,16 @@ const DataManager = {
     item.status = 'published';
     item.date = item.date || new Date().toISOString().split('T')[0];
     TIP_DATA.feedItems.unshift(item);
-    TIP_DATA.meta.totalPublished++;
+    TIP_DATA.meta.totalPublished = TIP_DATA.feedItems.length;
     this.save();
     return item;
   },
 
-  addPendingItem(item) {
-    item.id = 'pending-' + Date.now();
-    item.status = 'pending';
-    item.fetchedAt = new Date().toISOString();
-    TIP_DATA.pendingItems.unshift(item);
-    TIP_DATA.meta.totalPending = this.getPendingItems().length;
+  deleteFeedItem(id) {
+    TIP_DATA.feedItems = TIP_DATA.feedItems.filter(i => i.id !== id);
+    TIP_DATA.meta.totalPublished = TIP_DATA.feedItems.length;
     this.save();
-    return item;
+    return true;
   },
 
   // Adversaries
@@ -910,6 +1319,80 @@ const DataManager = {
     TIP_DATA.darkwebItems.unshift(item);
     this.save();
     return item;
+  },
+
+  // Connector intel (MISP, OTX, Pulsedive, YETI, Cortex)
+  getConnectorIntel() {
+    return TIP_DATA.connectorIntel;
+  },
+
+  deleteConnectorIntel(id) {
+    TIP_DATA.connectorIntel = TIP_DATA.connectorIntel.filter(c => c.id !== id);
+    this.save();
+    return true;
+  },
+
+  // Snowbit advisories
+  getSnowbitAdvisories() {
+    return TIP_DATA.snowbitAdvisories;
+  },
+
+  addSnowbitAdvisory(advisory) {
+    advisory.id = 'snowbit-' + Date.now();
+    TIP_DATA.snowbitAdvisories.unshift(advisory);
+    this.save();
+    return advisory;
+  },
+
+  updateSnowbitAdvisory(id, updates) {
+    const idx = TIP_DATA.snowbitAdvisories.findIndex(a => a.id === id);
+    if (idx === -1) return false;
+    Object.assign(TIP_DATA.snowbitAdvisories[idx], updates);
+    this.save();
+    return true;
+  },
+
+  deleteSnowbitAdvisory(id) {
+    TIP_DATA.snowbitAdvisories = TIP_DATA.snowbitAdvisories.filter(a => a.id !== id);
+    this.save();
+    return true;
+  },
+
+  // Tweetfeed
+  getTweetfeedItems() {
+    return TIP_DATA.tweetfeedItems;
+  },
+
+  deleteTweetfeedItem(id) {
+    TIP_DATA.tweetfeedItems = TIP_DATA.tweetfeedItems.filter(t => t.id !== id);
+    this.save();
+    return true;
+  },
+
+  // Tracked Twitter/X accounts — the live copy here is browser-local (like
+  // every other admin mutation in this app); js/tweetfeed-accounts.js is the
+  // copy the scheduled fetch actually reads, since this is a static site
+  // with no backend to receive a write from the browser. TweetfeedView's
+  // "Manage Accounts" modal walks the admin through committing changes there.
+  getTwitterAccounts() {
+    return TIP_DATA.twitterAccounts;
+  },
+
+  addTwitterAccount(username) {
+    const clean = typeof username === 'string' ? username.trim().replace(/^@/, '') : '';
+    if (!/^\w{1,15}$/.test(clean)) return false;
+    if (TIP_DATA.twitterAccounts.some(a => a.toLowerCase() === clean.toLowerCase())) return false;
+    TIP_DATA.twitterAccounts.push(clean);
+    this.save();
+    return true;
+  },
+
+  removeTwitterAccount(username) {
+    const before = TIP_DATA.twitterAccounts.length;
+    TIP_DATA.twitterAccounts = TIP_DATA.twitterAccounts.filter(a => a.toLowerCase() !== String(username).toLowerCase());
+    if (TIP_DATA.twitterAccounts.length === before) return false;
+    this.save();
+    return true;
   },
 
   // Category counts

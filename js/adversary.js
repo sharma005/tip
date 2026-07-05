@@ -58,8 +58,11 @@ const AdversaryView = {
           <div class="adv-name">${App.escapeHtml(adv.name)}</div>
           <div class="adv-aliases">${adv.aliases.length ? adv.aliases.join(' · ') : 'No aliases'}</div>
         </div>
-        <span class="badge badge-${adv.type === 'apt' ? 'kev' : adv.type === 'criminal' ? 'ransomware' : 'supplychain'}" style="margin-left:auto">
-          ${typeLabels[adv.type] || adv.type}
+        <span style="margin-left:auto;display:flex;align-items:center;gap:6px">
+          ${App.isFreshFetch(adv, TIP_DATA.adversaries) ? '<span class="new-badge">New</span>' : ''}
+          <span class="badge badge-${adv.type === 'apt' ? 'kev' : adv.type === 'criminal' ? 'ransomware' : 'supplychain'}">
+            ${typeLabels[adv.type] || adv.type}
+          </span>
         </span>
       </div>
       <p class="card-summary" style="font-size:12.5px;margin:8px 0">${App.escapeHtml(adv.notes).substring(0, 120)}${adv.notes.length > 120 ? '…' : ''}</p>

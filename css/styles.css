@@ -312,6 +312,14 @@ input, select, textarea { font-family: inherit; }
   flex: none;
   opacity: 0.7;
 }
+.nav-link.nav-sublink {
+  padding-left: 32px;
+  font-size: 12.5px;
+}
+.nav-link.nav-sublink .nav-icon {
+  width: 14px;
+  height: 14px;
+}
 .nav-link.active .nav-icon {
   color: var(--accent);
   opacity: 1;
@@ -594,6 +602,18 @@ input, select, textarea { font-family: inherit; }
 .badge-ransomware { color: var(--cat-ransomware); background: var(--cat-ransomware-bg); }
 .badge-rce { color: var(--cat-rce); background: var(--cat-rce-bg); }
 .badge-darkweb { color: var(--cat-darkweb); background: var(--cat-darkweb-bg); }
+.new-badge {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--success);
+  background: var(--success-bg);
+  border: 1px solid var(--success);
+}
 
 .sev-badge {
   font-family: var(--font-mono);

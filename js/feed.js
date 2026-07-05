@@ -97,6 +97,7 @@ const FeedView = {
         <span class="sev-badge sev-${item.severity.toLowerCase()}">${item.severity}</span>
         ${item.cve ? `<span class="cve-tag">${App.escapeHtml(item.cve)}</span>` : ''}
         ${item.cvss ? `<span class="cvss-tag">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
+        ${App.isFreshFetch(item, TIP_DATA.feedItems) ? '<span class="new-badge">New</span>' : ''}
         <span class="date-tag">${App.formatDate(item.date)}</span>
       </div>
       <h3>${App.escapeHtml(item.title)}</h3>

@@ -1,24 +1,26 @@
 #!/usr/bin/env node
 /* ═══════════════════════════════════════════════════════════════════
-   TIP — Local/manual-run CLI for the auto-fetch pipeline.
-
-   In production this logic runs on a 6-hour AWS Lambda + EventBridge
-   Scheduler schedule (lambda/fetch-intel/index.mjs), which writes
-   straight to the S3 origin. This CLI is the local-dev equivalent —
-   useful for testing schema/prompt changes without touching AWS —
-   and writes the same four js/autofeed*.js files to disk.
+   TIP — Automated threat intel fetch (runs 4x/day via GitHub Actions,
+   see .github/workflows/fetch-intel.yml; also runnable locally via
+   `npm run fetch-intel` for testing schema/prompt changes).
 
    Calls Claude with the web_search tool for each content type
    (feed, hunt-lab hypotheses, adversary profiles, dark web intel),
-   forces strict JSON output, sanitizes it, and regenerates the
-   corresponding js/autofeed*.js file wholesale. DataManager's
-   mergeAutoFetched* methods (js/data.js) merge new items on page load.
+   forces strict JSON output, and sanitizes it. Each js/autofeed*.js
+   file is a capped, accumulating pool — this run's new items are
+   merged into whatever the file already had (deduped by id), not a
+   wholesale replacement, so a first-time visitor between two
+   scheduled runs still sees recent history rather than only the
+   latest run's results. DataManager's mergeAutoFetched* methods
+   (js/data.js) then merge from that pool into a given browser's own
+   data on page load.
    ═══════════════════════════════════════════════════════════════════ */
 
 import Anthropic from '@anthropic-ai/sdk';
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { CONTENT_TYPES, runContentType, renderAutofeedFile } from '../lib/intel/contentTypes.mjs';
+import { readExistingPool, mergeAndCapPool } from '../lib/intel/pool.mjs';
 
 const apiKey = process.env.ANTHROPIC_API_KEY;
 if (!apiKey) {
@@ -30,10 +32,12 @@ const client = new Anthropic({ apiKey });
 
 async function main() {
   for (const type of CONTENT_TYPES) {
-    const records = await runContentType(client, type);
+    const fresh = await runContentType(client, type);
     const outPath = fileURLToPath(new URL(`../js/${type.fileName}`, import.meta.url));
-    writeFileSync(outPath, renderAutofeedFile(type, records));
-    console.log(`[${type.label}] wrote ${records.length} item(s) to js/${type.fileName}`);
+    const existing = readExistingPool(outPath);
+    const { pool, addedCount } = mergeAndCapPool(existing, fresh, type.maxPoolSize);
+    writeFileSync(outPath, renderAutofeedFile(type, pool));
+    console.log(`[${type.label}] +${addedCount} new (pool: ${pool.length}/${type.maxPoolSize}) -> js/${type.fileName}`);
   }
 }
 

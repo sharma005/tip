@@ -116,6 +116,7 @@ const HuntLabView = {
         <span class="hypo-status ${hypo.status}">${hypo.status}</span>
         <span class="priority-badge priority-${hypo.priority.toLowerCase()}">${hypo.priority}</span>
         <span class="hash-tag">${hypo.mitreTactic}</span>
+        ${App.isFreshFetch(hypo, TIP_DATA.hypotheses) ? '<span class="new-badge">New</span>' : ''}
         <span class="date-tag">${App.formatDate(hypo.createdAt)}</span>
       </div>
       <h3 style="margin:6px 0 8px;font-size:15px;color:var(--heading);font-weight:650">${App.escapeHtml(hypo.title)}</h3>

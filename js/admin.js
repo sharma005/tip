@@ -1,46 +1,114 @@
 /* ═══════════════════════════════════════════════════════════════════
    TIP — Admin Panel View
-   Pending review queue, approve/reject, audit log, detail view,
-   manual entry, clickable stats
+   All feed advisories (add/delete), settings (change password)
    ═══════════════════════════════════════════════════════════════════ */
 
 const AdminView = {
-  auditFilter: null, // null = hidden, 'approved' or 'rejected'
+  activeTab: 'queue', // 'queue' or 'settings'
 
   render() {
-    this.showPendingUI(true);
-    this.renderStats();
-    this.renderPendingQueue();
+    this.switchTab(this.activeTab);
   },
 
-  showPendingUI(show) {
-    const pending = document.getElementById('adminPendingSection');
+  switchTab(tab) {
+    this.activeTab = tab;
+
+    document.querySelectorAll('#adminTabs .tab').forEach(el => {
+      el.classList.toggle('active', el.dataset.tab === tab);
+    });
+
+    const queueSection = document.getElementById('adminQueueSection');
+    const settingsSection = document.getElementById('adminSettingsSection');
+    if (queueSection) queueSection.style.display = tab === 'queue' ? '' : 'none';
+    if (settingsSection) settingsSection.style.display = tab === 'settings' ? '' : 'none';
+
+    if (tab === 'queue') {
+      this.showListUI(true);
+      this.renderStats();
+      this.renderFeedList();
+    } else if (tab === 'settings') {
+      this.resetPasswordForm();
+    }
+  },
+
+  /* ═══════════════════════════════════════════════════════════════════
+     SETTINGS — change admin password
+     ═══════════════════════════════════════════════════════════════════ */
+  resetPasswordForm() {
+    ['changePwCurrent', 'changePwNew', 'changePwConfirm'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    const err = document.getElementById('changePwError');
+    const ok = document.getElementById('changePwSuccess');
+    if (err) err.style.display = 'none';
+    if (ok) ok.style.display = 'none';
+  },
+
+  async changePassword() {
+    const current = document.getElementById('changePwCurrent').value;
+    const next = document.getElementById('changePwNew').value;
+    const confirm = document.getElementById('changePwConfirm').value;
+    const errEl = document.getElementById('changePwError');
+    const okEl = document.getElementById('changePwSuccess');
+    okEl.style.display = 'none';
+
+    const showError = (msg) => {
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+    };
+
+    if (!current || !next || !confirm) {
+      showError('Please fill in all fields.');
+      return;
+    }
+    if (next.length < 8) {
+      showError('New password must be at least 8 characters.');
+      return;
+    }
+    if (next !== confirm) {
+      showError('New password and confirmation do not match.');
+      return;
+    }
+    if (current === next) {
+      showError('New password must be different from the current password.');
+      return;
+    }
+
+    const currentHash = await App.hashPassword(current);
+    if (currentHash !== App.getAdminHash()) {
+      showError('Current password is incorrect.');
+      return;
+    }
+
+    const newHash = await App.hashPassword(next);
+    App.setAdminHash(newHash);
+
+    errEl.style.display = 'none';
+    this.resetPasswordForm();
+    okEl.textContent = 'Password updated. Use the new password next time you log in.';
+    okEl.style.display = 'block';
+    App.toast('Admin password updated', 'success');
+  },
+
+  showListUI(show) {
+    const list = document.getElementById('adminFeedSection');
     const detail = document.getElementById('adminDetailView');
     const header = document.getElementById('adminHeader');
-    if (pending) pending.style.display = show ? '' : 'none';
+    if (list) list.style.display = show ? '' : 'none';
     if (detail) detail.style.display = show ? 'none' : '';
     if (header) header.style.display = show ? '' : 'none';
   },
 
   renderStats() {
     const meta = DataManager.getMeta();
-    const pending = DataManager.getPendingItems().length;
-
     const statsEl = document.getElementById('adminStats');
     if (!statsEl) return;
 
     statsEl.innerHTML = `
-      <div class="stat-card accent">
-        <div class="stat-label">Pending Review</div>
-        <div class="stat-value">${pending}</div>
-      </div>
-      <div class="stat-card success" onclick="AdminView.showAudit('approved')" style="cursor:pointer" title="Click to view approved feed audit log">
-        <div class="stat-label">Published ↗</div>
-        <div class="stat-value">${meta.totalPublished}</div>
-      </div>
-      <div class="stat-card danger" onclick="AdminView.showAudit('rejected')" style="cursor:pointer" title="Click to view rejected feed audit log">
-        <div class="stat-label">Rejected ↗</div>
-        <div class="stat-value">${meta.totalRejected}</div>
+      <div class="stat-card success">
+        <div class="stat-label">Total Advisories</div>
+        <div class="stat-value">${TIP_DATA.feedItems.length}</div>
       </div>
       <div class="stat-card info">
         <div class="stat-label">Last Fetch</div>
@@ -50,87 +118,26 @@ const AdminView = {
   },
 
   /* ═══════════════════════════════════════════════════════════════════
-     AUDIT LOG — shown when Published/Rejected stat clicked
+     FEED LIST — every published advisory; auto-fetch publishes directly,
+     admin can only add (manual entry) or delete
      ═══════════════════════════════════════════════════════════════════ */
-  showAudit(type) {
-    this.auditFilter = type;
-    const panel = document.getElementById('adminAuditPanel');
-    const title = document.getElementById('auditTitle');
-    const list = document.getElementById('adminAuditList');
-
-    if (!panel || !list) return;
-
-    panel.style.display = '';
-    title.textContent = type === 'approved' ? '// Approved Feed Audit Log' : '// Rejected Feed Audit Log';
-
-    // Get items from the right source
-    let items = [];
-    if (type === 'approved') {
-      // Published items are in feedItems
-      items = TIP_DATA.feedItems.map(i => ({ ...i, _auditStatus: 'approved' }));
-    } else {
-      // Rejected items are pendingItems with status 'rejected'
-      items = TIP_DATA.pendingItems
-        .filter(i => i.status === 'rejected')
-        .map(i => ({ ...i, _auditStatus: 'rejected' }));
-    }
-
-    if (!items.length) {
-      list.innerHTML = `<div class="empty-state">
-        <div class="empty-icon">${type === 'approved' ? '📋' : '🗑️'}</div>
-        No ${type} items in the audit log.
-      </div>`;
-      return;
-    }
-
-    list.innerHTML = items.map(item => {
-      const cat = TIP_DATA.categories[item.category] || { short: item.category?.toUpperCase() || 'N/A' };
-      return `<div class="pending-card ${type}" style="cursor:pointer" onclick="AdminView.showDetail('${item.id}','${type}')">
-        <div class="card-top">
-          <span class="badge badge-${item.category}">${cat.short}</span>
-          <span class="sev-badge sev-${item.severity?.toLowerCase() || 'medium'}">${item.severity || 'Medium'}</span>
-          ${item.cve ? `<span class="cve-tag">${App.escapeHtml(item.cve)}</span>` : ''}
-          <span class="date-tag">${App.formatDate(item.date)}</span>
-          <span style="margin-left:auto;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:${type === 'approved' ? 'var(--success)' : 'var(--danger)'}">${type === 'approved' ? '✓ Published' : '✕ Rejected'}</span>
-        </div>
-        <h3 style="margin:2px 0 6px;font-size:15px;color:var(--heading);font-weight:650">${App.escapeHtml(item.title)}</h3>
-        <p class="card-summary">${App.escapeHtml(item.summary)}</p>
-        <div class="card-footer">
-          ${(item.tags || []).map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
-          <span class="source-link"><a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
-        </div>
-      </div>`;
-    }).join('');
-  },
-
-  closeAudit() {
-    this.auditFilter = null;
-    const panel = document.getElementById('adminAuditPanel');
-    if (panel) panel.style.display = 'none';
-  },
-
-  /* ═══════════════════════════════════════════════════════════════════
-     PENDING QUEUE — only shows pending items
-     ═══════════════════════════════════════════════════════════════════ */
-  renderPendingQueue() {
-    const container = document.getElementById('pendingQueue');
+  renderFeedList() {
+    const container = document.getElementById('adminFeedList');
     if (!container) return;
 
-    // Only show pending items (not approved/rejected)
-    const pendingOnly = TIP_DATA.pendingItems.filter(i => i.status === 'pending');
-
-    if (!pendingOnly.length) {
+    const items = TIP_DATA.feedItems;
+    if (!items.length) {
       container.innerHTML = `<div class="empty-state">
         <div class="empty-icon">📭</div>
-        No pending items. Claude will fetch new advisories on the next cycle.
+        No advisories yet. Claude will fetch new ones on the next cycle, or add one manually.
       </div>`;
       return;
     }
 
-    container.innerHTML = pendingOnly.map(item => {
+    container.innerHTML = items.map(item => {
       const cat = TIP_DATA.categories[item.category] || { short: item.category.toUpperCase(), color: 'kev' };
 
-      return `<div class="pending-card" data-id="${item.id}" style="cursor:pointer" onclick="AdminView.showDetail('${item.id}','pending')">
+      return `<div class="pending-card" data-id="${item.id}" style="cursor:pointer" onclick="AdminView.showDetail('${item.id}')">
         <div class="card-top">
           <span class="badge badge-${item.category}">${cat.short}</span>
           <span class="sev-badge sev-${item.severity.toLowerCase()}">${item.severity}</span>
@@ -146,17 +153,9 @@ const AdminView = {
           <span class="source-link"><a href="${App.escapeHtml(App.safeUrl(item.url))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} →</a></span>
         </div>
         <div class="pending-actions" onclick="event.stopPropagation()">
-          <button class="btn btn-success btn-sm" onclick="AdminView.approve('${item.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
-            Approve
-          </button>
-          <button class="btn btn-danger btn-sm" onclick="AdminView.reject('${item.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            Reject
-          </button>
-          <button class="btn btn-ghost btn-sm" onclick="AdminView.editItem('${item.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Edit
+          <button class="btn btn-danger btn-sm" onclick="AdminView.deleteItem('${item.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/></svg>
+            Delete
           </button>
         </div>
       </div>`;
@@ -166,25 +165,16 @@ const AdminView = {
   /* ═══════════════════════════════════════════════════════════════════
      DETAIL VIEW — advisory detail from admin panel
      ═══════════════════════════════════════════════════════════════════ */
-  showDetail(id, source) {
-    let item;
-    if (source === 'approved') {
-      item = TIP_DATA.feedItems.find(i => i.id === id);
-    } else {
-      item = TIP_DATA.pendingItems.find(i => i.id === id);
-    }
+  showDetail(id) {
+    const item = TIP_DATA.feedItems.find(i => i.id === id);
     if (!item) return;
 
-    this.showPendingUI(false);
-    const auditPanel = document.getElementById('adminAuditPanel');
-    if (auditPanel) auditPanel.style.display = 'none';
-
+    this.showListUI(false);
     const container = document.getElementById('adminDetailView');
     if (!container) return;
     container.style.display = '';
 
     const cat = TIP_DATA.categories[item.category] || { short: item.category?.toUpperCase() || 'N/A' };
-    const isPending = item.status === 'pending';
 
     container.innerHTML = `
       <div class="detail-article">
@@ -200,7 +190,6 @@ const AdminView = {
               <span class="sev-badge sev-${(item.severity || 'medium').toLowerCase()}" style="font-size:11px;padding:4px 10px">${item.severity || 'Medium'}</span>
               ${item.cve ? `<span class="cve-tag" style="font-size:12px;padding:3px 10px">${App.escapeHtml(item.cve)}</span>` : ''}
               ${item.cvss ? `<span class="cvss-tag" style="font-size:12px">CVSS ${item.cvss.toFixed(1)}</span>` : ''}
-              <span style="margin-left:auto;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;padding:4px 10px;border-radius:6px;background:${source === 'approved' ? 'var(--success-bg)' : source === 'rejected' ? 'var(--danger-bg)' : 'var(--accent-bg)'};color:${source === 'approved' ? 'var(--success)' : source === 'rejected' ? 'var(--danger)' : 'var(--accent)'}">${source === 'approved' ? '✓ Published' : source === 'rejected' ? '✕ Rejected' : '⏳ Pending'}</span>
             </div>
 
             <h1 class="article-title">${App.escapeHtml(item.title)}</h1>
@@ -235,28 +224,16 @@ const AdminView = {
           </div>
           ` : ''}
 
-          ${isPending ? `
           <hr class="article-divider">
           <div class="article-section">
             <h2 class="article-h2">
               <span class="section-num">⚡</span> Admin Actions
             </h2>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn btn-success" onclick="AdminView.approve('${item.id}');AdminView.closeDetail()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
-                Approve & Publish
-              </button>
-              <button class="btn btn-danger" onclick="AdminView.reject('${item.id}');AdminView.closeDetail()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                Reject
-              </button>
-              <button class="btn btn-ghost" onclick="AdminView.editItem('${item.id}')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                Edit
-              </button>
-            </div>
+            <button class="btn btn-danger" onclick="AdminView.deleteItem('${item.id}');AdminView.closeDetail()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/></svg>
+              Delete Advisory
+            </button>
           </div>
-          ` : ''}
 
           <!-- Source Box -->
           <div class="article-section" style="margin-top:28px">
@@ -274,84 +251,23 @@ const AdminView = {
   },
 
   closeDetail() {
-    this.showPendingUI(true);
+    this.showListUI(true);
     const detail = document.getElementById('adminDetailView');
     if (detail) detail.style.display = 'none';
     this.render();
   },
 
   /* ═══════════════════════════════════════════════════════════════════
-     ACTIONS
+     ACTIONS — add or delete only
      ═══════════════════════════════════════════════════════════════════ */
-  approve(id) {
-    if (DataManager.approveItem(id)) {
-      App.toast('Advisory approved and published', 'success');
+  deleteItem(id) {
+    if (!confirm('Delete this advisory? This cannot be undone.')) return;
+    if (DataManager.deleteFeedItem(id)) {
+      App.toast('Advisory deleted', 'warning');
       this.render();
-      App.updatePendingBadge();
       App.renderSidebarCategories();
+      App.updateSidebarMeta();
     }
-  },
-
-  reject(id) {
-    if (DataManager.rejectItem(id)) {
-      App.toast('Advisory rejected', 'warning');
-      this.render();
-      App.updatePendingBadge();
-    }
-  },
-
-  approveAll() {
-    const pending = DataManager.getPendingItems();
-    let count = 0;
-    pending.forEach(item => {
-      if (DataManager.approveItem(item.id)) count++;
-    });
-    App.toast(`${count} advisories approved and published`, 'success');
-    this.render();
-    App.updatePendingBadge();
-    App.renderSidebarCategories();
-  },
-
-  editItem(id) {
-    const item = TIP_DATA.pendingItems.find(i => i.id === id);
-    if (!item) return;
-
-    // Populate edit modal
-    document.getElementById('editItemId').value = item.id;
-    document.getElementById('editTitle').value = item.title;
-    document.getElementById('editCategory').value = item.category;
-    document.getElementById('editSeverity').value = item.severity;
-    document.getElementById('editCve').value = item.cve || '';
-    document.getElementById('editCvss').value = item.cvss || '';
-    document.getElementById('editSummary').value = item.summary;
-    document.getElementById('editSource').value = item.source;
-    document.getElementById('editUrl').value = item.url;
-    document.getElementById('editActor').value = item.actor || '';
-    document.getElementById('editTags').value = item.tags.join(', ');
-
-    App.openModal('editItemModal');
-  },
-
-  saveEdit() {
-    const id = document.getElementById('editItemId').value;
-    const idx = TIP_DATA.pendingItems.findIndex(i => i.id === id);
-    if (idx === -1) return;
-
-    TIP_DATA.pendingItems[idx].title = document.getElementById('editTitle').value;
-    TIP_DATA.pendingItems[idx].category = document.getElementById('editCategory').value;
-    TIP_DATA.pendingItems[idx].severity = document.getElementById('editSeverity').value;
-    TIP_DATA.pendingItems[idx].cve = document.getElementById('editCve').value || null;
-    TIP_DATA.pendingItems[idx].cvss = parseFloat(document.getElementById('editCvss').value) || null;
-    TIP_DATA.pendingItems[idx].summary = document.getElementById('editSummary').value;
-    TIP_DATA.pendingItems[idx].source = document.getElementById('editSource').value;
-    TIP_DATA.pendingItems[idx].url = document.getElementById('editUrl').value;
-    TIP_DATA.pendingItems[idx].actor = document.getElementById('editActor').value || null;
-    TIP_DATA.pendingItems[idx].tags = document.getElementById('editTags').value.split(',').map(t => t.trim()).filter(Boolean);
-
-    DataManager.save();
-    App.closeModal('editItemModal');
-    App.toast('Advisory updated', 'success');
-    this.render();
   },
 
   openManualEntry() {
@@ -398,5 +314,6 @@ const AdminView = {
     App.toast('Advisory published successfully', 'success');
     App.renderSidebarCategories();
     App.updateSidebarMeta();
+    this.render();
   }
 };

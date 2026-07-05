@@ -5,15 +5,26 @@
 
 const App = {
   currentView: 'feed',
-  views: ['feed', 'admin', 'adversaries', 'huntlab', 'darkweb'],
+  views: ['feed', 'admin', 'adversaries', 'huntlab', 'darkweb', 'snowbit', 'connectors', 'tweetfeed'],
 
   /* ── Admin Auth ── */
   ADMIN_USER: 'admin',
   // SHA-256 hash of the admin password — change this before any real use.
   // Generate a new one: node -e "console.log(require('crypto').createHash('sha256').update('yourpassword').digest('hex'))"
   ADMIN_HASH: '53f5c7c3aa01671b06d72f7c15526202755e02f06eb93a6a5783f05726e1d3cc',
+  ADMIN_HASH_STORAGE_KEY: 'tip-admin-hash-override',
   SESSION_TIMEOUT: 5 * 60 * 1000, // 5 minutes in ms
   _sessionTimer: null,
+
+  // Password changed via the admin Settings tab is stored locally and takes
+  // precedence over the hardcoded default above.
+  getAdminHash() {
+    return localStorage.getItem(this.ADMIN_HASH_STORAGE_KEY) || this.ADMIN_HASH;
+  },
+
+  setAdminHash(hash) {
+    localStorage.setItem(this.ADMIN_HASH_STORAGE_KEY, hash);
+  },
 
   isAdminAuthenticated() {
     return sessionStorage.getItem('tip-admin-auth') === 'true';
@@ -58,7 +69,7 @@ const App = {
 
     const hash = await this.hashPassword(password);
 
-    if (username === this.ADMIN_USER && hash === this.ADMIN_HASH) {
+    if (username === this.ADMIN_USER && hash === this.getAdminHash()) {
       sessionStorage.setItem('tip-admin-auth', 'true');
       this.closeModal('adminLoginModal');
       errorEl.style.display = 'none';
@@ -187,6 +198,15 @@ const App = {
       case 'darkweb':
         DarkWebView.render(parts.slice(1));
         break;
+      case 'snowbit':
+        SnowbitView.render(parts.slice(1));
+        break;
+      case 'connectors':
+        ConnectorsView.render(parts.slice(1));
+        break;
+      case 'tweetfeed':
+        TweetfeedView.render(parts.slice(1));
+        break;
     }
 
     // Update sidebar categories
@@ -242,7 +262,6 @@ const App = {
   renderSidebar() {
     this.renderSidebarCategories();
     this.updateSidebarMeta();
-    this.updatePendingBadge();
   },
 
   renderSidebarCategories() {
@@ -294,14 +313,6 @@ const App = {
     if (builtEl) builtEl.textContent = dateStr;
     const totalEl = document.getElementById('sidebarTotal');
     if (totalEl) totalEl.textContent = meta.totalPublished;
-  },
-
-  updatePendingBadge() {
-    const badge = document.getElementById('pendingBadge');
-    if (!badge) return;
-    const count = DataManager.getPendingItems().length;
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'inline' : 'none';
   },
 
   /* ── Modals ── */
@@ -367,6 +378,19 @@ const App = {
   safeUrl(url) {
     if (typeof url !== 'string' || !/^https?:\/\//i.test(url.trim())) return '#';
     return url.trim();
+  },
+
+  // True if `item` came from the most recent auto-fetch run for its section
+  // — i.e. its fetchedAt matches the newest fetchedAt among `items` (every
+  // record from one fetch-intel.mjs run shares the identical stamp, see
+  // runContentType() in lib/intel/contentTypes.mjs). Items without a
+  // fetchedAt (seed data, manual/admin-added entries) are never "new".
+  // Naturally clears once a later fetch run supersedes it — no extra
+  // per-browser "seen" state to track.
+  isFreshFetch(item, items) {
+    if (!item || typeof item.fetchedAt !== 'string') return false;
+    const latest = items.reduce((max, i) => (typeof i.fetchedAt === 'string' && i.fetchedAt > max ? i.fetchedAt : max), '');
+    return !!latest && item.fetchedAt === latest;
   },
 
   timeAgo(dateStr) {
