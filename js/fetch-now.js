@@ -27,6 +27,7 @@ const FetchNow = {
   },
 
   saveToken() {
+    if (this._polling) return;
     const input = document.getElementById('fetchTokenInput');
     const errorEl = document.getElementById('fetchTokenError');
     const token = input.value.trim();
@@ -107,5 +108,7 @@ const FetchNow = {
   _setButtonEnabled(enabled) {
     const btn = document.getElementById('fetchNowBtn');
     if (btn) btn.disabled = !enabled;
+    const tokenBtn = document.getElementById('fetchNowTokenBtn');
+    if (tokenBtn) tokenBtn.disabled = !enabled;
   }
 };
