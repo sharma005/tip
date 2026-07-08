@@ -6,6 +6,27 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-20045",
+    "title": "Cisco Unified Communications Manager zero-day RCE (CVE-2026-20045) exploited for root access",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": "CVE-2026-20045",
+    "cvss": 8.2,
+    "date": "2026-07-08",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/cisco-fixes-unified-communications-rce-zero-day-exploited-in-attacks/",
+    "summary": "Cisco disclosed CVE-2026-20045, a remote code execution flaw in Cisco Unified Communications Manager (Unified CM/CUCM) and related voice products that is being actively exploited in the wild. Attackers send crafted HTTP requests to the web-based management interface to gain user-level access and then escalate to root. Cisco PSIRT confirmed exploitation attempts and urges immediate, version-specific patching; the flaw also affects Unified CM SME, IM & Presence, Unity Connection, and Webex Calling Dedicated Instance.",
+    "tags": [
+      "cisco",
+      "unified-cm",
+      "rce",
+      "zero-day",
+      "root"
+    ],
+    "fetchedAt": "2026-07-08T23:38:49.000Z"
+  },
+  {
     "title": "Adobe ColdFusion path traversal (CVE-2026-48282) added to CISA KEV amid active exploitation",
     "category": "kev",
     "severity": "Critical",
