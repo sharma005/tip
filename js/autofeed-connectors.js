@@ -7,6 +7,38 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-cisco-unified-cm-zero-day-rce-cve-2026-20045",
+    "connector": "otx",
+    "title": "Cisco Unified CM zero-day RCE (CVE-2026-20045) active exploitation",
+    "date": "2026-07-08",
+    "severity": "Critical",
+    "summary": "Community trackers are circulating detection guidance for CVE-2026-20045, an actively exploited RCE in Cisco Unified Communications Manager that yields root on internet-facing voice servers via crafted HTTP requests to the web management interface. Pulses focus on management-interface exploitation attempts and post-exploitation root escalation; no consolidated public IOC set has been confirmed yet.",
+    "tags": [
+      "cisco",
+      "unified-cm",
+      "rce",
+      "cve-2026-20045"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-08T23:38:49.000Z"
+  },
+  {
+    "id": "auto-conn-misp-teampcp-vect-supply-chain-ransomware",
+    "connector": "misp",
+    "title": "TeamPCP supply-chain credential theft feeding Vect ransomware",
+    "date": "2026-07-02",
+    "severity": "High",
+    "summary": "MISP communities are sharing context on the TeamPCP/Vect campaign detailed by Sophos: TeamPCP poisoned widely used open-source packages (e.g. Trivy, LiteLLM) to steal CI/CD credentials, which the Vect RaaS then uses to deploy ransomware. Tracking focuses on poisoned package versions and stolen-credential reuse; specific hash/IP indicators vary by wave and are not consolidated here.",
+    "tags": [
+      "supply-chain",
+      "teampcp",
+      "vect",
+      "ransomware"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-08T23:38:49.000Z"
+  },
+  {
     "connector": "otx",
     "title": "Ivanti EPMM mass-exploitation infrastructure (CVE-2026-1281 / CVE-2026-1340)",
     "date": "2026-07-09",
