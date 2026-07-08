@@ -33,7 +33,159 @@ const TIP_DATA = {
   connectorIntel: [],
 
   /* ── Snowbit Advisories ── */
-  snowbitAdvisories: [],
+  snowbitAdvisories: [
+    {
+      "id": "snowbit-lshiy-password-spray",
+      "title": "LSHIY Password Spray: Azure CLI ROPC Attack Bypasses MFA",
+      "severity": "Critical",
+      "date": "2026-07-03",
+      "source": "Snowbit by Coralogix",
+      "actor": "LSHIY LLC (AS32167 / AS955)",
+      "summary": "A threat actor using LSHIY LLC infrastructure (AS32167 / AS955) has launched 81M+ password-spray login attempts against Microsoft 365 tenants since 12 June 2026, abusing the deprecated OAuth 2.0 ROPC flow via the Azure CLI client to bypass MFA where Conditional Access is not scoped to all client app types. Snowbit hunted across SRC customers and blocked all observed attacks.",
+      "tags": [
+        "password-spray",
+        "ropc",
+        "azure",
+        "m365",
+        "mfa-bypass",
+        "entra-id"
+      ],
+      "pdfUrl": "assets/advisories/lshiy-password-spray-advisory.pdf",
+      "execSummary": [
+        "Snowbit's SRC team is tracking an active, large-scale password-spray campaign in which a threat actor operating from infrastructure controlled by LSHIY LLC (AS32167 / AS955) has executed over 81 million login attempts against Microsoft 365 tenants since 12 June 2026, compromising accounts across multiple organizations.",
+        "The campaign abuses the deprecated OAuth 2.0 Resource Owner Password Credentials (ROPC) flow via the Azure CLI public client, which bypasses multi-factor authentication entirely when Conditional Access Policies are not explicitly scoped to cover it. Critically, MFA-enabled tenants are not automatically protected: several compromised organizations had MFA in place but had not configured policies to block this vector.",
+        "Snowbit performed proactive threat hunts across SRC customers. All observed attacks against monitored customers were detected and blocked, and per-customer reports were issued to the affected accounts."
+      ],
+      "howItWorks": [
+        {
+          "phase": "Reconnaissance",
+          "title": "Credential sourcing",
+          "description": "The actor seeds the campaign with usernames and passwords harvested from prior breach datasets, targeting Microsoft 365 / Entra ID tenants at scale."
+        },
+        {
+          "phase": "Initial Access",
+          "title": "ROPC authentication via Azure CLI",
+          "description": "Authentication requests are issued through the deprecated OAuth 2.0 Resource Owner Password Credentials (ROPC) grant using the Azure CLI public client, submitting username and password directly to the token endpoint."
+        },
+        {
+          "phase": "Defense Evasion",
+          "title": "MFA bypass",
+          "description": "ROPC is a non-interactive flow and never triggers an MFA prompt. Where Conditional Access is not scoped to All Client App Types, the token is issued without a second factor, bypassing MFA entirely."
+        },
+        {
+          "phase": "Impact",
+          "title": "Account compromise at scale",
+          "description": "More than 81 million login attempts were distributed across tenants from the LSHIY LLC ASNs (AS32167 / AS955); successful authentications yield valid access tokens for downstream account takeover."
+        }
+      ],
+      "mfaGaps": [
+        "Conditional Access Policies not scoped to All Client App Types, leaving the ROPC / non-interactive path uncovered.",
+        "MFA enforced only for interactive browser sign-ins and not for non-interactive flows such as ROPC.",
+        "`userStrongAuthClientAuthNRequired` not enabled, allowing ROPC token issuance.",
+        "Policy exclusions (trusted locations, specific apps or users) that inadvertently create an MFA-free authentication path."
+      ],
+      "timeline": [
+        {
+          "date": "2026-06-12",
+          "event": "Campaign activity begins; first ROPC login attempts observed from LSHIY LLC infrastructure."
+        },
+        {
+          "date": "2026-06-12 to 2026-07-03",
+          "event": "Over 81 million login attempts accumulate against Microsoft 365 tenants worldwide."
+        },
+        {
+          "date": "2026-07-03",
+          "event": "Snowbit issues the advisory and runs proactive threat hunts across SRC customers."
+        },
+        {
+          "date": "2026-07-03",
+          "event": "Per-customer reports delivered to 360Learning, Cognism, HealthHero and PayU; all attacks confirmed blocked."
+        },
+        {
+          "date": "2026-07-03",
+          "event": "Additional environments swept on request (Neogames, Delhivery, Modulr); Couchbase showed no Azure AD logs for the attacker ASNs."
+        }
+      ],
+      "affectedComponents": [
+        {
+          "component": "Conditional Access",
+          "vulnerable": "MFA not enforced for All Client App Types; ROPC path uncovered",
+          "protectedConfig": "MFA required for All Users, All Cloud Apps and All Client App Types, with no exclusions"
+        },
+        {
+          "component": "Legacy auth / ROPC",
+          "vulnerable": "ROPC grant permitted for the Azure CLI public client",
+          "protectedConfig": "userStrongAuthClientAuthNRequired enabled to block ROPC at the token level"
+        },
+        {
+          "component": "Account passwords",
+          "vulnerable": "Reused or breached passwords accepted",
+          "protectedConfig": "Forced reset for accounts in breach datasets; strong, unique passwords enforced"
+        }
+      ],
+      "iocs": [
+        {
+          "type": "ASN",
+          "value": "AS32167",
+          "context": "LSHIY LLC attacker infrastructure"
+        },
+        {
+          "type": "ASN",
+          "value": "AS955",
+          "context": "LSHIY LLC attacker infrastructure"
+        },
+        {
+          "type": "Actor",
+          "value": "LSHIY LLC",
+          "context": "Entity controlling the source infrastructure"
+        },
+        {
+          "type": "Auth Flow",
+          "value": "OAuth 2.0 ROPC grant",
+          "context": "Non-interactive password grant used to bypass MFA"
+        },
+        {
+          "type": "Client App",
+          "value": "Azure CLI — 04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+          "context": "Public client used to submit ROPC authentication"
+        },
+        {
+          "type": "Behavior",
+          "value": ">81M M365 login attempts since 2026-06-12",
+          "context": "Password-spray volume distributed across tenants"
+        }
+      ],
+      "dataprimeQueries": [
+        {
+          "name": "ROPC sign-ins from attacker ASNs",
+          "description": "Surface non-interactive Azure AD sign-ins originating from the LSHIY LLC ASNs.",
+          "query": "source logs\n| filter $d.category == \"SignInLogs\"\n| filter $d.properties.authenticationProtocol == \"ropc\"\n| filter $d.properties.autonomousSystemNumber in [32167, 955]\n| groupby $d.properties.userPrincipalName, $d.properties.ipAddress\n| count() as attempts\n| sort -attempts"
+        },
+        {
+          "name": "Azure CLI ROPC token issuance",
+          "description": "Detect successful ROPC authentications via the Azure CLI public client.",
+          "query": "source logs\n| filter $d.category == \"SignInLogs\"\n| filter $d.properties.appId == \"04b07795-8ddb-461a-bbee-02f9e1bf7b46\"\n| filter $d.properties.authenticationProtocol == \"ropc\"\n| filter $d.properties.status.errorCode == 0\n| groupby $d.properties.userPrincipalName\n| count() as successful_logins\n| sort -successful_logins"
+        },
+        {
+          "name": "Password-spray pattern by source IP",
+          "description": "Find single source IPs attempting many distinct accounts (spray signature).",
+          "query": "source logs\n| filter $d.category == \"SignInLogs\"\n| filter $d.properties.status.errorCode in [50126, 50053, 50055]\n| groupby $d.properties.ipAddress\n| distinct_count($d.properties.userPrincipalName) as targeted_users\n| filter targeted_users > 10\n| sort -targeted_users"
+        }
+      ],
+      "remediation": [
+        "Audit Conditional Access Policies: enforce MFA for All Users, All Cloud Apps and All Client App Types with no exclusions.",
+        "Enable `userStrongAuthClientAuthNRequired` to block ROPC flows at the token level.",
+        "Block or disable legacy / non-interactive authentication (ROPC) tenant-wide where it is not explicitly required.",
+        "Force password resets for any accounts appearing in breach datasets, prioritizing accounts targeted from AS32167 / AS955.",
+        "Hunt historical Azure AD SignInLogs for ROPC authentications from the attacker ASNs and review any successful (errorCode 0) sign-ins.",
+        "Monitor for the Azure CLI client app id issuing ROPC tokens where interactive Azure CLI use is not expected."
+      ],
+      "snowbitResponse": [
+        "Snowbit's SRC team proactively hunted for this activity across managed customer environments rather than waiting on ticket queues. All attacks observed against monitored customers were detected and blocked, and individual per-customer reports were delivered to 360Learning, Cognism, HealthHero, PayU, Neogames, Delhivery and Modulr.",
+        "For Couchbase, no Azure AD logs were observed for the attacker ASNs, indicating no exposure via this vector. Managed customers received tailored remediation guidance, with tickets raised where findings warranted action."
+      ]
+    }
+  ],
 
   /* ── Tweetfeed (tracked Twitter/X accounts) ── */
   twitterAccounts: [],
