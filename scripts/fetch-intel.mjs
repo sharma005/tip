@@ -28,11 +28,14 @@ if (!apiKey) {
   process.exit(1);
 }
 
-// Short timeout + a single retry so a sustained 529 (overload) on one
+// Bounded timeout + a single retry so a sustained 529 (overload) on one
 // content type fails fast instead of the SDK's default ~10min timeout and
-// Retry-After-driven backoff eating the whole run's budget.
-const client = new Anthropic({ apiKey, timeout: 30_000, maxRetries: 1 });
-const PER_TYPE_DEADLINE_MS = 45_000;
+// Retry-After-driven backoff eating the whole run's budget. A single call
+// with the web_search tool (up to 8 uses) routinely takes 45-90s to
+// complete normally, so these need enough headroom to not cut off healthy
+// in-progress calls — this isn't just a hang-detection tripwire.
+const client = new Anthropic({ apiKey, timeout: 90_000, maxRetries: 1 });
+const PER_TYPE_DEADLINE_MS = 120_000;
 // Content types are independent, so run them in concurrent batches rather
 // than one at a time — bounds worst-case wall time to
 // ceil(CONTENT_TYPES.length / BATCH_SIZE) * PER_TYPE_DEADLINE_MS instead of
