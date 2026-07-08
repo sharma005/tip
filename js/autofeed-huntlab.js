@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-cisco-unified-cm-management-interface-rce-cve-2026-20045",
+    "title": "Hunt for Cisco Unified CM management-interface RCE and root escalation (CVE-2026-20045)",
+    "description": "Following active in-the-wild exploitation of CVE-2026-20045, hunt internet-facing Cisco Unified Communications Manager hosts for anomalous shells or utilities spawned by the web/management service stack and for privilege escalation to root, which signals successful RCE via crafted HTTP requests to the management interface.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "EDR Logs",
+      "Web Proxy Logs",
+      "Linux Auditd"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-20045",
+    "queries": [
+      {
+        "name": "Unexpected child processes under CUCM web/management services",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"tomcat\", \"java\", \"ccm\", \"httpd\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"python\", \"id\", \"whoami\", \"curl\", \"wget\"]\n| filter $d.user == \"root\"\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-08T23:38:49.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-byovd-vulnerable-driver-load-to-disable-edr",
+    "title": "Hunt for BYOVD vulnerable-driver loads used to disable EDR before ransomware",
+    "description": "Recent ransomware campaigns (July 2026 reporting on Citrix Bleed 2, BYOVD and supply-chain credential abuse) increasingly load a signed-but-vulnerable kernel driver to terminate security tooling before encryption. Hunt for new kernel driver or service loads from unusual writable paths, which often precede AV/EDR process termination.",
+    "mitreTactic": "Defense Evasion",
+    "mitreTechnique": "T1562.001 - Impair Defenses: Disable or Modify Tools",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Process Logs",
+      "Windows Service Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Signed driver loaded from a writable/temp path",
+        "query": "source logs\n| filter $d.event_type == \"driver_load\"\n| filter $d.driver_signed == true\n| filter $d.image_path contains \"Temp\" || $d.image_path contains \"ProgramData\"\n| groupby $d.hostname, $d.driver_name, $d.image_path\n| count() as load_count\n| filter load_count > 0\n| sort -load_count"
+      }
+    ],
+    "fetchedAt": "2026-07-08T23:38:49.000Z"
+  },
+  {
     "title": "Hunt for SharePoint w3wp.exe spawning shells after CVE-2026-45659 exploitation",
     "description": "Following active exploitation of the SharePoint deserialization RCE CVE-2026-45659, hunt on-prem SharePoint hosts for the IIS worker process (w3wp.exe) spawning command interpreters or compiler processes — a common signal of post-deserialization code execution and web-shell drop.",
     "mitreTactic": "Initial Access",
