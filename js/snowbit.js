@@ -47,7 +47,7 @@ const SnowbitView = {
         ${item.actor ? `<span class="actor-tag">▲ ${App.escapeHtml(item.actor)}</span>` : ''}
         ${item.tags.map(t => `<span class="hash-tag">#${App.escapeHtml(t)}</span>`).join('')}
         ${item.pdfUrl
-          ? `<span class="source-link"><a href="${App.escapeHtml(item.pdfUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} · PDF →</a></span>`
+          ? `<span class="source-link"><a href="${App.escapeHtml(App.safeResourceUrl(item.pdfUrl))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${App.escapeHtml(item.source)} · PDF →</a></span>`
           : `<span class="source-link">${App.escapeHtml(item.source)}</span>`}
       </div>
     </article>`;
@@ -87,7 +87,7 @@ const SnowbitView = {
               <span class="meta-item"><span class="meta-label">Published:</span> ${App.formatDate(item.date)}</span>
               <span class="meta-item"><span class="meta-label">Source:</span> <span style="color:var(--accent)">${App.escapeHtml(item.source)}</span></span>
               ${item.actor ? `<span class="meta-item"><span class="meta-label">Threat Infrastructure:</span> <span style="color:var(--cat-kev);font-weight:600">${App.escapeHtml(item.actor)}</span></span>` : ''}
-              ${item.pdfUrl ? `<span class="meta-item"><a href="${App.escapeHtml(item.pdfUrl)}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">⬇ Download Full Advisory (PDF)</a></span>` : ''}
+              ${item.pdfUrl ? `<span class="meta-item"><a href="${App.escapeHtml(App.safeResourceUrl(item.pdfUrl))}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">⬇ Download Full Advisory (PDF)</a></span>` : ''}
             </div>
 
             <div class="article-tags">
@@ -223,10 +223,10 @@ const SnowbitView = {
           <div class="article-section">
             <h2 class="article-h2">
               <span class="section-num">10.</span> Original Advisory (PDF)
-              <a href="${App.escapeHtml(item.pdfUrl)}" target="_blank" rel="noopener" style="margin-left:auto;font-size:12px;font-weight:600;color:var(--accent)">Open in new tab ↗</a>
+              <a href="${App.escapeHtml(App.safeResourceUrl(item.pdfUrl))}" target="_blank" rel="noopener" style="margin-left:auto;font-size:12px;font-weight:600;color:var(--accent)">Open in new tab ↗</a>
             </h2>
             <div style="border:1px solid var(--border);border-radius:var(--radius-lg,8px);overflow:hidden;background:var(--surface-2)">
-              <iframe src="${App.escapeHtml(item.pdfUrl)}" title="${App.escapeHtml(item.title)} — PDF" style="width:100%;height:900px;border:0;display:block"></iframe>
+              <iframe src="${App.escapeHtml(App.safeResourceUrl(item.pdfUrl))}" title="${App.escapeHtml(item.title)} — PDF" style="width:100%;height:900px;border:0;display:block"></iframe>
             </div>
           </div>` : ''}
 
@@ -234,7 +234,7 @@ const SnowbitView = {
             <div class="article-source-box">
               <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px">Source</div>
               ${item.pdfUrl ? `
-              <a href="${App.escapeHtml(item.pdfUrl)}" target="_blank" rel="noopener" class="article-source-link">
+              <a href="${App.escapeHtml(App.safeResourceUrl(item.pdfUrl))}" target="_blank" rel="noopener" class="article-source-link">
                 <span>${App.escapeHtml(item.source)} — Threat Intelligence Advisory</span>
                 <span style="color:var(--accent)">Open Full PDF →</span>
               </a>` : `<span style="color:var(--accent);font-weight:600">${App.escapeHtml(item.source)} — Threat Intelligence Advisory</span>`}

@@ -53,7 +53,7 @@
     </div>
 
     <!-- Theme Toggle -->
-    <div class="theme-toggle" id="themeToggle">
+    <div class="theme-toggle">
       <button data-theme="light">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="4"/>
@@ -110,7 +110,6 @@
           <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
         Dark Web Intel
-        <span style="font-size:9px;font-weight:700;color:var(--warning);font-family:var(--font-mono);letter-spacing:0.3px;margin-left:auto">BETA*</span>
       </a>
       <a class="nav-link" data-view="snowbit" href="#snowbit">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -127,12 +126,6 @@
           <path d="M8.5 7.5l7 7M15.5 7.5l-7 7"/>
         </svg>
         Connectors
-      </a>
-      <a class="nav-link nav-sublink" data-view="tweetfeed" href="#tweetfeed">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.5-1.3 1.8-2.3-.8.5-1.6.8-2.5 1-.7-.8-1.7-1.2-2.8-1.2-2.1 0-3.8 1.7-3.8 3.8 0 .3 0 .6.1.9-3.2-.2-6-1.7-7.9-4-.3.6-.5 1.3-.5 2 0 1.3.7 2.5 1.7 3.2-.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.3 3.4 3.1 3.8-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.7-1.3 1-3 1.7-4.8 1.7-.3 0-.6 0-.9-.1 1.7 1.1 3.7 1.7 5.9 1.7 7.1 0 11-5.9 11-11v-.5c.8-.5 1.4-1.2 1.9-2z"/>
-        </svg>
-        Tweetfeed
       </a>
     </nav>
 
@@ -180,9 +173,9 @@
             <circle cx="11" cy="11" r="7"/>
             <path d="M21 21l-4.3-4.3"/>
           </svg>
-          <input type="search" id="feedSearch" placeholder="Search CVE, vendor, actor, keyword…">
+          <input type="search" id="feedSearch" placeholder="Search CVE, vendor, actor, keyword…" aria-label="Search CVE, vendor, actor, keyword">
         </div>
-        <select class="control-select" id="feedSort">
+        <select class="control-select" id="feedSort" aria-label="Sort feed">
           <option value="date">Newest first</option>
           <option value="cvss">Highest CVSS</option>
           <option value="sev">Severity</option>
@@ -238,15 +231,15 @@
 
         <div style="max-width:420px">
           <div class="form-group">
-            <label class="form-label">Current Password</label>
+            <label class="form-label" for="changePwCurrent">Current Password</label>
             <input type="password" class="form-input" id="changePwCurrent" placeholder="Enter current password" autocomplete="current-password">
           </div>
           <div class="form-group">
-            <label class="form-label">New Password</label>
+            <label class="form-label" for="changePwNew">New Password</label>
             <input type="password" class="form-input" id="changePwNew" placeholder="Enter new password" autocomplete="new-password">
           </div>
           <div class="form-group">
-            <label class="form-label">Confirm New Password</label>
+            <label class="form-label" for="changePwConfirm">Confirm New Password</label>
             <input type="password" class="form-input" id="changePwConfirm" placeholder="Re-enter new password" autocomplete="new-password" onkeydown="if(event.key==='Enter')AdminView.changePassword()">
           </div>
           <div id="changePwError" style="display:none;background:var(--danger-bg);color:var(--danger);padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;font-weight:500"></div>
@@ -273,9 +266,9 @@
             <circle cx="11" cy="11" r="7"/>
             <path d="M21 21l-4.3-4.3"/>
           </svg>
-          <input type="search" id="advSearch" placeholder="Search adversaries…">
+          <input type="search" id="advSearch" placeholder="Search adversaries…" aria-label="Search adversaries">
         </div>
-        <select class="control-select" id="advFilter">
+        <select class="control-select" id="advFilter" aria-label="Filter by adversary type">
           <option value="all">All Types</option>
           <option value="apt">APT</option>
           <option value="criminal">Criminal</option>
@@ -331,9 +324,9 @@
             <circle cx="11" cy="11" r="7"/>
             <path d="M21 21l-4.3-4.3"/>
           </svg>
-          <input type="search" id="dwSearch" placeholder="Search dark web intel…">
+          <input type="search" id="dwSearch" placeholder="Search dark web intel…" aria-label="Search dark web intel">
         </div>
-        <select class="control-select" id="dwFilter">
+        <select class="control-select" id="dwFilter" aria-label="Filter by intel type">
           <option value="all">All Types</option>
           <option value="leak">Data Leaks</option>
           <option value="credential">Credentials</option>
@@ -341,7 +334,7 @@
           <option value="ransomware">Ransomware</option>
           <option value="chatter">Actor Chatter</option>
         </select>
-        <select class="control-select" id="dwSort">
+        <select class="control-select" id="dwSort" aria-label="Sort dark web intel">
           <option value="date">Newest</option>
           <option value="relevance">Relevance</option>
           <option value="flagged">Flagged first</option>
@@ -392,18 +385,18 @@
   <div class="modal">
     <div class="modal-header">
       <h2>Add Manual Advisory</h2>
-      <button class="modal-close" onclick="App.closeModal('manualEntryModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('manualEntryModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">Title *</label>
+        <label class="form-label" for="manualTitle">Title *</label>
         <input type="text" class="form-input" id="manualTitle" placeholder="Advisory title">
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Category</label>
+          <label class="form-label" for="manualCategory">Category</label>
           <select class="form-select" id="manualCategory">
             <option value="kev">Actively Exploited (KEV)</option>
             <option value="zeroday">Zero-Day</option>
@@ -414,7 +407,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Severity</label>
+          <label class="form-label" for="manualSeverity">Severity</label>
           <select class="form-select" id="manualSeverity">
             <option value="Critical">Critical</option>
             <option value="High" selected>High</option>
@@ -425,38 +418,38 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">CVE</label>
+          <label class="form-label" for="manualCve">CVE</label>
           <input type="text" class="form-input" id="manualCve" placeholder="CVE-2026-XXXXX">
         </div>
         <div class="form-group">
-          <label class="form-label">CVSS Score</label>
+          <label class="form-label" for="manualCvss">CVSS Score</label>
           <input type="number" class="form-input" id="manualCvss" min="0" max="10" step="0.1" placeholder="9.8">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Date</label>
+        <label class="form-label" for="manualDate">Date</label>
         <input type="date" class="form-input" id="manualDate">
       </div>
       <div class="form-group">
-        <label class="form-label">Summary *</label>
+        <label class="form-label" for="manualSummary">Summary *</label>
         <textarea class="form-textarea" id="manualSummary" rows="4" placeholder="Brief advisory description…"></textarea>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Source</label>
+          <label class="form-label" for="manualSource">Source</label>
           <input type="text" class="form-input" id="manualSource" placeholder="CISA, Rapid7, etc.">
         </div>
         <div class="form-group">
-          <label class="form-label">Threat Actor</label>
+          <label class="form-label" for="manualActor">Threat Actor</label>
           <input type="text" class="form-input" id="manualActor" placeholder="Optional">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Source URL</label>
+        <label class="form-label" for="manualUrl">Source URL</label>
         <input type="url" class="form-input" id="manualUrl" placeholder="https://...">
       </div>
       <div class="form-group">
-        <label class="form-label">Tags (comma-separated)</label>
+        <label class="form-label" for="manualTags">Tags (comma-separated)</label>
         <input type="text" class="form-input" id="manualTags" placeholder="windows, rce, kev">
       </div>
     </div>
@@ -472,22 +465,22 @@
   <div class="modal">
     <div class="modal-header">
       <h2>Ingest Adversary Profile</h2>
-      <button class="modal-close" onclick="App.closeModal('ingestAdversaryModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('ingestAdversaryModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">Name *</label>
+        <label class="form-label" for="advName">Name *</label>
         <input type="text" class="form-input" id="advName" placeholder="e.g., APT29, Lazarus Group">
       </div>
       <div class="form-group">
-        <label class="form-label">Aliases (comma-separated)</label>
+        <label class="form-label" for="advAliases">Aliases (comma-separated)</label>
         <input type="text" class="form-input" id="advAliases" placeholder="e.g., Cozy Bear, UNC2452">
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Type</label>
+          <label class="form-label" for="advType">Type</label>
           <select class="form-select" id="advType">
             <option value="apt">APT (State-Sponsored)</option>
             <option value="criminal" selected>Criminal</option>
@@ -495,12 +488,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Origin Country</label>
+          <label class="form-label" for="advOrigin">Origin Country</label>
           <input type="text" class="form-input" id="advOrigin" placeholder="e.g., Russia, China">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Motivation</label>
+        <label class="form-label" for="advMotivation">Motivation</label>
         <select class="form-select" id="advMotivation">
           <option value="Financial">Financial</option>
           <option value="Espionage">Espionage</option>
@@ -511,23 +504,23 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">Target Sectors (comma-separated)</label>
+        <label class="form-label" for="advSectors">Target Sectors (comma-separated)</label>
         <input type="text" class="form-input" id="advSectors" placeholder="e.g., Healthcare, Finance, Government">
       </div>
       <div class="form-group">
-        <label class="form-label">MITRE ATT&CK TTPs (comma-separated)</label>
+        <label class="form-label" for="advTtps">MITRE ATT&CK TTPs (comma-separated)</label>
         <input type="text" class="form-input" id="advTtps" placeholder="e.g., T1190, T1133, T1078">
       </div>
       <div class="form-group">
-        <label class="form-label">Known Campaigns (one per line)</label>
+        <label class="form-label" for="advCampaigns">Known Campaigns (one per line)</label>
         <textarea class="form-textarea" id="advCampaigns" rows="3" placeholder="Campaign Name (Date)"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label">IOCs (one per line)</label>
+        <label class="form-label" for="advIocs">IOCs (one per line)</label>
         <textarea class="form-textarea" id="advIocs" rows="3" placeholder="IPs, domains, hashes…"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label">Notes</label>
+        <label class="form-label" for="advNotes">Notes</label>
         <textarea class="form-textarea" id="advNotes" rows="3" placeholder="Analysis notes…"></textarea>
       </div>
     </div>
@@ -543,22 +536,22 @@
   <div class="modal">
     <div class="modal-header">
       <h2>Create Hypothesis</h2>
-      <button class="modal-close" onclick="App.closeModal('createHypothesisModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('createHypothesisModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">Title *</label>
+        <label class="form-label" for="hypoTitle">Title *</label>
         <input type="text" class="form-input" id="hypoTitle" placeholder="e.g., Detect lateral movement via PsExec">
       </div>
       <div class="form-group">
-        <label class="form-label">Description *</label>
+        <label class="form-label" for="hypoDescription">Description *</label>
         <textarea class="form-textarea" id="hypoDescription" rows="4" placeholder="Describe the threat hypothesis and what you're hunting for…"></textarea>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">MITRE Tactic</label>
+          <label class="form-label" for="hypoMitreTactic">MITRE Tactic</label>
           <select class="form-select" id="hypoMitreTactic">
             <option>Reconnaissance</option>
             <option>Resource Development</option>
@@ -577,13 +570,13 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">MITRE Technique</label>
+          <label class="form-label" for="hypoMitreTechnique">MITRE Technique</label>
           <input type="text" class="form-input" id="hypoMitreTechnique" placeholder="e.g., T1190">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Priority</label>
+          <label class="form-label" for="hypoPriority">Priority</label>
           <select class="form-select" id="hypoPriority">
             <option value="P1">P1 — Critical</option>
             <option value="P2" selected>P2 — High</option>
@@ -592,14 +585,14 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Linked Adversary</label>
+          <label class="form-label" for="hypoLinkedAdversary">Linked Adversary</label>
           <select class="form-select" id="hypoLinkedAdversary">
             <option value="">None</option>
           </select>
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Data Sources (comma-separated)</label>
+        <label class="form-label" for="hypoDataSources">Data Sources (comma-separated)</label>
         <input type="text" class="form-input" id="hypoDataSources" placeholder="e.g., EDR Logs, DNS Logs, Web Proxy Logs">
       </div>
     </div>
@@ -615,24 +608,24 @@
   <div class="modal">
     <div class="modal-header">
       <h2>DataPrime Query Builder</h2>
-      <button class="modal-close" onclick="App.closeModal('queryBuilderModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('queryBuilderModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="queryBuilderHypoId">
       <div class="form-group">
-        <label class="form-label">Start from Template</label>
+        <label class="form-label" for="queryTemplate">Start from Template</label>
         <select class="form-select" id="queryTemplate" onchange="HuntLabView.loadTemplate()">
           <option value="">Blank query</option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">Query Name *</label>
+        <label class="form-label" for="queryName">Query Name *</label>
         <input type="text" class="form-input" id="queryName" placeholder="e.g., Suspicious DNS Exfiltration">
       </div>
       <div class="form-group">
-        <label class="form-label">DataPrime Query *</label>
+        <label class="form-label" for="queryBody">DataPrime Query *</label>
         <textarea class="form-textarea" id="queryBody" rows="10" style="font-family:var(--font-mono);font-size:12.5px" placeholder="source logs&#10;| filter $d.event_type == &quot;...&quot;&#10;| groupby $d.source_ip&#10;| count() as hits&#10;| sort -hits"></textarea>
       </div>
     </div>
@@ -648,18 +641,18 @@
   <div class="modal">
     <div class="modal-header">
       <h2>Add Dark Web Intelligence</h2>
-      <button class="modal-close" onclick="App.closeModal('addDwIntelModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('addDwIntelModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">Title *</label>
+        <label class="form-label" for="dwTitle">Title *</label>
         <input type="text" class="form-input" id="dwTitle" placeholder="Intelligence title">
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Type</label>
+          <label class="form-label" for="dwType">Type</label>
           <select class="form-select" id="dwType">
             <option value="leak">Data Leak</option>
             <option value="credential">Credential Dump</option>
@@ -669,17 +662,17 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Source</label>
+          <label class="form-label" for="dwSource">Source</label>
           <input type="text" class="form-input" id="dwSource" placeholder="e.g., BreachForums, XSS Forum">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Content *</label>
+        <label class="form-label" for="dwSnippet">Content *</label>
         <textarea class="form-textarea" id="dwSnippet" rows="4" placeholder="Intelligence content/snippet…"></textarea>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Relevance Score (0-100)</label>
+          <label class="form-label" for="dwRelevance">Relevance Score (0-100)</label>
           <input type="number" class="form-input" id="dwRelevance" min="0" max="100" value="75">
         </div>
         <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:8px">
@@ -690,7 +683,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Tags (comma-separated)</label>
+        <label class="form-label" for="dwTags">Tags (comma-separated)</label>
         <input type="text" class="form-input" id="dwTags" placeholder="credentials, healthcare, apt">
       </div>
     </div>
@@ -706,7 +699,7 @@
   <div class="modal">
     <div class="modal-header">
       <h2>Manage Tweetfeed Accounts</h2>
-      <button class="modal-close" onclick="App.closeModal('tweetfeedAccountsModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('tweetfeedAccountsModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -725,7 +718,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="22" height="22"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Admin Authentication
       </h2>
-      <button class="modal-close" onclick="App.closeModal('adminLoginModal')">
+      <button class="modal-close" aria-label="Close" onclick="App.closeModal('adminLoginModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -733,11 +726,11 @@
       <p style="color:var(--text-secondary);font-size:13px;margin-bottom:18px">The Admin Panel requires authentication. Enter your credentials to continue.</p>
       <div id="adminLoginError" style="display:none;background:var(--danger-bg);color:var(--danger);padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;font-weight:500"></div>
       <div class="form-group">
-        <label class="form-label">Username</label>
+        <label class="form-label" for="adminUsername">Username</label>
         <input type="text" class="form-input" id="adminUsername" placeholder="Enter username" autocomplete="username">
       </div>
       <div class="form-group">
-        <label class="form-label">Password</label>
+        <label class="form-label" for="adminPassword">Password</label>
         <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')App.adminLogin()">
       </div>
     </div>

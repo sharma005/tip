@@ -79,8 +79,15 @@ const App = {
       this.updateAdminNavState();
       document.body.classList.add('admin-mode');
       this._resetSessionTimer();
-      // Navigate to admin
-      window.location.hash = 'admin';
+      // Navigate to admin. If the hash is already 'admin' (the normal case —
+      // clicking the Admin Panel nav link is what opened this login modal),
+      // setting it again is a no-op and 'hashchange' never fires, so the
+      // view never actually renders. Call navigate() directly in that case.
+      if (window.location.hash.slice(1) === 'admin') {
+        this.navigate('admin');
+      } else {
+        window.location.hash = 'admin';
+      }
     } else {
       errorEl.textContent = 'Invalid username or password.';
       errorEl.style.display = 'block';
@@ -305,10 +312,10 @@ const App = {
     const meta = DataManager.getMeta();
     // Intl's short timeZoneName renders Asia/Kolkata as "GMT+5:30", not "IST" —
     // format without it and append the literal label to match the UTC style before it.
-    const dateStr = new Date(meta.lastFetch).toLocaleString('en-US', {
+    const dateStr = meta.lastFetch ? new Date(meta.lastFetch).toLocaleString('en-US', {
       month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
       timeZone: 'Asia/Kolkata'
-    }) + ' IST';
+    }) + ' IST' : 'Never';
     const builtEl = document.getElementById('sidebarUpdated');
     if (builtEl) builtEl.textContent = dateStr;
     const totalEl = document.getElementById('sidebarTotal');
@@ -348,7 +355,7 @@ const App = {
     toast.className = `toast ${type}`;
     toast.innerHTML = `
       <span class="toast-icon">${icons[type]}</span>
-      <span class="toast-message">${message}</span>
+      <span class="toast-message">${this.escapeHtml(message)}</span>
       <span class="toast-close" onclick="this.parentElement.remove()">×</span>
     `;
 
@@ -367,17 +374,49 @@ const App = {
     });
   },
 
+  // Full entity escaping — including quotes — so this is safe in BOTH HTML text
+  // nodes and quoted attribute values (href="...", onclick="...", etc). A
+  // DOM textContent/innerHTML round-trip does NOT escape quotes (only &, <, >),
+  // which let a crafted url/field value break out of an attribute; see
+  // App.safeUrl below for the matching URL-side fix.
   escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   },
 
   // Only allow http(s) links through to href attributes — blocks javascript:/data:/vbscript:
   // URIs from source fields that may originate from AI-curated/web-sourced content.
+  // Parses with the URL API (not a prefix regex) so the result is a well-formed,
+  // percent-encoded URL — a raw quote/angle-bracket/control character in the
+  // input can no longer survive into the attribute unescaped.
   safeUrl(url) {
-    if (typeof url !== 'string' || !/^https?:\/\//i.test(url.trim())) return '#';
-    return url.trim();
+    if (typeof url !== 'string') return '#';
+    try {
+      const parsed = new URL(url.trim());
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '#';
+      return parsed.href;
+    } catch (e) {
+      return '#';
+    }
+  },
+
+  // Like safeUrl, but also allows same-origin relative paths (e.g. a bundled
+  // "assets/advisories/foo.pdf") for embedded resources — resolves against
+  // location.href to reuse the same scheme allowlist, so a "javascript:"/
+  // "data:" value can't sneak through just because it lacks "://".
+  safeResourceUrl(url) {
+    if (typeof url !== 'string') return '#';
+    try {
+      const parsed = new URL(url.trim(), window.location.href);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '#';
+      return parsed.href;
+    } catch (e) {
+      return '#';
+    }
   },
 
   // True if `item` came from the most recent auto-fetch run for its section
@@ -394,6 +433,7 @@ const App = {
   },
 
   timeAgo(dateStr) {
+    if (!dateStr) return 'Never';
     const now = new Date();
     const then = new Date(dateStr);
     const diff = Math.floor((now - then) / 1000);

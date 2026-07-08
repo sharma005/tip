@@ -41,6 +41,18 @@ const HuntLabView = {
     }
 
     content.innerHTML = tabsHtml + bodyHtml;
+
+    if (this.activeTab === 'hypotheses') this.bindHypothesesSearch();
+  },
+
+  bindHypothesesSearch() {
+    const input = document.getElementById('hypoSearchInput');
+    if (!input) return;
+    input.addEventListener('input', (e) => {
+      this.searchQuery = e.target.value;
+      const resultsContainer = document.getElementById('hypoResultsContainer');
+      if (resultsContainer) resultsContainer.innerHTML = this.renderHypothesisResults();
+    });
   },
 
   switchTab(tab) {
@@ -50,6 +62,45 @@ const HuntLabView = {
 
   /* ── Hypotheses Tab ── */
   renderHypothesesTab() {
+    const stats = this.getHypoStats();
+
+    return `
+      <div class="dw-stats" style="margin-bottom:16px">
+        <div class="dw-stat ${this.filterStatus === 'all' ? 'active-filter' : ''}" onclick="HuntLabView.filterStatus='all';HuntLabView.renderMain()">
+          <div class="dw-stat-value" style="color:var(--heading)">${stats.total}</div>
+          <div class="dw-stat-label">Total</div>
+        </div>
+        <div class="dw-stat ${this.filterStatus === 'active' ? 'active-filter' : ''}" onclick="HuntLabView.filterStatus='active';HuntLabView.renderMain()">
+          <div class="dw-stat-value" style="color:var(--accent)">${stats.active}</div>
+          <div class="dw-stat-label">Active</div>
+        </div>
+        <div class="dw-stat ${this.filterStatus === 'validated' ? 'active-filter' : ''}" onclick="HuntLabView.filterStatus='validated';HuntLabView.renderMain()">
+          <div class="dw-stat-value" style="color:var(--success)">${stats.validated}</div>
+          <div class="dw-stat-label">Validated</div>
+        </div>
+        <div class="dw-stat ${this.filterStatus === 'draft' ? 'active-filter' : ''}" onclick="HuntLabView.filterStatus='draft';HuntLabView.renderMain()">
+          <div class="dw-stat-value" style="color:var(--text-muted)">${stats.draft}</div>
+          <div class="dw-stat-label">Draft</div>
+        </div>
+      </div>
+      <div class="controls-bar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="hypoSearchInput" placeholder="Search hypotheses…" value="${App.escapeHtml(this.searchQuery)}">
+        </div>
+        <select class="control-select" onchange="HuntLabView.filterStatus=this.value;HuntLabView.renderMain()">
+          <option value="all" ${this.filterStatus === 'all' ? 'selected' : ''}>All Status</option>
+          <option value="draft" ${this.filterStatus === 'draft' ? 'selected' : ''}>Draft</option>
+          <option value="active" ${this.filterStatus === 'active' ? 'selected' : ''}>Active</option>
+          <option value="validated" ${this.filterStatus === 'validated' ? 'selected' : ''}>Validated</option>
+          <option value="archived" ${this.filterStatus === 'archived' ? 'selected' : ''}>Archived</option>
+        </select>
+      </div>
+      <div id="hypoResultsContainer">${this.renderHypothesisResults()}</div>
+    `;
+  },
+
+  renderHypothesisResults() {
     let hypotheses = DataManager.getHypotheses();
 
     if (this.filterStatus !== 'all') {
@@ -62,40 +113,7 @@ const HuntLabView = {
       );
     }
 
-    const stats = this.getHypoStats();
-
     return `
-      <div class="dw-stats" style="margin-bottom:16px">
-        <div class="dw-stat">
-          <div class="dw-stat-value" style="color:var(--heading)">${stats.total}</div>
-          <div class="dw-stat-label">Total</div>
-        </div>
-        <div class="dw-stat">
-          <div class="dw-stat-value" style="color:var(--accent)">${stats.active}</div>
-          <div class="dw-stat-label">Active</div>
-        </div>
-        <div class="dw-stat">
-          <div class="dw-stat-value" style="color:var(--success)">${stats.validated}</div>
-          <div class="dw-stat-label">Validated</div>
-        </div>
-        <div class="dw-stat">
-          <div class="dw-stat-value" style="color:var(--text-muted)">${stats.draft}</div>
-          <div class="dw-stat-label">Draft</div>
-        </div>
-      </div>
-      <div class="controls-bar">
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="search" placeholder="Search hypotheses…" value="${this.searchQuery}" oninput="HuntLabView.searchQuery=this.value;HuntLabView.renderMain()">
-        </div>
-        <select class="control-select" onchange="HuntLabView.filterStatus=this.value;HuntLabView.renderMain()">
-          <option value="all" ${this.filterStatus === 'all' ? 'selected' : ''}>All Status</option>
-          <option value="draft" ${this.filterStatus === 'draft' ? 'selected' : ''}>Draft</option>
-          <option value="active" ${this.filterStatus === 'active' ? 'selected' : ''}>Active</option>
-          <option value="validated" ${this.filterStatus === 'validated' ? 'selected' : ''}>Validated</option>
-          <option value="archived" ${this.filterStatus === 'archived' ? 'selected' : ''}>Archived</option>
-        </select>
-      </div>
       <div class="results-count">${hypotheses.length} hypotheses</div>
       <div class="hypothesis-list">
         ${hypotheses.length ? hypotheses.map(h => this.renderHypothesisCard(h)).join('') : `
@@ -115,14 +133,14 @@ const HuntLabView = {
       <div class="card-top">
         <span class="hypo-status ${hypo.status}">${hypo.status}</span>
         <span class="priority-badge priority-${hypo.priority.toLowerCase()}">${hypo.priority}</span>
-        <span class="hash-tag">${hypo.mitreTactic}</span>
+        <span class="hash-tag">${App.escapeHtml(hypo.mitreTactic)}</span>
         ${App.isFreshFetch(hypo, TIP_DATA.hypotheses) ? '<span class="new-badge">New</span>' : ''}
         <span class="date-tag">${App.formatDate(hypo.createdAt)}</span>
       </div>
       <h3 style="margin:6px 0 8px;font-size:15px;color:var(--heading);font-weight:650">${App.escapeHtml(hypo.title)}</h3>
       <p class="card-summary">${App.escapeHtml(hypo.description).substring(0, 180)}${hypo.description.length > 180 ? '…' : ''}</p>
       <div class="card-footer" style="margin-top:8px">
-        <span class="cve-tag">${hypo.mitreTechnique}</span>
+        <span class="cve-tag">${App.escapeHtml(hypo.mitreTechnique)}</span>
         ${adv ? `<span class="actor-tag">▲ ${App.escapeHtml(adv.name)}</span>` : ''}
         ${hypo.queries.length ? `<span class="hash-tag" style="color:var(--success)">${hypo.queries.length} queries</span>` : ''}
         <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">${hypo.dataSources.length} data sources</span>
@@ -174,7 +192,7 @@ const HuntLabView = {
         </div>
         <div class="detail-row">
           <span class="detail-label">Data Sources</span>
-          <span class="detail-value">${hypo.dataSources.map(d => `<span class="hash-tag" style="margin:2px 4px 2px 0">${d}</span>`).join('')}</span>
+          <span class="detail-value">${hypo.dataSources.map(d => `<span class="hash-tag" style="margin:2px 4px 2px 0">${App.escapeHtml(d)}</span>`).join('')}</span>
         </div>
         ${adv ? `<div class="detail-row">
           <span class="detail-label">Linked Actor</span>
@@ -190,9 +208,34 @@ const HuntLabView = {
         </div>
       </div>
 
-      <div class="section-divider">DataPrime Queries</div>
+      <div class="section-divider">Detection Queries</div>
 
-      ${hypo.queries.length ? hypo.queries.map((q, idx) => `
+      ${hypo.queries.length ? hypo.queries.map((q, idx) => q.kql ? `
+        <div class="detection-tabs" style="margin-bottom:14px">
+          <div class="det-tab-bar">
+            <button class="det-tab active" onclick="FeedView.switchDetTab(this,'dataprime')">DataPrime</button>
+            <button class="det-tab" onclick="FeedView.switchDetTab(this,'kql')">KQL</button>
+          </div>
+          <div class="det-tab-panel active" data-panel="dataprime">
+            <div class="query-block">
+              <div class="query-header">
+                <span>${App.escapeHtml(q.name)} · DataPrime</span>
+                <button class="copy-btn" onclick="HuntLabView.copyQuery(this, ${idx}, '${hypo.id}', 'query')">Copy</button>
+              </div>
+              <div class="query-body">${this.highlightQuery(q.query)}</div>
+            </div>
+          </div>
+          <div class="det-tab-panel" data-panel="kql">
+            <div class="query-block">
+              <div class="query-header">
+                <span>${App.escapeHtml(q.name)} · KQL${q.source ? ` — <a href="${App.escapeHtml(App.safeUrl(q.source))}" target="_blank" rel="noopener" style="font-weight:400;color:var(--text-muted)">source →</a>` : ''}</span>
+                <button class="copy-btn" onclick="HuntLabView.copyQuery(this, ${idx}, '${hypo.id}', 'kql')">Copy</button>
+              </div>
+              <div class="query-body">${FeedView.highlightKQL(q.kql)}</div>
+            </div>
+          </div>
+        </div>
+      ` : `
         <div class="query-block" style="margin-bottom:14px">
           <div class="query-header">
             <span>${App.escapeHtml(q.name)}</span>
@@ -222,8 +265,8 @@ const HuntLabView = {
   renderQueriesTab() {
     const allQueries = [];
     TIP_DATA.hypotheses.forEach(h => {
-      h.queries.forEach(q => {
-        allQueries.push({ ...q, hypothesisTitle: h.title, hypothesisId: h.id });
+      h.queries.forEach((q, idx) => {
+        allQueries.push({ ...q, hypothesisTitle: h.title, hypothesisId: h.id, queryIdx: idx });
       });
     });
 
@@ -235,7 +278,7 @@ const HuntLabView = {
             <span>${App.escapeHtml(q.name)}</span>
             <div style="display:flex;align-items:center;gap:8px">
               <a href="#huntlab/detail/${q.hypothesisId}" style="font-size:11px;color:var(--accent);font-family:var(--font-mono)">→ ${App.escapeHtml(q.hypothesisTitle).substring(0, 40)}…</a>
-              <button class="copy-btn" onclick="HuntLabView.copyQueryText(this, \`${q.query.replace(/`/g, '\\`').replace(/\\/g, '\\\\')}\`)">
+              <button class="copy-btn" onclick="HuntLabView.copyQuery(this, ${q.queryIdx}, '${q.hypothesisId}', 'query')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy
               </button>
@@ -304,7 +347,7 @@ const HuntLabView = {
     // Populate adversary dropdown
     const advSelect = document.getElementById('hypoLinkedAdversary');
     advSelect.innerHTML = '<option value="">None</option>' +
-      TIP_DATA.adversaries.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
+      TIP_DATA.adversaries.map(a => `<option value="${App.escapeHtml(a.id)}">${App.escapeHtml(a.name)}</option>`).join('');
 
     App.openModal('createHypothesisModal');
   },
@@ -364,7 +407,7 @@ const HuntLabView = {
     // Populate template selector
     const sel = document.getElementById('queryTemplate');
     sel.innerHTML = '<option value="">Blank query</option>' +
-      TIP_DATA.queryTemplates.map(qt => `<option value="${qt.id}">${qt.name} (${qt.category})</option>`).join('');
+      TIP_DATA.queryTemplates.map(qt => `<option value="${App.escapeHtml(qt.id)}">${App.escapeHtml(qt.name)} (${App.escapeHtml(qt.category)})</option>`).join('');
 
     App.openModal('queryBuilderModal');
   },
@@ -415,20 +458,11 @@ const HuntLabView = {
     App.openModal('queryBuilderModal');
   },
 
-  copyQuery(btn, idx, hypoId) {
+  copyQuery(btn, idx, hypoId, field = 'query') {
     const hypo = TIP_DATA.hypotheses.find(h => h.id === hypoId);
     if (!hypo || !hypo.queries[idx]) return;
-    navigator.clipboard.writeText(hypo.queries[idx].query).then(() => {
-      btn.classList.add('copied');
-      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M20 6L9 17l-5-5"/></svg> Copied!`;
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
-      }, 2000);
-    });
-  },
-
-  copyQueryText(btn, text) {
+    const text = hypo.queries[idx][field];
+    if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
       btn.classList.add('copied');
       btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M20 6L9 17l-5-5"/></svg> Copied!`;

@@ -36,10 +36,10 @@ const FeedView = {
     // Update meta
     const meta = DataManager.getMeta();
     if (metaUpdated) {
-      metaUpdated.textContent = new Date(meta.lastFetch).toLocaleString('en-US', {
+      metaUpdated.textContent = meta.lastFetch ? new Date(meta.lastFetch).toLocaleString('en-US', {
         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
         timeZone: 'Asia/Kolkata'
-      }) + ' IST';
+      }) + ' IST' : 'Never';
     }
     if (showingEl) {
       showingEl.innerHTML = `<b>${meta.totalPublished}</b> advisories`;
@@ -308,7 +308,7 @@ const FeedView = {
                 <div class="adv-icon ${linkedAdv.type}" style="width:36px;height:36px;font-size:16px">${linkedAdv.type === 'apt' ? '🎯' : '💰'}</div>
                 <div>
                   <div class="adv-name" style="font-size:15px">${App.escapeHtml(linkedAdv.name)}</div>
-                  <div class="adv-aliases">${linkedAdv.aliases.join(' · ')}</div>
+                  <div class="adv-aliases">${linkedAdv.aliases.map(a => App.escapeHtml(a)).join(' · ')}</div>
                 </div>
                 <span class="badge badge-${linkedAdv.type === 'apt' ? 'kev' : 'ransomware'}" style="margin-left:auto">${linkedAdv.type.toUpperCase()}</span>
               </div>
@@ -480,7 +480,7 @@ const FeedView = {
       const adv = TIP_DATA.adversaries.find(a => item.actor.toLowerCase().includes(a.name.toLowerCase()));
       if (adv && adv.iocs.length) {
         adv.iocs.forEach(ioc => {
-          iocs.push({ type: 'THREAT INTEL', value: `<code>${App.escapeHtml(ioc)}</code>`, context: `Associated with ${adv.name}` });
+          iocs.push({ type: 'THREAT INTEL', value: `<code>${App.escapeHtml(ioc)}</code>`, context: `Associated with ${App.escapeHtml(adv.name)}` });
         });
       }
     }
@@ -856,9 +856,6 @@ falsepositives:
       setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
     });
   },
-
-  // Store detection rules for copy access
-  _cachedRules: {},
 
   bindEvents() {
     const searchInput = document.getElementById('feedSearch');

@@ -79,7 +79,22 @@ const ConnectorsView = {
     const container = document.getElementById('connectorsContent');
     if (!container) return;
 
-    container.innerHTML = `<section class="adversary-grid">${CONNECTORS.map(c => this.renderCard(c)).join('')}</section>`;
+    const cards = CONNECTORS.map(c => this.renderCard(c)).join('') + this.renderTweetfeedCard();
+    container.innerHTML = `<section class="adversary-grid">${cards}</section>`;
+  },
+
+  renderTweetfeedCard() {
+    const count = TIP_DATA.tweetfeedItems.length;
+    return `<article class="feed-card" onclick="window.location.hash='tweetfeed'" style="cursor:pointer">
+      <div class="card-top">
+        <span class="date-tag" style="margin-left:auto">${count} update${count === 1 ? '' : 's'}</span>
+      </div>
+      <h3>TweetFeed <span style="font-weight:400;font-size:13px;color:var(--text-muted)">— Twitter/X OSINT Feed</span></h3>
+      <p class="card-summary">Curated posts from tracked security researchers on X (Twitter), refreshed on the same 6-hour cycle as the rest of the auto-fetch pipeline.</p>
+      <div class="card-footer">
+        <span class="source-link"><a href="https://x.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">X (Twitter) →</a></span>
+      </div>
+    </article>`;
   },
 
   renderCard(connector) {

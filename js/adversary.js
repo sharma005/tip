@@ -56,7 +56,7 @@ const AdversaryView = {
         <div class="adv-icon ${adv.type}">${typeIcons[adv.type] || '👤'}</div>
         <div>
           <div class="adv-name">${App.escapeHtml(adv.name)}</div>
-          <div class="adv-aliases">${adv.aliases.length ? adv.aliases.join(' · ') : 'No aliases'}</div>
+          <div class="adv-aliases">${adv.aliases.length ? adv.aliases.map(a => App.escapeHtml(a)).join(' · ') : 'No aliases'}</div>
         </div>
         <span style="margin-left:auto;display:flex;align-items:center;gap:6px">
           ${App.isFreshFetch(adv, TIP_DATA.adversaries) ? '<span class="new-badge">New</span>' : ''}
@@ -67,12 +67,12 @@ const AdversaryView = {
       </div>
       <p class="card-summary" style="font-size:12.5px;margin:8px 0">${App.escapeHtml(adv.notes).substring(0, 120)}${adv.notes.length > 120 ? '…' : ''}</p>
       <div class="adv-details">
-        <span class="adv-detail-tag">🌍 ${adv.origin}</span>
-        <span class="adv-detail-tag">🎯 ${adv.motivation}</span>
+        <span class="adv-detail-tag">🌍 ${App.escapeHtml(adv.origin)}</span>
+        <span class="adv-detail-tag">🎯 ${App.escapeHtml(adv.motivation)}</span>
         <span class="adv-detail-tag">📅 ${App.formatDate(adv.lastSeen)}</span>
       </div>
       <div class="adv-details" style="margin-top:6px">
-        ${adv.sectors.slice(0, 3).map(s => `<span class="adv-detail-tag">${s}</span>`).join('')}
+        ${adv.sectors.slice(0, 3).map(s => `<span class="adv-detail-tag">${App.escapeHtml(s)}</span>`).join('')}
         ${adv.sectors.length > 3 ? `<span class="adv-detail-tag">+${adv.sectors.length - 3}</span>` : ''}
       </div>
     </div>`;
@@ -100,7 +100,7 @@ const AdversaryView = {
           <div class="adv-icon ${adv.type}" style="width:48px;height:48px;font-size:24px">${adv.type === 'apt' ? '🎯' : adv.type === 'criminal' ? '💰' : '✊'}</div>
           <div>
             <h2 style="margin:0">${App.escapeHtml(adv.name)}</h2>
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin-top:2px">${adv.aliases.join(' · ') || 'No known aliases'}</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin-top:2px">${adv.aliases.map(a => App.escapeHtml(a)).join(' · ') || 'No known aliases'}</div>
           </div>
           <span class="badge badge-${adv.type === 'apt' ? 'kev' : adv.type === 'criminal' ? 'ransomware' : 'supplychain'}" style="margin-left:auto;font-size:12px;padding:5px 14px">
             ${typeLabels[adv.type]}
@@ -122,13 +122,13 @@ const AdversaryView = {
         <div class="detail-row">
           <span class="detail-label">Target Sectors</span>
           <span class="detail-value">
-            ${adv.sectors.map(s => `<span class="hash-tag" style="margin:2px 4px 2px 0">${s}</span>`).join('')}
+            ${adv.sectors.map(s => `<span class="hash-tag" style="margin:2px 4px 2px 0">${App.escapeHtml(s)}</span>`).join('')}
           </span>
         </div>
         <div class="detail-row">
           <span class="detail-label">MITRE TTPs</span>
           <span class="detail-value" style="font-family:var(--font-mono);font-size:12px">
-            ${adv.ttps.map(t => `<span class="cve-tag" style="margin:2px 4px 2px 0">${t}</span>`).join('')}
+            ${adv.ttps.map(t => `<span class="cve-tag" style="margin:2px 4px 2px 0">${App.escapeHtml(t)}</span>`).join('')}
           </span>
         </div>
         <div class="detail-row">
@@ -173,6 +173,7 @@ const AdversaryView = {
     document.getElementById('advCampaigns').value = '';
     document.getElementById('advIocs').value = '';
     document.getElementById('advNotes').value = '';
+    document.getElementById('ingestAdversaryModal').dataset.editId = '';
 
     App.openModal('ingestAdversaryModal');
   },
@@ -198,9 +199,15 @@ const AdversaryView = {
       notes: document.getElementById('advNotes').value
     };
 
-    DataManager.addAdversary(adv);
+    const editId = document.getElementById('ingestAdversaryModal').dataset.editId;
+    if (editId) {
+      DataManager.updateAdversary(editId, adv);
+      App.toast('Adversary profile updated', 'success');
+    } else {
+      DataManager.addAdversary(adv);
+      App.toast('Adversary profile created', 'success');
+    }
     App.closeModal('ingestAdversaryModal');
-    App.toast('Adversary profile created', 'success');
     this.renderCollection();
   },
 
