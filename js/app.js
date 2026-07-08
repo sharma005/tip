@@ -419,12 +419,11 @@ const App = {
     }
   },
 
-  // True if `item` came from the most recent auto-fetch run for its section
-  // — i.e. its fetchedAt matches the newest fetchedAt among `items` (every
-  // record from one fetch-intel.mjs run shares the identical stamp, see
-  // runContentType() in lib/intel/contentTypes.mjs). Items without a
-  // fetchedAt (seed data, manual/admin-added entries) are never "new".
-  // Naturally clears once a later fetch run supersedes it — no extra
+  // True if `item` came from the most recent research batch for its
+  // section — i.e. its fetchedAt matches the newest fetchedAt among
+  // `items` (every item written in one Claude cowork session shares the
+  // same stamp). Items without a fetchedAt (seed data, manual/admin-added
+  // entries) are never "new". Naturally clears once a later batch supersedes it — no extra
   // per-browser "seen" state to track.
   isFreshFetch(item, items) {
     if (!item || typeof item.fetchedAt !== 'string') return false;

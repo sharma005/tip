@@ -1,9 +1,6 @@
 .DS_Store
 **/.DS_Store
 CLAUDE.md
-node_modules/
-.env
-.env.*
-!.env.example
 .playwright-mcp/
 .worktrees/
+.claude/
