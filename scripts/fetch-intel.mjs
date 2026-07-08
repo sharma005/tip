@@ -50,6 +50,15 @@ const BATCH_SIZE = 3;
 // from blocking the next scheduled tick).
 const MAX_ATTEMPTS = 3;
 const COOLDOWN_SCHEDULE_MS = [120_000, 240_000]; // before attempt 2, before attempt 3
+// A 529 is often specific to one model's capacity, not the whole API — so
+// retries switch models rather than hammering the same overloaded one.
+// Indexed by attempt number (1-based); the last entry covers any attempt
+// beyond the array's length.
+const MODELS_BY_ATTEMPT = ['claude-opus-4-8', 'claude-sonnet-5', 'claude-sonnet-5'];
+
+function modelForAttempt(attempt) {
+  return MODELS_BY_ATTEMPT[Math.min(attempt - 1, MODELS_BY_ATTEMPT.length - 1)];
+}
 
 function withDeadline(promise, ms, label) {
   let timer;
@@ -65,29 +74,29 @@ function sleep(ms) {
 
 // Returns null on success, or the type itself on failure so callers can
 // collect just the failed subset for a retry pass.
-async function processType(type) {
+async function processType(type, model) {
   try {
-    const fresh = await withDeadline(runContentType(client, type), PER_TYPE_DEADLINE_MS, type.label);
+    const fresh = await withDeadline(runContentType(client, type, model), PER_TYPE_DEADLINE_MS, type.label);
     const outPath = fileURLToPath(new URL(`../js/${type.fileName}`, import.meta.url));
     const existing = readExistingPool(outPath);
     const { pool, addedCount } = mergeAndCapPool(existing, fresh, type.maxPoolSize);
     writeFileSync(outPath, renderAutofeedFile(type, pool));
-    console.log(`[${type.label}] +${addedCount} new (pool: ${pool.length}/${type.maxPoolSize}) -> js/${type.fileName}`);
+    console.log(`[${type.label}] (${model}) +${addedCount} new (pool: ${pool.length}/${type.maxPoolSize}) -> js/${type.fileName}`);
     return null;
   } catch (err) {
     // Isolate failures per content type (network error, API 4xx/5xx, etc.)
     // so one bad call doesn't take out the rest of its batch or later batches.
-    console.error(`[${type.label}] run failed, skipping this content type:`, err);
+    console.error(`[${type.label}] (${model}) run failed, skipping this content type:`, err);
     return type;
   }
 }
 
 // Runs `types` in BATCH_SIZE concurrent chunks, returns the ones that failed.
-async function runBatches(types) {
+async function runBatches(types, model) {
   const failed = [];
   for (let i = 0; i < types.length; i += BATCH_SIZE) {
     const batch = types.slice(i, i + BATCH_SIZE);
-    const results = await Promise.all(batch.map(processType));
+    const results = await Promise.all(batch.map((type) => processType(type, model)));
     failed.push(...results.filter(Boolean));
   }
   return failed;
@@ -97,12 +106,13 @@ async function main() {
   let pending = CONTENT_TYPES;
   let attempt = 1;
   while (pending.length && attempt <= MAX_ATTEMPTS) {
+    const model = modelForAttempt(attempt);
     if (attempt > 1) {
       const cooldown = COOLDOWN_SCHEDULE_MS[attempt - 2];
-      console.log(`Retrying ${pending.length} failed content type(s) after ${cooldown / 1000}s cooldown (attempt ${attempt}/${MAX_ATTEMPTS}): ${pending.map((t) => t.label).join(', ')}`);
+      console.log(`Retrying ${pending.length} failed content type(s) after ${cooldown / 1000}s cooldown (attempt ${attempt}/${MAX_ATTEMPTS}, model: ${model}): ${pending.map((t) => t.label).join(', ')}`);
       await sleep(cooldown);
     }
-    pending = await runBatches(pending);
+    pending = await runBatches(pending, model);
     attempt++;
   }
   if (pending.length) {
