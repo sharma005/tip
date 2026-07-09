@@ -7,6 +7,30 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "Armored Likho",
+    "aliases": [
+      "Eagle Werewolf"
+    ],
+    "type": "apt",
+    "origin": "Unknown",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "Energy"
+    ],
+    "ttps": [
+      "T1566.001",
+      "T1204.002"
+    ],
+    "campaigns": [
+      "July 2026 spear-phishing campaign against government agencies and electric power operators in Russia, Kazakhstan and Brazil exploiting CVE-2025-9491"
+    ],
+    "iocs": [],
+    "notes": "APT cluster tracked by Kaspersky (overlapping BI.ZONE's Eagle Werewolf, documented active since May 2023) that in July 2026 targeted government agencies and electric power operators in Russia, Kazakhstan and Brazil. It uses spear-phishing that exploits the patched Windows LNK vulnerability CVE-2025-9491 to deliver a first-stage loader, which Kaspersky assesses (medium confidence) was partly generated with a large language model based on verbose inline comments, bullet-point emoji and redundant code blocks.",
+    "id": "auto-adv-armored-likho",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
     "id": "auto-adv-inc-ransom",
     "name": "INC Ransom",
     "aliases": [
