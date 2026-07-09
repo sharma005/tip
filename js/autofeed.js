@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-46817",
+    "title": "Oracle E-Business Suite Payments unauthenticated takeover (CVE-2026-46817) exploited in the wild",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-46817",
+    "cvss": 9.8,
+    "date": "2026-06-30",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/new-oracle-e-business-suite-flaw-now-exploited-in-attacks/",
+    "summary": "CVE-2026-46817 is a critical (CVSS 9.8) flaw in the File Transmission component of Oracle Payments within Oracle E-Business Suite (EBS 12.2.3-12.2.15), caused by improper/missing authentication for a critical function. Unauthenticated attackers with HTTP access abuse the ibytransmit endpoint to read arbitrary files and take over vulnerable instances. First in-the-wild exploitation was recorded on June 27, 2026 - about six weeks after Oracle's May 2026 patch and before any public PoC - with Shadowserver logging hundreds of attempts and roughly 950 EBS instances still exposed. Apply Oracle's May 2026 Critical Patch Update immediately.",
+    "tags": [
+      "oracle",
+      "ebs",
+      "rce",
+      "exploited",
+      "cvss-9-8"
+    ],
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
+    "id": "auto-cve-2026-8037",
+    "title": "Progress Kemp LoadMaster pre-auth root RCE (CVE-2026-8037) actively exploited",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-8037",
+    "cvss": 9.6,
+    "date": "2026-07-06",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/latest-progress-kemp-loadmaster-pre.html",
+    "summary": "CVE-2026-8037 is a critical (CVSS 9.6) OS command injection flaw in Progress Kemp LoadMaster (also affecting ECS Connection Manager, ObjectScale Connection Manager and MOVEit WAF), reachable pre-authentication via the /accessv2 API endpoint when the API is enabled. It stems from improper handling of user input in the escape_quotes() function and lets an unauthenticated attacker run arbitrary commands as root. eSentire observed exploitation attempts starting June 29, 2026, the same day watchTowr Labs published a technical write-up. Fixed in GA v7.2.63.2 and LTSF v7.2.54.18.",
+    "tags": [
+      "progress",
+      "kemp",
+      "loadmaster",
+      "rce",
+      "cvss-9-6"
+    ],
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
     "id": "auto-cve-2026-20045",
     "title": "Cisco Unified Communications Manager zero-day RCE (CVE-2026-20045) exploited for root access",
     "category": "zeroday",
