@@ -7,6 +7,42 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-fortibleed-fortigate-credential-theft-inc-lynx",
+    "connector": "otx",
+    "title": "FortiBleed: 110M+ FortiGate credentials harvested, linked to INC & Lynx ransomware",
+    "date": "2026-07-02",
+    "severity": "Critical",
+    "summary": "OTX/community trackers are circulating context on the FortiBleed campaign, which used a custom \"FortiGate Sniffer\" packet-capture tool on compromised firewalls to intercept SSL-VPN credentials across ~430,000 FortiGate devices, gathering 110M+ credentials. SOCRadar's STRU linked the campaign to INC Ransom and Lynx RaaS operations after an operator tied to FortiBleed infrastructure was found logged into both groups' negotiation panels. CISA has urged organizations to harden Fortinet devices and rotate credentials; no consolidated public IOC set is confirmed here.",
+    "tags": [
+      "fortinet",
+      "fortigate",
+      "credential-theft",
+      "ransomware",
+      "inc-ransom",
+      "lynx"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-simplehelp-oidc-auth-bypass-cve-2026-48558",
+    "connector": "pulsedive",
+    "title": "SimpleHelp RMM OIDC auth bypass (CVE-2026-48558) exploited to drop Djinn Stealer & TaskWeaver",
+    "date": "2026-07-02",
+    "severity": "Critical",
+    "summary": "Community intel is tracking active exploitation of CVE-2026-48558, a CVSS 10.0 authentication bypass in SimpleHelp RMM caused by acceptance of unsigned OIDC tokens, which lets unauthenticated attackers forge technician sessions on internet-facing servers. Post-exploitation, operators deploy two previously undocumented malware families, TaskWeaver and Djinn Stealer, for credential theft. Roughly 14,000 SimpleHelp servers were internet-exposed at disclosure; CISA added the flaw to KEV with a July 2, 2026 deadline.",
+    "tags": [
+      "simplehelp",
+      "rmm",
+      "auth-bypass",
+      "djinn-stealer",
+      "taskweaver",
+      "cve-2026-48558"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
     "id": "auto-conn-otx-cisco-unified-cm-zero-day-rce-cve-2026-20045",
     "connector": "otx",
     "title": "Cisco Unified CM zero-day RCE (CVE-2026-20045) active exploitation",
