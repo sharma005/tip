@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt Oracle EBS Payments ibytransmit unauth file read/takeover (CVE-2026-46817)",
+    "description": "Oracle disclosed CVE-2026-46817, a CVSS 9.8 unauthenticated flaw in the File Transmission component of Oracle Payments (EBS 12.2.3-12.2.15) that attackers exploit by sending crafted HTTP requests to the ibytransmit endpoint to read arbitrary files (e.g. /etc/passwd) and take over the instance; in-the-wild exploitation began June 27, 2026. Hunt internet-facing Oracle EBS hosts for anomalous HTTP requests to the File Transmission / ibytransmit endpoint originating from external sources.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "Network Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-46817",
+    "queries": [
+      {
+        "name": "Oracle EBS ibytransmit access from external IPs",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path contains \"ibytransmit\" || $d.url_path contains \"OA_HTML/ibytransmit\"\n| filter $d.src_ip not in [${INTERNAL_RANGES}]\n| groupby $d.src_ip, $d.host, $d.url_path, $d.http_status\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-oracle-ebs-payments-ibytransmit-unauth-file-read-takeov",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
+    "title": "Hunt Kemp LoadMaster /accessv2 pre-auth RCE (CVE-2026-8037)",
+    "description": "CVE-2026-8037 is a CVSS 9.6 OS command injection in Progress Kemp LoadMaster reachable pre-authentication via the /accessv2 API endpoint, letting unauthenticated attackers run commands as root. eSentire observed exploitation from June 29, 2026 after watchTowr published a technical write-up and a PoC surfaced. Hunt LoadMaster appliances for requests to /accessv2 followed by unexpected shell/command execution or unusual outbound connections from the appliance.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Server Logs",
+      "Network Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-8037",
+    "queries": [
+      {
+        "name": "Kemp LoadMaster accessv2 exploitation",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path contains \"/accessv2\"\n| filter $d.src_ip not in [${INTERNAL_RANGES}]\n| groupby $d.src_ip, $d.host, $d.http_method, $d.http_status\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-kemp-loadmaster-accessv2-pre-auth-rce-cve-2026-8037",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
+    "title": "Hunt Armored Likho LNK spear-phishing and LLM-generated loader (CVE-2025-9491)",
+    "description": "Kaspersky attributes a July 2026 campaign to Armored Likho (overlapping BI.ZONE's Eagle Werewolf) targeting government agencies and electric power operators in Russia, Kazakhstan and Brazil via spear-phishing that exploits the patched Windows LNK vulnerability CVE-2025-9491; the first-stage loader shows signs of being LLM-generated. Hunt for LNK files delivered by email that launch script interpreters or spawn unusual child processes, especially on hosts in government/energy environments.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1566.001 - Spearphishing Attachment",
+    "dataSources": [
+      "Email Gateway Logs",
+      "EDR Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "Armored Likho",
+    "linkedFeedItemRef": "CVE-2025-9491",
+    "queries": [
+      {
+        "name": "LNK files spawning script interpreters",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process contains \".lnk\" || $d.command_line contains \".lnk\"\n| filter $d.process_name in [\"powershell.exe\", \"cmd.exe\", \"mshta.exe\", \"wscript.exe\", \"cscript.exe\", \"rundll32.exe\"]\n| groupby $d.hostname, $d.user, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-armored-likho-lnk-spear-phishing-and-llm-generated-load",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-simplehelp-rmm-oidc-auth-bypass-and-infostealer-sta",
     "title": "Hunt for SimpleHelp RMM OIDC auth-bypass and infostealer staging (CVE-2026-48558)",
     "description": "Attackers are exploiting CVE-2026-48558, a CVSS 10.0 authentication bypass in SimpleHelp RMM that accepts unsigned OIDC tokens, to forge technician sessions on internet-facing servers without credentials and then deploy the TaskWeaver and Djinn Stealer malware families. Hunt internet-facing SimpleHelp hosts for anomalous technician logins followed by remote script/tooling execution and infostealer staging on managed endpoints.",
