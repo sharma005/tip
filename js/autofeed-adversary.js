@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-inc-ransom",
+    "name": "INC Ransom",
+    "aliases": [
+      "INC Ransomware",
+      "GOLD IONIC"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Healthcare",
+      "Government",
+      "Legal",
+      "Manufacturing",
+      "Education",
+      "Technology"
+    ],
+    "ttps": [
+      "T1190",
+      "T1078",
+      "T1486",
+      "T1490",
+      "T1567.002",
+      "T1219"
+    ],
+    "campaigns": [
+      "FortiBleed FortiGate credential-theft campaign linked to INC deployments (2026)",
+      "RaaS affiliate/franchise model with 830+ victims claimed since 2023"
+    ],
+    "iocs": [],
+    "notes": "INC Ransom (MITRE G1032 / GOLD IONIC) is a prolific financially motivated ransomware-as-a-service operation that has claimed 830+ victims since 2023 and ranked among the most active groups in Q1 2026. In July 2026 SOCRadar linked the FortiBleed FortiGate credential-theft campaign to INC deployments, with a single operator working both INC and Lynx negotiation panels. Its affiliate/franchise model heavily targets healthcare, government, legal and critical infrastructure using double extortion and a data-leak site.",
+    "active": true,
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
+    "id": "auto-adv-lynx",
+    "name": "Lynx",
+    "aliases": [
+      "Lynx Ransomware"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Financial Services",
+      "Architecture & Engineering",
+      "Retail",
+      "Manufacturing"
+    ],
+    "ttps": [
+      "T1566.001",
+      "T1204.002",
+      "T1059.001",
+      "T1486",
+      "T1005",
+      "T1041"
+    ],
+    "campaigns": [
+      "FortiBleed FortiGate credential-theft campaign linked to Lynx deployments (2026)"
+    ],
+    "iocs": [],
+    "notes": "Lynx is a financially motivated ransomware-as-a-service operation that emerged in mid-2024 as a successor to INC Ransom, reusing a significant portion of INC's source code. It operates double extortion, exfiltrating data before encryption and publishing stolen data on a leak site if unpaid. In July 2026 SOCRadar tied Lynx to the FortiBleed campaign that harvested 110M+ FortiGate credentials, with infrastructure overlapping INC Ransom operations.",
+    "active": true,
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
     "id": "auto-adv-storm-2603",
     "name": "Storm-2603",
     "aliases": [
