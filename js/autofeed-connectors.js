@@ -7,6 +7,54 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "connector": "otx",
+    "title": "Oracle E-Business Suite Payments unauthenticated takeover (CVE-2026-46817)",
+    "date": "2026-06-30",
+    "severity": "Critical",
+    "summary": "OTX/community trackers are circulating context on active exploitation of CVE-2026-46817 (CVSS 9.8), an unauthenticated takeover flaw in the File Transmission component of Oracle Payments (Oracle EBS 12.2.3-12.2.15). Attackers abuse the ibytransmit endpoint over HTTP to read arbitrary files and compromise instances; Shadowserver logged hundreds of attempts across regions from late June 2026. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "oracle",
+      "ebs",
+      "exploited",
+      "takeover"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-oracle-e-business-suite-payments-unauthenticated-takeover-cv",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
+    "connector": "pulsedive",
+    "title": "Progress Kemp LoadMaster pre-auth root RCE (CVE-2026-8037)",
+    "date": "2026-07-06",
+    "severity": "Critical",
+    "summary": "Community trackers are following exploitation of CVE-2026-8037 (CVSS 9.6), an OS command injection in Progress Kemp LoadMaster reachable pre-authentication via the /accessv2 API endpoint that yields root-level RCE. eSentire reported exploitation attempts from June 29, 2026, coinciding with a watchTowr Labs write-up and a public PoC. Fixed in GA v7.2.63.2 / LTSF v7.2.54.18. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "progress",
+      "kemp",
+      "loadmaster",
+      "rce"
+    ],
+    "iocs": [],
+    "id": "auto-conn-pulsedive-progress-kemp-loadmaster-pre-auth-root-rce-cve-2026-8037",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
+    "connector": "misp",
+    "title": "Armored Likho LLM-assisted loader targeting government and power grids (CVE-2025-9491)",
+    "date": "2026-07-04",
+    "severity": "High",
+    "summary": "MISP-style community reporting (Kaspersky) covers Armored Likho - overlapping BI.ZONE's Eagle Werewolf - spear-phishing government agencies and electric power operators in Russia, Kazakhstan and Brazil by exploiting the patched Windows LNK flaw CVE-2025-9491. The first-stage loader shows indicators of LLM-generated code. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "armored-likho",
+      "apt",
+      "lnk",
+      "llm"
+    ],
+    "iocs": [],
+    "id": "auto-conn-misp-armored-likho-llm-assisted-loader-targeting-government-and-p",
+    "fetchedAt": "2026-07-10T09:30:00.000Z"
+  },
+  {
     "id": "auto-conn-otx-fortibleed-fortigate-credential-theft-inc-lynx",
     "connector": "otx",
     "title": "FortiBleed: 110M+ FortiGate credentials harvested, linked to INC & Lynx ransomware",
