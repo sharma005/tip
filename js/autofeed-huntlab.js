@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-simplehelp-rmm-oidc-auth-bypass-and-infostealer-sta",
+    "title": "Hunt for SimpleHelp RMM OIDC auth-bypass and infostealer staging (CVE-2026-48558)",
+    "description": "Attackers are exploiting CVE-2026-48558, a CVSS 10.0 authentication bypass in SimpleHelp RMM that accepts unsigned OIDC tokens, to forge technician sessions on internet-facing servers without credentials and then deploy the TaskWeaver and Djinn Stealer malware families. Hunt internet-facing SimpleHelp hosts for anomalous technician logins followed by remote script/tooling execution and infostealer staging on managed endpoints.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Authentication Logs",
+      "EDR Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-48558",
+    "queries": [
+      {
+        "name": "SimpleHelp service spawning scripting/LOLBins",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"Remote Access.exe\", \"SimpleService.exe\", \"SimpleHelp\"]\n| filter $d.process_name in [\"powershell.exe\", \"cmd.exe\", \"cscript.exe\", \"wscript.exe\", \"rundll32.exe\", \"mshta.exe\"]\n| filter $d.timestamp >= \"2026-06-29T00:00:00Z\"\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-fortigate-ssl-vpn-logins-from-fortibleed-harvested-",
+    "title": "Hunt for FortiGate SSL-VPN logins from FortiBleed-harvested credentials (INC/Lynx)",
+    "description": "The FortiBleed campaign harvested 110M+ credentials from roughly 430,000 FortiGate SSL-VPN appliances using a custom packet-sniffing tool, and SOCRadar has tied the stolen credentials to INC Ransom and Lynx ransomware deployments. Hunt FortiGate SSL-VPN telemetry for successful authentications from anomalous or foreign source ASNs and impossible-travel patterns, especially where MFA is absent, as a precursor to lateral movement and ransomware.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1133 - External Remote Services",
+    "dataSources": [
+      "VPN Logs",
+      "Firewall Logs",
+      "Authentication Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": "INC Ransom",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "FortiGate SSL-VPN successful logins by user and source geo",
+        "query": "source logs\n| filter $d.vendor == \"fortinet\" && $d.action == \"ssl-vpn-login\" && $d.status == \"success\"\n| filter $d.timestamp >= \"2026-06-16T00:00:00Z\"\n| groupby $d.user, $d.src_ip, $d.src_country\n| count() as login_count\n| filter login_count > 0\n| sort -login_count"
+      }
+    ],
+    "fetchedAt": "2026-07-09T00:45:35.000Z"
+  },
+  {
     "id": "auto-hypo-hunt-cisco-unified-cm-management-interface-rce-cve-2026-20045",
     "title": "Hunt for Cisco Unified CM management-interface RCE and root escalation (CVE-2026-20045)",
     "description": "Following active in-the-wild exploitation of CVE-2026-20045, hunt internet-facing Cisco Unified Communications Manager hosts for anomalous shells or utilities spawned by the web/management service stack and for privilege escalation to root, which signals successful RCE via crafted HTTP requests to the management interface.",
