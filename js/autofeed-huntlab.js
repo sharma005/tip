@@ -7,6 +7,75 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-oracle-peoplesoft-peopletools-unauth-rce-exploitation-c",
+    "title": "Hunt Oracle PeopleSoft PeopleTools unauth RCE exploitation (CVE-2026-35273)",
+    "description": "Oracle disclosed CVE-2026-35273, a CVSS 9.8 unauthenticated RCE in the Updates Environment Management component of PeopleSoft PeopleTools 8.61/8.62 that ShinyHunters (UNC6240) exploited in the wild as a zero-day from late May 2026, predominantly against higher-education targets. Hunt internet-facing PeopleSoft hosts for anomalous unauthenticated POST/PUT requests to PeopleTools management endpoints from external sources, followed by unexpected child processes of the web/app tier.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Server Logs",
+      "Web Proxy Logs",
+      "Network Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": "ShinyHunters",
+    "linkedFeedItemRef": "CVE-2026-35273",
+    "queries": [
+      {
+        "name": "External unauth POSTs to PeopleSoft management endpoints",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path contains \"/psc/\" || $d.url_path contains \"EMC_MANAGE\"\n| filter $d.http_method in [\"POST\", \"PUT\"]\n| filter $d.src_ip_is_external == true\n| filter $d.timestamp >= \"2026-05-27T00:00:00Z\"\n| groupby $d.hostname, $d.src_ip\n| count() as req_count\n| filter req_count > 3\n| sort -req_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-rogueplanet-defender-quarantine-abuse-via-wer-queuerepo",
+    "title": "Hunt RoguePlanet Defender quarantine abuse via WER QueueReporting SYSTEM execution",
+    "description": "The RoguePlanet Windows zero-day forces Microsoft Defender to create a SYSTEM-owned quarantine artifact in attacker-controlled space, overwrites it with a payload, then triggers the WER QueueReporting scheduled task (running as SYSTEM) to execute it, using NTFS junctions and opportunistic locks along the way. Hunt for SYSTEM-integrity processes spawned by the Windows Error Reporting manager that are not legitimate WER binaries.",
+    "mitreTactic": "Privilege Escalation",
+    "mitreTechnique": "T1068 - Exploitation for Privilege Escalation",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Event Logs",
+      "File Monitoring"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "RoguePlanet",
+    "queries": [
+      {
+        "name": "Unexpected SYSTEM child of WER manager (wermgr.exe)",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"wermgr.exe\"\n| filter $d.integrity_level == \"SYSTEM\"\n| filter $d.process_name not in [\"WerFault.exe\", \"wermgr.exe\"]\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-the-gentlemen-raas-gpo-based-defender-disable-and-netlo",
+    "title": "Hunt The Gentlemen RaaS GPO-based Defender disable and NETLOGON PowerShell deployment",
+    "description": "The Gentlemen ransomware-as-a-service group distributes payloads via the NETLOGON share and a custom deploy_gpo.ps1 script for rapid Group Policy-based propagation, creating fake update policies that disable Windows Defender and forcing immediate group-policy refreshes before deploying their GentleKiller EDR-killer. Hunt for PowerShell referencing NETLOGON or deploy_gpo.ps1 alongside GPO changes that disable Defender.",
+    "mitreTactic": "Defense Evasion",
+    "mitreTechnique": "T1562.001 - Impair Defenses: Disable or Modify Tools",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Event Logs",
+      "PowerShell Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": "The Gentlemen",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "NETLOGON/deploy_gpo.ps1 PowerShell disabling Defender",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name == \"powershell.exe\"\n| filter $d.command_line contains \"deploy_gpo.ps1\" || $d.command_line contains \"\\\\NETLOGON\\\\\"\n| filter $d.command_line contains \"DisableAntiSpyware\" || $d.command_line contains \"gpupdate\"\n| groupby $d.hostname, $d.user\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
     "title": "Hunt Oracle EBS Payments ibytransmit unauth file read/takeover (CVE-2026-46817)",
     "description": "Oracle disclosed CVE-2026-46817, a CVSS 9.8 unauthenticated flaw in the File Transmission component of Oracle Payments (EBS 12.2.3-12.2.15) that attackers exploit by sending crafted HTTP requests to the ibytransmit endpoint to read arbitrary files (e.g. /etc/passwd) and take over the instance; in-the-wild exploitation began June 27, 2026. Hunt internet-facing Oracle EBS hosts for anomalous HTTP requests to the File Transmission / ibytransmit endpoint originating from external sources.",
     "mitreTactic": "Initial Access",
