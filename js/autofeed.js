@@ -6,6 +6,92 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-50746",
+    "title": "Ubiquiti UniFi Connect maximum-severity unauthenticated command injection (CVE-2026-50746)",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-50746",
+    "cvss": 10.0,
+    "date": "2026-07-08",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/ubiquiti-warns-of-new-max-severity-unifi-os-vulnerability/",
+    "summary": "Ubiquiti disclosed a CVSS 10.0 command-injection flaw (CVE-2026-50746) in the UniFi Connect Application (versions 3.4.16 and earlier) that lets any attacker with network access run arbitrary OS commands without authentication. It was patched alongside six other critical UniFi issues affecting UniFi OS Server, Talk, Access and Protect. Censys reports roughly 100,000 UniFi OS endpoints reachable from the public internet. Update the UniFi Connect app to 3.4.20 or later immediately and restrict management-interface exposure.",
+    "tags": [
+      "ubiquiti",
+      "unifi",
+      "command-injection",
+      "rce",
+      "unauthenticated",
+      "cve-2026-50746"
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-goddamn-ransomware-poisonx-byovd-edr-kill",
+    "title": "GodDamn ransomware uses Microsoft-signed PoisonX driver (BYOVD) to disable EDR",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-09",
+    "actor": "Hyadina (GodDamn / Beast / Monster)",
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/goddamn-ransomware-uses-poisonx-driver.html",
+    "summary": "Broadcom's Symantec Threat Hunter Team disclosed GodDamn, a rebrand of the Beast/Monster ransomware lineage (tracked as Hyadina), which uses a Microsoft-signed malicious kernel driver named PoisonX to terminate and blind endpoint security before encryption. The analyzed intrusion (May 29-June 3, 2026) chained AnyDesk for remote access, PsExec for lateral movement and a Mimikatz/NirSoft credential-theft toolkit, deploying the driver via a fake Symantec-branded evasion tool. The signed BYOVD component marks an escalation in the group's defense-evasion tradecraft against US organizations.",
+    "tags": [
+      "ransomware",
+      "byovd",
+      "poisonx",
+      "edr-evasion",
+      "hyadina",
+      "goddamn"
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-cve-2026-48939",
+    "title": "iCagenda unrestricted file upload added to CISA KEV amid active exploitation (CVE-2026-48939)",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-48939",
+    "cvss": null,
+    "date": "2026-07-10",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/10/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "summary": "CISA added CVE-2026-48939, an unrestricted upload of a file with a dangerous type in the Joomla iCagenda extension, to its Known Exploited Vulnerabilities catalog on July 10, 2026 based on evidence of active exploitation. The flaw can allow attackers to upload and execute a web shell on affected Joomla sites. Federal agencies must remediate under BOD 26-04; all operators should patch or remove the extension promptly.",
+    "tags": [
+      "cisa-kev",
+      "joomla",
+      "icagenda",
+      "file-upload",
+      "exploited"
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-cve-2026-56291",
+    "title": "Balbooa Forms unrestricted file upload added to CISA KEV amid active exploitation (CVE-2026-56291)",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-56291",
+    "cvss": null,
+    "date": "2026-07-10",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/10/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "summary": "CISA added CVE-2026-56291, an unrestricted upload of a file with a dangerous type in the Joomla Balbooa Forms extension, to its Known Exploited Vulnerabilities catalog on July 10, 2026 based on evidence of active exploitation. Successful exploitation can give an attacker code execution via an uploaded malicious file. Federal agencies must remediate under BOD 26-04; patch or remove the extension promptly.",
+    "tags": [
+      "cisa-kev",
+      "joomla",
+      "balbooa",
+      "file-upload",
+      "exploited"
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
     "id": "auto-rogueplanet-windows-defender-zero-day-abuses-quarantine-pipe",
     "title": "RoguePlanet Windows Defender zero-day abuses quarantine pipeline for SYSTEM code execution",
     "category": "zeroday",
