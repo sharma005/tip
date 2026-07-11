@@ -7,6 +7,54 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-oracle-peoplesoft-peopletools-zero-day-exploited-by-shinyhun",
+    "connector": "otx",
+    "title": "Oracle PeopleSoft PeopleTools zero-day exploited by ShinyHunters (CVE-2026-35273)",
+    "date": "2026-06-11",
+    "severity": "Critical",
+    "summary": "OTX/community trackers are circulating context on CVE-2026-35273, a CVSS 9.8 unauthenticated RCE in Oracle PeopleSoft PeopleTools (8.61/8.62) exploited in the wild as a zero-day from late May 2026. Mandiant attributes the data-theft and extortion campaign to UNC6240 (ShinyHunters), with universities heavily represented among 100-plus notified victims. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "oracle",
+      "peoplesoft",
+      "shinyhunters",
+      "exploited"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-conn-otx-rogueplanet-windows-defender-quarantine-pipeline-zero-day-lp",
+    "connector": "otx",
+    "title": "RoguePlanet Windows Defender quarantine-pipeline zero-day (LPE to SYSTEM)",
+    "date": "2026-07-08",
+    "severity": "Critical",
+    "summary": "Community trackers are sharing analysis of RoguePlanet, an uncoordinated Windows local privilege-escalation zero-day whose PoC was published on GitHub on June 10, 2026 with no CVE and no patch. It abuses Defender's quarantine pipeline, NTFS junctions and the WER QueueReporting scheduled task to execute a payload as SYSTEM; Microsoft patched it in early July 2026. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "windows",
+      "defender",
+      "zero-day",
+      "lpe"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-conn-misp-the-gentlemen-raas-gentlekiller-edr-killer-and-fortigate-ini",
+    "connector": "misp",
+    "title": "The Gentlemen RaaS GentleKiller EDR-killer and FortiGate initial access",
+    "date": "2026-07-06",
+    "severity": "High",
+    "summary": "MISP communities are tracking The Gentlemen ransomware-as-a-service group, which gains initial access mainly via internet-facing Fortinet FortiGate/SSL-VPN devices and stolen credentials, propagates through NETLOGON and a custom deploy_gpo.ps1 GPO workflow, and deploys the in-house GentleKiller BYOVD EDR-killer (8+ driver variants). Reporting from ESET, Securelist and Huntress documents the tradecraft. No consolidated public IOC set is confirmed here.",
+    "tags": [
+      "ransomware",
+      "gentlemen",
+      "edr-killer",
+      "fortigate"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
     "connector": "otx",
     "title": "Oracle E-Business Suite Payments unauthenticated takeover (CVE-2026-46817)",
     "date": "2026-06-30",
