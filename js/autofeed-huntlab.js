@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-jadepuffer-agentic-ransomware-langflow-rce-cve-2025-3248",
+    "title": "Hunt for JADEPUFFER agentic ransomware exploiting Langflow (CVE-2025-3248)",
+    "description": "Sysdig reported JADEPUFFER, an autonomous AI-agent ransomware that exploits internet-facing Langflow via CVE-2025-3248 to run arbitrary Python, then pivots to database servers (MySQL / Alibaba Nacos) to encrypt and extort. Hunt for the Langflow code-validation endpoint being hit by unauthenticated requests followed by Python spawning shells, credential access, or mass database configuration changes.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "EDR Logs",
+      "Database Audit Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2025-3248",
+    "queries": [
+      {
+        "name": "Langflow process spawning interpreters/shells",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"langflow\", \"uvicorn\", \"gunicorn\", \"python\", \"python3\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"python\", \"python3\", \"curl\", \"wget\", \"mysql\"]\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
+    "id": "auto-hypo-hunt-injective-npm-sdk-wallet-key-exfil-x-request-id",
+    "title": "Hunt for Injective npm SDK wallet-key exfiltration via X-Request-Id",
+    "description": "A backdoored @injectivelabs/sdk-ts (1.20.21) captured BIP-39 seed phrases and private keys and smuggled them out base64-encoded inside the X-Request-Id HTTP header. Hunt developer, CI/CD and build hosts for installs of the malicious SDK version and for outbound HTTP requests carrying an unusually long, base64-looking X-Request-Id header, especially to non-standard endpoints.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1195.002 - Compromise Software Supply Chain",
+    "dataSources": [
+      "Web Proxy Logs",
+      "EDR Logs",
+      "CI/CD Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "Injective",
+    "queries": [
+      {
+        "name": "Outbound requests with long base64 X-Request-Id header",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.direction == \"outbound\"\n| filter $d.http_header_name == \"X-Request-Id\"\n| filter $d.http_header_value ~ \"^[A-Za-z0-9+/=]{80,}$\"\n| groupby $d.hostname, $d.destination_host, $d.http_header_value\n| count() as req_count\n| sort -req_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
+    "id": "auto-hypo-hunt-silver-fox-modbeacon-fake-installer-scheduled-task-persistence",
+    "title": "Hunt for Silver Fox MODBEACON fake-installer execution and scheduled-task persistence",
+    "description": "QiAnXin attributed a new Rust-based RAT, MODBEACON, to China-linked Silver Fox, delivered through SEO poisoning and counterfeit software installers and using Amazon/Cloudflare CDN for gRPC C2. It establishes persistence via scheduled tasks. Hunt for installer-named binaries executing from user download or temp paths that create scheduled tasks and then beacon out to CDN-fronted hosts.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1053.005 - Scheduled Task/Job: Scheduled Task",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Event Logs",
+      "DNS Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "Silver Fox",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Scheduled task creation by installer-like binaries",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name == \"schtasks.exe\"\n| filter $d.parent_command_line ~ \"(?i)(setup|install|update|downloads|temp)\"\n| groupby $d.hostname, $d.user, $d.parent_process, $d.command_line\n| count() as task_count\n| filter task_count > 0\n| sort -task_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
     "id": "auto-hypo-hunt-ubiquiti-unifi-connect-unauth-command-injection-cve-2026-50746",
     "title": "Hunt for Ubiquiti UniFi Connect unauthenticated command injection (CVE-2026-50746)",
     "description": "Ubiquiti disclosed a CVSS 10.0 unauthenticated command-injection flaw (CVE-2026-50746) in UniFi Connect, with ~100,000 UniFi OS endpoints exposed to the internet. Hunt for anomalous process execution and outbound connections originating from UniFi management hosts, which should rarely spawn shells or network utilities.",
