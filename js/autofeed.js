@@ -6,6 +6,71 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-rogueplanet-windows-defender-zero-day-abuses-quarantine-pipe",
+    "title": "RoguePlanet Windows Defender zero-day abuses quarantine pipeline for SYSTEM code execution",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-08",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-rogueplanet-defender-zero-day-vulnerability/",
+    "summary": "RoguePlanet is a Windows local privilege escalation zero-day that abuses Microsoft Defender's real-time scan and quarantine pipeline together with NTFS directory junctions, opportunistic locks, Volume Shadow Copy, and the WER QueueReporting scheduled task to run an attacker payload as SYSTEM. Proof-of-concept code was published on GitHub on June 10, 2026 with no coordinated disclosure, no CVE and no patch, leaving millions of machines exposed. Microsoft shipped a fix roughly 29 days later, in early July 2026. Prioritize patching and hunt for anomalous SYSTEM-level processes spawned via the WER QueueReporting task.",
+    "tags": [
+      "windows",
+      "defender",
+      "zero-day",
+      "privilege-escalation",
+      "lpe",
+      "rogueplanet"
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-cve-2026-35273",
+    "title": "Oracle PeopleSoft PeopleTools unauthenticated RCE (CVE-2026-35273) exploited by ShinyHunters",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": "CVE-2026-35273",
+    "cvss": 9.8,
+    "date": "2026-06-10",
+    "actor": "ShinyHunters (UNC6240)",
+    "source": "Rapid7",
+    "url": "https://www.rapid7.com/blog/post/etr-active-exploitation-of-oracle-peoplesoft-zero-day-cve-2026-35273/",
+    "summary": "CVE-2026-35273 is a critical (CVSS 9.8) unauthenticated remote code execution flaw in the Updates Environment Management component of Oracle PeopleSoft PeopleTools (versions 8.61 and 8.62), addressed in an out-of-band Oracle security alert on June 10, 2026. Mandiant reports the flaw was exploited in the wild as a zero-day between May 27 and June 9, 2026, ahead of the advisory, and attributes the data-theft and extortion campaign to UNC6240 (ShinyHunters). Roughly 68% of the 100-plus notified organizations were universities and colleges. Apply Oracle's out-of-band fix immediately and hunt for exploitation of internet-facing PeopleSoft instances.",
+    "tags": [
+      "oracle",
+      "peoplesoft",
+      "shinyhunters",
+      "exploited",
+      "rce"
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
+    "id": "auto-cve-2026-33825",
+    "title": "Windows Defender 'BlueHammer' EoP (CVE-2026-33825) now exploited by ransomware gangs",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-33825",
+    "cvss": null,
+    "date": "2026-07-07",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/cisa-windows-bluehammer-flaw-now-exploited-by-ransomware-gangs/",
+    "summary": "CISA has updated its KEV entry for CVE-2026-33825, a Microsoft Defender privilege-escalation flaw dubbed 'BlueHammer', to note that it is now being leveraged in ransomware campaigns. The bug was leaked with PoC code in early April 2026 by a researcher using the 'Nightmare Eclipse' handle, exploited in the wild as a zero-day before Microsoft patched it on April 14, 2026, and added to the KEV catalog on April 22. An authenticated attacker can abuse it for privilege escalation; ensure the April 2026 Defender/Windows updates are deployed and monitor for post-compromise escalation.",
+    "tags": [
+      "windows",
+      "defender",
+      "bluehammer",
+      "ransomware",
+      "privilege-escalation",
+      "kev"
+    ],
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
     "id": "auto-cve-2026-46817",
     "title": "Oracle E-Business Suite Payments unauthenticated takeover (CVE-2026-46817) exploited in the wild",
     "category": "rce",
