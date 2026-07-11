@@ -7,6 +7,41 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-the-gentlemen",
+    "name": "The Gentlemen",
+    "aliases": [
+      "Gentlemen RaaS"
+    ],
+    "type": "criminal",
+    "origin": "Russia",
+    "motivation": "Financial",
+    "sectors": [
+      "Manufacturing",
+      "IT Services",
+      "Healthcare",
+      "Finance",
+      "Construction",
+      "Logistics"
+    ],
+    "ttps": [
+      "T1190",
+      "T1133",
+      "T1078",
+      "T1484.001",
+      "T1562.001",
+      "T1021.002",
+      "T1219",
+      "T1486"
+    ],
+    "campaigns": [
+      "The Gentlemen RaaS double-extortion campaign (2025-2026)"
+    ],
+    "iocs": [],
+    "active": true,
+    "notes": "The Gentlemen is a fast-scaling ransomware-as-a-service operation first observed in September 2025 that Check Point ranks as the second most active gang of 2026, listing 483 victims across 66 countries by June 13, 2026. It runs an unusual 90/10 affiliate split, gains initial access largely through internet-facing Fortinet FortiGate/SSL-VPN devices and stolen credentials, then uses NETLOGON and a custom deploy_gpo.ps1 for GPO-based propagation and its in-house GentleKiller EDR-killer (BYOVD) for defense evasion. On June 10, 2026 Krebs on Security tied the operator aliases 'hastalamuerte'/'Zeta88' to a 36-year-old individual in Izhevsk, Russia. Victimology skews toward Southeast Asia, South America and Western Europe rather than the US.",
+    "fetchedAt": "2026-07-11T00:41:28.000Z"
+  },
+  {
     "name": "Armored Likho",
     "aliases": [
       "Eagle Werewolf"
