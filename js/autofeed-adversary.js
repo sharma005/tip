@@ -7,6 +7,32 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-hyadina",
+    "name": "Hyadina",
+    "aliases": [
+      "GodDamn",
+      "Beast",
+      "Monster"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [],
+    "ttps": [
+      "T1562.001",
+      "T1543.003",
+      "T1219",
+      "T1570",
+      "T1003"
+    ],
+    "campaigns": [
+      "GodDamn ransomware (May-June 2026)"
+    ],
+    "iocs": [],
+    "notes": "Hyadina is the malware lineage/operator behind GodDamn ransomware, a July 2026 rebrand of Beast (itself a rebrand of Monster, first seen 2022) tracked by Symantec's Threat Hunter Team. In a staged intrusion (May 29-June 3, 2026) the operators deployed a Microsoft-signed malicious kernel driver named PoisonX to disable endpoint security, using AnyDesk for remote access, PsExec for lateral movement and a Mimikatz/NirSoft toolkit for credential theft. The adoption of the signed PoisonX BYOVD component marks an escalation in the group's defense-evasion capability against US enterprises.",
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
     "id": "auto-adv-the-gentlemen",
     "name": "The Gentlemen",
     "aliases": [
