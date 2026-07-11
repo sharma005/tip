@@ -7,6 +7,57 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-goddamn-ransomware-poisonx-signed-driver-byovd-edr-kill",
+    "connector": "otx",
+    "title": "GodDamn ransomware PoisonX signed-driver BYOVD EDR kill",
+    "date": "2026-07-09",
+    "severity": "High",
+    "summary": "Symantec disclosed GodDamn ransomware (Hyadina lineage) abusing a Microsoft-signed malicious kernel driver, PoisonX, to terminate endpoint defenses before encryption. The intrusion chained AnyDesk, PsExec and a Mimikatz/NirSoft credential toolkit, with the driver delivered via a fake Symantec-branded evasion tool.",
+    "tags": [
+      "ransomware",
+      "byovd",
+      "poisonx",
+      "edr-evasion",
+      "hyadina"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-ubiquiti-unifi-connect-cve-2026-50746-command-injection",
+    "connector": "pulsedive",
+    "title": "Ubiquiti UniFi Connect CVE-2026-50746 command injection",
+    "date": "2026-07-08",
+    "severity": "Critical",
+    "summary": "Ubiquiti patched a CVSS 10.0 unauthenticated command-injection flaw (CVE-2026-50746) in UniFi Connect (<=3.4.16), one of seven critical UniFi fixes. Any network-adjacent attacker can execute arbitrary OS commands; Censys reports ~100,000 UniFi OS endpoints exposed to the internet. Update to UniFi Connect 3.4.20+.",
+    "tags": [
+      "ubiquiti",
+      "unifi",
+      "command-injection",
+      "cve-2026-50746",
+      "rce"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-conn-misp-cisa-kev-joomla-file-upload-icagenda-balbooa-cve-2026-48939",
+    "connector": "misp",
+    "title": "CISA KEV adds Joomla iCagenda & Balbooa Forms file-upload flaws (CVE-2026-48939, CVE-2026-56291)",
+    "date": "2026-07-10",
+    "severity": "High",
+    "summary": "CISA added two actively exploited Joomla extension flaws to its KEV catalog on July 10, 2026: CVE-2026-48939 (iCagenda) and CVE-2026-56291 (Balbooa Forms), both unrestricted uploads of dangerous file types enabling web-shell/code execution. Federal agencies must remediate under BOD 26-04.",
+    "tags": [
+      "cisa-kev",
+      "joomla",
+      "file-upload",
+      "icagenda",
+      "balbooa"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
     "id": "auto-conn-otx-oracle-peoplesoft-peopletools-zero-day-exploited-by-shinyhun",
     "connector": "otx",
     "title": "Oracle PeopleSoft PeopleTools zero-day exploited by ShinyHunters (CVE-2026-35273)",
