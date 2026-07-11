@@ -7,6 +7,50 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-ubiquiti-unifi-connect-unauth-command-injection-cve-2026-50746",
+    "title": "Hunt for Ubiquiti UniFi Connect unauthenticated command injection (CVE-2026-50746)",
+    "description": "Ubiquiti disclosed a CVSS 10.0 unauthenticated command-injection flaw (CVE-2026-50746) in UniFi Connect, with ~100,000 UniFi OS endpoints exposed to the internet. Hunt for anomalous process execution and outbound connections originating from UniFi management hosts, which should rarely spawn shells or network utilities.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Network Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-50746",
+    "queries": [
+      {
+        "name": "Shell/utility spawns from UniFi services",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"unifi-connect\", \"unifi\", \"node\", \"unifi-os\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"curl\", \"wget\", \"nc\", \"python\", \"python3\"]\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-goddamn-poisonx-signed-driver-load-anydesk-psexec",
+    "title": "Hunt for GodDamn ransomware: PoisonX signed-driver load with AnyDesk and PsExec staging",
+    "description": "Symantec attributed a GodDamn ransomware intrusion (Hyadina lineage) that installed the Microsoft-signed PoisonX kernel driver to disable EDR, using AnyDesk for remote access and PsExec for lateral movement before encryption. Hunt for the loading of newly-registered or unusual kernel drivers on hosts that also show AnyDesk and PsExec activity.",
+    "mitreTactic": "Defense Evasion",
+    "mitreTechnique": "T1562.001 - Impair Defenses: Disable or Modify Tools",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Event Logs",
+      "Sysmon"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": "Hyadina",
+    "linkedFeedItemRef": "GodDamn",
+    "queries": [
+      {
+        "name": "Kernel driver load co-occurring with AnyDesk/PsExec",
+        "query": "source logs\n| filter $d.event_type in [\"driver_load\", \"service_install\", \"process_creation\"]\n| filter $d.image_path contains \".sys\" || $d.process_name in [\"AnyDesk.exe\", \"PsExec.exe\", \"psexesvc.exe\"]\n| groupby $d.hostname\n| distinct_count($d.image_path) as driver_events, count() as total\n| filter total > 1\n| sort -total"
+      }
+    ],
+    "fetchedAt": "2026-07-11T17:05:13.000Z"
+  },
+  {
     "id": "auto-hypo-hunt-oracle-peoplesoft-peopletools-unauth-rce-exploitation-c",
     "title": "Hunt Oracle PeopleSoft PeopleTools unauth RCE exploitation (CVE-2026-35273)",
     "description": "Oracle disclosed CVE-2026-35273, a CVSS 9.8 unauthenticated RCE in the Updates Environment Management component of PeopleSoft PeopleTools 8.61/8.62 that ShinyHunters (UNC6240) exploited in the wild as a zero-day from late May 2026, predominantly against higher-education targets. Hunt internet-facing PeopleSoft hosts for anomalous unauthenticated POST/PUT requests to PeopleTools management endpoints from external sources, followed by unexpected child processes of the web/app tier.",
