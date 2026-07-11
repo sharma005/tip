@@ -7,6 +7,32 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-silver-fox",
+    "name": "Silver Fox",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "China",
+    "motivation": "Financial",
+    "sectors": [
+      "Technology",
+      "Education",
+      "Government",
+      "State-Owned Enterprises"
+    ],
+    "ttps": [
+      "T1608.006",
+      "T1036.005",
+      "T1053.005",
+      "T1071.001"
+    ],
+    "campaigns": [
+      "MODBEACON RAT distribution via SEO poisoning and counterfeit installers (June 2026)"
+    ],
+    "iocs": [],
+    "notes": "Silver Fox is a China-linked cybercrime group that QiAnXin reports is distributing a new Rust-based RAT, MODBEACON, alongside its established Gh0st RAT and WinOS/ValleyRAT tooling. Access is gained through SEO poisoning and counterfeit software installers pushed by a network of distributors across Asia, targeting technology, education and state-owned enterprises. MODBEACON fingerprints hosts, loads plugins, uses Amazon and Cloudflare CDN infrastructure for command-and-control, and persists via scheduled tasks. The group has previously abused Microsoft-signed drivers (BYOVD) to deploy ValleyRAT.",
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
     "id": "auto-adv-hyadina",
     "name": "Hyadina",
     "aliases": [
