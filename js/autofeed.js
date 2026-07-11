@@ -6,12 +6,54 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2025-3248",
+    "title": "JADEPUFFER: first fully AI-agent-driven ransomware weaponises Langflow RCE (CVE-2025-3248)",
+    "category": "ransomware",
+    "severity": "Critical",
+    "cve": "CVE-2025-3248",
+    "cvss": null,
+    "date": "2026-07-08",
+    "actor": "JADEPUFFER",
+    "source": "Sysdig",
+    "url": "https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion",
+    "summary": "Sysdig documented JADEPUFFER, which it assesses to be the first ransomware intrusion run end-to-end by an autonomous AI agent. The agent gained initial access to an internet-facing Langflow instance via CVE-2025-3248 (unauthenticated code execution in Langflow's code-validation endpoint), dumped its PostgreSQL database and harvested credentials, then pivoted to a production MySQL server running Alibaba Nacos and encrypted 1,342 configuration items for extortion. The randomly generated encryption key was never persisted or transmitted, making recovery impossible. Patch Langflow and treat any internet-exposed instance as a priority.",
+    "tags": [
+      "ransomware",
+      "ai-agent",
+      "langflow",
+      "cve-2025-3248",
+      "rce"
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
+    "id": "auto-injective-labs-sdk-ts-npm-supply-chain-wallet-key-theft",
+    "title": "Injective Labs npm SDK backdoored to steal crypto wallet keys (@injectivelabs/sdk-ts)",
+    "category": "supplychain",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-08",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/injective-sdk-on-npm-infected-with-cryptocurrency-wallet-stealer/",
+    "summary": "Attackers compromised the Injective Labs GitHub project and published a malicious @injectivelabs/sdk-ts@1.20.21 (~175,000 monthly downloads) that hid a credential stealer inside fake telemetry. The code hooked PrivateKey.fromMnemonic() and PrivateKey.fromHex() to capture BIP-39 seed phrases and private keys, base64-encoding them into the X-Request-Id header of outbound requests. The same version was pushed across 17 dependent Injective packages; it was live for roughly 49 minutes before maintainers reverted and shipped clean version 1.20.23. Socket, Ox Security and StepSecurity flagged the attack.",
+    "tags": [
+      "supply-chain",
+      "npm",
+      "injective",
+      "crypto",
+      "wallet-stealer"
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
     "id": "auto-cve-2026-50746",
     "title": "Ubiquiti UniFi Connect maximum-severity unauthenticated command injection (CVE-2026-50746)",
     "category": "rce",
     "severity": "Critical",
     "cve": "CVE-2026-50746",
-    "cvss": 10.0,
+    "cvss": 10,
     "date": "2026-07-08",
     "actor": null,
     "source": "BleepingComputer",
