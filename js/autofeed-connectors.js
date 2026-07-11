@@ -7,6 +7,64 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-jadepuffer-agentic-ransomware-langflow-cve-2025-3248",
+    "connector": "otx",
+    "title": "JADEPUFFER agentic ransomware exploiting Langflow (CVE-2025-3248)",
+    "date": "2026-07-08",
+    "severity": "Critical",
+    "summary": "Sysdig reported JADEPUFFER, an AI-agent-driven ransomware operation that exploited an internet-facing Langflow instance via CVE-2025-3248 for unauthenticated code execution, harvested credentials, then pivoted to a production MySQL/Alibaba Nacos server and encrypted 1,342 configuration items for extortion. The randomly generated key was never stored or transmitted, preventing recovery.",
+    "tags": [
+      "ransomware",
+      "ai-agent",
+      "langflow",
+      "cve-2025-3248"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
+    "id": "auto-conn-misp-injective-labs-npm-sdk-wallet-key-stealer",
+    "connector": "misp",
+    "title": "Injective Labs npm SDK supply-chain wallet-key stealer",
+    "date": "2026-07-08",
+    "severity": "High",
+    "summary": "A backdoored @injectivelabs/sdk-ts@1.20.21 (and 17 dependent packages) captured BIP-39 seed phrases and private keys by hooking PrivateKey.fromMnemonic()/fromHex(), exfiltrating them base64-encoded inside the X-Request-Id header. It was live for roughly 49 minutes before maintainers reverted to clean 1.20.23. Detected by Socket, Ox Security and StepSecurity.",
+    "tags": [
+      "supply-chain",
+      "npm",
+      "injective",
+      "wallet-stealer"
+    ],
+    "iocs": [
+      {
+        "type": "Domain",
+        "value": "testnet.archival.chain.grpc-web.injective.network"
+      },
+      {
+        "type": "npm package",
+        "value": "@injectivelabs/sdk-ts@1.20.21"
+      }
+    ],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-silver-fox-modbeacon-rust-rat-cdn-c2",
+    "connector": "pulsedive",
+    "title": "Silver Fox MODBEACON Rust RAT using CDN-fronted gRPC C2",
+    "date": "2026-07-10",
+    "severity": "High",
+    "summary": "QiAnXin attributed a new Rust-based RAT, MODBEACON, to China-linked Silver Fox, distributed via SEO poisoning and counterfeit installers. MODBEACON fingerprints hosts, loads plugins, persists through scheduled tasks and uses Amazon and Cloudflare CDN infrastructure for gRPC-based command-and-control, complicating IP-based blocking.",
+    "tags": [
+      "silver-fox",
+      "modbeacon",
+      "rat",
+      "seo-poisoning",
+      "c2"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-11T18:46:47.033Z"
+  },
+  {
     "id": "auto-conn-otx-goddamn-ransomware-poisonx-signed-driver-byovd-edr-kill",
     "connector": "otx",
     "title": "GodDamn ransomware PoisonX signed-driver BYOVD EDR kill",
