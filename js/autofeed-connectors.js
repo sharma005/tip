@@ -7,6 +7,39 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-citrixbleed-netscaler-memory-overread-cve-2026-8451-actively",
+    "connector": "otx",
+    "title": "CitrixBleed NetScaler memory overread (CVE-2026-8451) actively exploited",
+    "date": "2026-07-09",
+    "severity": "High",
+    "summary": "CVE-2026-8451 ('CitrixBleed') is a pre-auth memory overread in Citrix NetScaler ADC/Gateway SAML IdP endpoints (CVSS 8.8), disclosed with patches on June 30, 2026 and exploited in the wild within 24 hours. Honeypot/decoy networks observed coordinated scanning of NetScaler SAML IdP appliances following watchTowr's detection-artifact release. Treat exposed, unpatched NetScaler SAML IdP instances as high priority.",
+    "tags": [
+      "citrix",
+      "netscaler",
+      "citrixbleed",
+      "cve-2026-8451"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
+    "id": "auto-conn-misp-malicious-npm-pypi-payment-sdk-packages-exfiltrating-develop",
+    "connector": "misp",
+    "title": "Malicious npm/PyPI payment-SDK packages exfiltrating developer and CI secrets",
+    "date": "2026-07-07",
+    "severity": "High",
+    "summary": "A cluster of ~17 typosquatted npm and PyPI packages impersonating PaySafe/Skrill/Neteller SDKs was detected on July 7, 2026, stealing credentials and tokens from developer machines and CI runners. The malware routes stolen data to Ngrok-hosted infrastructure through a multi-stage XOR/shift/reverse decoding routine and includes sandbox-evasion and anti-analysis checks. Packages were flagged within minutes of publication.",
+    "tags": [
+      "supply-chain",
+      "npm",
+      "pypi",
+      "credential-theft",
+      "ci-cd"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
     "id": "auto-conn-otx-gitea-docker-auth-bypass-cve-2026-20896",
     "connector": "otx",
     "title": "Gitea Docker image authentication bypass (CVE-2026-20896) under active exploitation",
