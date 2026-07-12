@@ -6,6 +6,27 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-zimbra-classic-web-client-stored-xss-code-execution",
+    "title": "Zimbra Classic Web Client critical stored XSS lets crafted emails run code in a user's session",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-11",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/zimbra-urges-customers-to-patch-critical-web-client-xss-flaw/",
+    "summary": "Zimbra is urging customers to patch a critical stored cross-site scripting flaw in the Classic Web Client that lets a specially crafted email execute malicious JavaScript in the victim's session when the email is opened, potentially exposing mailbox data, session tokens, and account settings. The issue was reported by Google's Threat Analysis Group and fixed in Zimbra Collaboration 10.1.19; no CVE has been assigned yet and it is not confirmed exploited in the wild, though Zimbra webmail has repeatedly been targeted by state-sponsored actors.",
+    "tags": [
+      "zimbra",
+      "xss",
+      "webmail",
+      "code-execution",
+      "patch"
+    ],
+    "fetchedAt": "2026-07-12T16:40:24.115Z"
+  },
+  {
     "id": "auto-cve-2026-20896",
     "title": "Gitea Docker image auth bypass (CVE-2026-20896) exploited in the wild — one header grants full admin",
     "category": "rce",
