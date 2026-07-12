@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-20896",
+    "title": "Gitea Docker image auth bypass (CVE-2026-20896) exploited in the wild — one header grants full admin",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-20896",
+    "cvss": 9.8,
+    "date": "2026-07-10",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-auth-bypass-in-gitea-docker-image/",
+    "summary": "Attackers are actively exploiting CVE-2026-20896 (CVSS 9.8), an authentication bypass in the official Gitea Docker image. The image ships REVERSE_PROXY_TRUSTED_PROXIES=* by default, so with reverse-proxy authentication enabled Gitea trusts the X-WEBAUTH-USER header from any source IP — an unauthenticated internet client can impersonate any user, including administrators, exposing repositories and secrets. Sysdig observed the first in-the-wild exploitation roughly 13 days after disclosure, with about 6,200 Gitea instances exposed online. Affects images up to and including 1.26.2; upgrade to 1.26.4.",
+    "tags": [
+      "gitea",
+      "auth-bypass",
+      "cve-2026-20896",
+      "docker",
+      "active-exploitation"
+    ],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-progress-sharefile-storage-zone-controller-threat",
+    "title": "Progress urges ShareFile customers to shut down Storage Zone Controllers over 'credible' external threat",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-10",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/progress-urges-sharefile-customers-to-shut-down-servers-over-credible-threat/",
+    "summary": "Progress Software is emailing ShareFile customers running on-premises Storage Zone Controllers to immediately shut down the Windows servers hosting them, saying it is responding to a 'credible external security threat.' Only customer-managed Storage Zone Controllers are affected, not cloud-only ShareFile accounts, and Progress stresses that disabling cloud access is not enough — the hosting server must be manually powered off. As of reporting, the company had not disclosed the nature of the threat, whether a zero-day is involved, or any CVE; Storage Zone Controllers previously had critical flaws (CVE-2026-2699 auth bypass, CVE-2026-2701 RCE) disclosed by watchTowr in April 2026.",
+    "tags": [
+      "sharefile",
+      "progress",
+      "file-sharing",
+      "incident",
+      "active-threat"
+    ],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
     "id": "auto-cve-2025-3248",
     "title": "JADEPUFFER: first fully AI-agent-driven ransomware weaponises Langflow RCE (CVE-2025-3248)",
     "category": "ransomware",
