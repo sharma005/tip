@@ -7,6 +7,53 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-citrixbleed-netscaler-saml-memory-overread-exploita",
+    "title": "Hunt for CitrixBleed NetScaler SAML memory-overread exploitation (CVE-2026-8451)",
+    "description": "SecurityWeek and watchTowr report active in-the-wild exploitation of CVE-2026-8451 ('CitrixBleed') within 24 hours of disclosure, a pre-auth memory overread in NetScaler ADC/Gateway SAML IdP endpoints that leaks session tokens. Hunt for anomalous or high-volume unauthenticated requests to NetScaler SAML/AAA endpoints from external IPs, followed by reuse of the same session from a different IP or geolocation, which can indicate token theft and session hijacking.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "VPN/Gateway Logs",
+      "Authentication Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-8451",
+    "queries": [
+      {
+        "name": "High-volume unauthenticated hits to NetScaler SAML endpoints",
+        "query": "source logs\n| filter $d.device_type == \"netscaler\"\n| filter $d.url_path in [\"/saml/login\", \"/cgi/samlauth\", \"/saml\"]\n| filter $d.auth_status == \"unauthenticated\"\n| groupby $d.source_ip\n| count() as req_count\n| filter req_count > 50\n| sort -req_count"
+      }
+    ],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-malicious-payment-sdk-npm-pypi-packages-exfiltratin",
+    "title": "Hunt for malicious payment-SDK npm/PyPI packages exfiltrating CI/CD secrets",
+    "description": "GBHackers and NHS England report a July 2026 supply-chain campaign in which ~17 npm/PyPI packages impersonating PaySafe/Skrill/Neteller SDKs steal credentials and tokens from developer machines and CI runners, exfiltrating them to Ngrok-hosted C2 after sandbox-evasion checks. Hunt for build/CI hosts making outbound connections to tunneling domains (ngrok.io, ngrok-free.app, trycloudflare.com) shortly after installation of recently-added payment-related dependencies, and for package install scripts spawning unexpected network activity.",
+    "mitreTactic": "Exfiltration",
+    "mitreTechnique": "T1567 - Exfiltration Over Web Service",
+    "dataSources": [
+      "CI/CD Logs",
+      "DNS Logs",
+      "Web Proxy Logs",
+      "EDR Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "CI hosts beaconing to tunneling domains after package install",
+        "query": "source logs\n| filter $d.event_type == \"dns_query\"\n| filter $d.query_domain ~ \"(ngrok\\.io|ngrok-free\\.app|trycloudflare\\.com)$\"\n| filter $d.host_role in [\"ci_runner\", \"build_agent\", \"developer_workstation\"]\n| groupby $d.hostname, $d.query_domain\n| count() as lookups\n| filter lookups > 0\n| sort -lookups"
+      }
+    ],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
     "id": "auto-hypo-hunt-gitea-x-webauth-user-header-auth-bypass-cve-2026-20896",
     "title": "Hunt for Gitea X-WEBAUTH-USER header abuse (CVE-2026-20896)",
     "description": "BleepingComputer and Sysdig report active exploitation of CVE-2026-20896, an authentication bypass in the official Gitea Docker image that trusts the X-WEBAUTH-USER header from any source IP due to REVERSE_PROXY_TRUSTED_PROXIES=*. Hunt for inbound HTTP requests to Gitea carrying an X-WEBAUTH-USER header originating from IPs outside your trusted reverse-proxy range, especially requests authenticating as admin accounts or accessing repositories, tokens or secrets.",
