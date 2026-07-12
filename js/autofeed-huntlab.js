@@ -7,6 +7,75 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-gitea-x-webauth-user-header-auth-bypass-cve-2026-20896",
+    "title": "Hunt for Gitea X-WEBAUTH-USER header abuse (CVE-2026-20896)",
+    "description": "BleepingComputer and Sysdig report active exploitation of CVE-2026-20896, an authentication bypass in the official Gitea Docker image that trusts the X-WEBAUTH-USER header from any source IP due to REVERSE_PROXY_TRUSTED_PROXIES=*. Hunt for inbound HTTP requests to Gitea carrying an X-WEBAUTH-USER header originating from IPs outside your trusted reverse-proxy range, especially requests authenticating as admin accounts or accessing repositories, tokens or secrets.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-20896",
+    "queries": [
+      {
+        "name": "Untrusted source IPs sending X-WEBAUTH-USER to Gitea",
+        "query": "source logs\n| filter $d.service == \"gitea\"\n| filter $d.http.request.headers ~ \"x-webauth-user\"\n| filter $d.source.ip !~ \"^(10\\\\.|172\\\\.(1[6-9]|2[0-9]|3[01])\\\\.|192\\\\.168\\\\.)\"\n| groupby $d.source.ip, $d.http.request.path\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-hypo-hunt-cavern-manticore-dll-sideloading-nativeaot-c2",
+    "title": "Hunt for Cavern Manticore DLL side-loading and NativeAOT C2 modules",
+    "description": "Check Point reports Iran-nexus Cavern Manticore using a modular .NET C2 framework (Cavern/Cav3rn) against Israeli organizations, leveraging DLL side-loading, NativeAOT modules and AppDomain unloading with low AV detection. Hunt for legitimate signed executables loading unsigned or unexpected DLLs from user-writable or non-standard paths, especially when followed by outbound connections to low-reputation infrastructure.",
+    "mitreTactic": "Defense Evasion",
+    "mitreTechnique": "T1574.001 - DLL Side-Loading",
+    "dataSources": [
+      "EDR Logs",
+      "Sysmon",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "Cavern Manticore",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Signed processes side-loading unsigned DLLs from user paths",
+        "query": "source logs\n| filter $d.event_type == \"image_load\"\n| filter $d.module_signed == false\n| filter $d.module_path ~ \"\\\\\\\\(AppData|Temp|ProgramData)\\\\\\\\\"\n| filter $d.process_name in [\"explorer.exe\", \"onedrive.exe\", \"teams.exe\", \"w3wp.exe\", \"svchost.exe\"]\n| groupby $d.hostname, $d.process_name, $d.module_path\n| count() as loads\n| sort -loads"
+      }
+    ],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-hypo-hunt-uat-7810-dogleash-router-payload-download-scripts",
+    "title": "Hunt for UAT-7810 DOGLEASH loader scripts on edge/router devices",
+    "description": "Cisco Talos reports China-nexus UAT-7810 hosting DOGLEASH (C-based) and JARLEASH (Java) backdoors on new servers, pulled onto compromised edge devices by shell scripts after exploiting n-day router vulnerabilities in Ruckus (CVE-2020-22653, CVE-2020-22658, CVE-2023-25717) and ASUS AiCloud (CVE-2025-2492). Hunt for wget/curl/tftp fetching ELF payloads built for MIPS/ARM architectures on network appliances, and for exploitation attempts against internet-facing Ruckus/ASUS management interfaces.",
+    "mitreTactic": "Command and Control",
+    "mitreTechnique": "T1105 - Ingress Tool Transfer",
+    "dataSources": [
+      "Network Device Logs",
+      "Firewall Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "UAT-7810",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Download utilities fetching MIPS/ARM payloads on network appliances",
+        "query": "source logs\n| filter $d.device_type == \"network_appliance\"\n| filter $d.process_name in [\"wget\", \"curl\", \"tftp\", \"ftpget\"]\n| filter $d.command_line ~ \"(\\\\.sh|mips|arm|elf)\"\n| groupby $d.hostname, $d.command_line\n| count() as fetches\n| sort -fetches"
+      }
+    ],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
     "id": "auto-hypo-hunt-jadepuffer-agentic-ransomware-langflow-rce-cve-2025-3248",
     "title": "Hunt for JADEPUFFER agentic ransomware exploiting Langflow (CVE-2025-3248)",
     "description": "Sysdig reported JADEPUFFER, an autonomous AI-agent ransomware that exploits internet-facing Langflow via CVE-2025-3248 to run arbitrary Python, then pivots to database servers (MySQL / Alibaba Nacos) to encrypt and extort. Hunt for the Langflow code-validation endpoint being hit by unauthenticated requests followed by Python spawning shells, credential access, or mass database configuration changes.",
