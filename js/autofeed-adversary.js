@@ -7,6 +7,57 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-uat-7810",
+    "name": "UAT-7810",
+    "aliases": [],
+    "type": "apt",
+    "origin": "China",
+    "motivation": "Espionage",
+    "sectors": [
+      "Networking Devices",
+      "Edge Infrastructure",
+      "Telecommunications"
+    ],
+    "ttps": [
+      "T1190",
+      "T1584",
+      "T1105"
+    ],
+    "campaigns": [
+      "LapDogs ORB network"
+    ],
+    "iocs": [],
+    "notes": "Cisco Talos assesses UAT-7810 as a China-nexus actor that builds and maintains Operational Relay Box (ORB) networks — notably the LapDogs network first disclosed by SecurityScorecard in 2025 — which it provides to secondary China-nexus APTs such as UAT-5918. In July 2026 Talos reported UAT-7810 expanding its custom malware arsenal with LONGLEASH (a newer SHORTLEASH variant) plus a C-based backdoor DOGLEASH and a Java-based backdoor JARLEASH, hosted on four new servers serving MIPS, ARM and x64 payloads. Initial access relies on n-day router vulnerabilities in Ruckus (CVE-2020-22653, CVE-2020-22658, CVE-2023-25717) and ASUS AiCloud (CVE-2025-2492).",
+    "active": true,
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-adv-cavern-manticore",
+    "name": "Cavern Manticore",
+    "aliases": [
+      "Cav3rn"
+    ],
+    "type": "apt",
+    "origin": "Iran",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "IT Providers",
+      "Aviation",
+      "Energy"
+    ],
+    "ttps": [
+      "T1574.001"
+    ],
+    "campaigns": [
+      "Cavern modular C2 framework operations against Israeli organizations"
+    ],
+    "iocs": [],
+    "notes": "Check Point Research tracks Cavern Manticore, an Iran-nexus APT assessed to be affiliated with Iran's Ministry of Intelligence and Security (MOIS). Since early 2026 it has used a previously undocumented modular command-and-control framework dubbed Cavern (aka Cav3rn) primarily against Israeli organizations, focusing on IT providers and government, with broader Middle East targeting of aviation, energy and public-sector entities in Egypt, Israel and the UAE. The framework is built on a shared .NET foundation using multiple compilation formats (.NET Framework, mixed-mode C++/CLI, NativeAOT), employing DLL side-loading, NativeAOT modules and AppDomain unloading with low VirusTotal detection. CPR notes tactical overlaps with MuddyWater and Lyceum (an OilRig subgroup).",
+    "active": true,
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
     "id": "auto-adv-silver-fox",
     "name": "Silver Fox",
     "aliases": [],
