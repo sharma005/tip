@@ -6,6 +6,49 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-8451",
+    "title": "Citrix NetScaler 'CitrixBleed' memory overread (CVE-2026-8451) exploited within 24 hours of disclosure",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-8451",
+    "cvss": 8.8,
+    "date": "2026-06-30",
+    "actor": null,
+    "source": "SecurityWeek",
+    "url": "https://www.securityweek.com/new-citrixbleed-vulnerability-exploited-immediately-after-public-disclosure/",
+    "summary": "CVE-2026-8451, dubbed 'CitrixBleed', is a pre-authentication memory overread in Citrix NetScaler ADC and Gateway appliances configured as a SAML identity provider, letting unauthenticated attackers disclose appliance memory including session tokens (CVSS 8.8). Citrix disclosed the flaw and shipped patches (advisory CTX696604) on June 30, 2026, and threat actors began exploiting it in the wild within 24 hours, echoing the original CitrixBleed. Organizations should apply the NetScaler updates immediately and terminate active sessions.",
+    "tags": [
+      "citrix",
+      "netscaler",
+      "citrixbleed",
+      "cve-2026-8451",
+      "memory-disclosure"
+    ],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
+    "id": "auto-malicious-npm-and-pypi-payment-sdk-packages-steal-ci-cd-secr",
+    "title": "Malicious npm and PyPI 'payment SDK' packages steal CI/CD secrets and developer credentials",
+    "category": "supplychain",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-07",
+    "actor": null,
+    "source": "GBHackers",
+    "url": "https://gbhackers.com/npm-and-pypi-malware/",
+    "summary": "On July 7, 2026, security scanners detected a cluster of roughly 17 malicious packages published almost simultaneously across npm and PyPI, masquerading as SDKs for the PaySafe, Skrill and Neteller payment platforms. Once installed, the malware harvests credentials and tokens from developer machines and CI runners and exfiltrates them to Ngrok-hosted infrastructure via a multi-stage XOR / character-shift / string-reversal decoding routine, with sandbox-evasion checks to avoid analysis. The campaign shows continued targeting of financial-integration developers through typosquatting.",
+    "tags": [
+      "supply-chain",
+      "npm",
+      "pypi",
+      "typosquatting",
+      "ci-cd",
+      "credential-theft"
+    ],
+    "fetchedAt": "2026-07-12T18:43:39.365Z"
+  },
+  {
     "id": "auto-zimbra-classic-web-client-stored-xss-code-execution",
     "title": "Zimbra Classic Web Client critical stored XSS lets crafted emails run code in a user's session",
     "category": "rce",
