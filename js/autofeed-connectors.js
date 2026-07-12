@@ -7,6 +7,70 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-gitea-docker-auth-bypass-cve-2026-20896",
+    "connector": "otx",
+    "title": "Gitea Docker image authentication bypass (CVE-2026-20896) under active exploitation",
+    "date": "2026-07-10",
+    "severity": "Critical",
+    "summary": "CVE-2026-20896 (CVSS 9.8) is an authentication bypass in the official Gitea Docker image, which defaults to REVERSE_PROXY_TRUSTED_PROXIES=*. With reverse-proxy auth enabled, Gitea trusts the X-WEBAUTH-USER header from any source IP, letting an unauthenticated client impersonate any user including admins. Sysdig detected in-the-wild exploitation ~13 days after disclosure; ~6,200 instances are exposed online. Patched in 1.26.3/1.26.4.",
+    "tags": [
+      "gitea",
+      "auth-bypass",
+      "cve-2026-20896",
+      "docker"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-conn-misp-progress-sharefile-storage-zone-controller-threat",
+    "connector": "misp",
+    "title": "Progress ShareFile Storage Zone Controllers shut down over credible external threat",
+    "date": "2026-07-10",
+    "severity": "Critical",
+    "summary": "Progress Software told ShareFile customers running on-premises Storage Zone Controllers to manually power off the hosting Windows servers in response to a 'credible external security threat.' Cloud-only ShareFile accounts are unaffected and disabling cloud access alone is insufficient. No CVE or threat details were disclosed; the same component had critical auth-bypass/RCE flaws (CVE-2026-2699, CVE-2026-2701) disclosed in April 2026.",
+    "tags": [
+      "sharefile",
+      "progress",
+      "file-sharing",
+      "incident"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-conn-otx-uat-7810-longleash-dogleash-orb-network",
+    "connector": "otx",
+    "title": "China-nexus UAT-7810 expands ORB network with new LONGLEASH/DOGLEASH malware",
+    "date": "2026-07-08",
+    "severity": "High",
+    "summary": "Cisco Talos reported that China-nexus UAT-7810, which builds ORB (Operational Relay Box) networks for secondary APTs such as UAT-5918, has expanded its malware arsenal with LONGLEASH (a SHORTLEASH successor) and two new backdoors: C-based DOGLEASH and Java-based JARLEASH. New servers host MIPS/ARM/x64 payloads pulled by shell scripts. Initial access uses n-day router vulns in Ruckus (CVE-2020-22653/22658, CVE-2023-25717) and ASUS AiCloud (CVE-2025-2492).",
+    "tags": [
+      "uat-7810",
+      "orb",
+      "longleash",
+      "china"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-cavern-manticore-iran-c2-framework",
+    "connector": "pulsedive",
+    "title": "Iran-nexus Cavern Manticore deploys modular Cavern C2 framework against Israeli orgs",
+    "date": "2026-07-06",
+    "severity": "High",
+    "summary": "Check Point Research detailed Cavern Manticore, an Iran-nexus (MOIS-affiliated) APT using a previously undocumented modular .NET C2 framework dubbed Cavern (aka Cav3rn) against Israeli IT providers and government, plus aviation/energy/public-sector targets across the Middle East. The framework spans .NET Framework, mixed-mode C++/CLI and NativeAOT builds, using DLL side-loading and AppDomain unloading with low VirusTotal detection. Tactical overlaps noted with MuddyWater and Lyceum.",
+    "tags": [
+      "cavern-manticore",
+      "iran",
+      "c2",
+      "israel"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-12T00:44:48.538Z"
+  },
+  {
     "id": "auto-conn-otx-jadepuffer-agentic-ransomware-langflow-cve-2025-3248",
     "connector": "otx",
     "title": "JADEPUFFER agentic ransomware exploiting Langflow (CVE-2025-3248)",
