@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-jscrambler-npm-supply-chain-infostealer",
+    "title": "jscrambler npm package compromised in supply-chain attack dropping cross-platform infostealer",
+    "category": "supplychain",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-11",
+    "actor": null,
+    "source": "Socket",
+    "url": "https://socket.dev/blog/jscrambler-supply-chain-attack",
+    "summary": "An attacker used a stolen npm publishing credential to push malicious jscrambler releases starting with 8.14.0 on July 11, 2026. The 8.14.0 build added an undocumented preinstall hook that ran three gzip-compressed Rust binaries (Linux ELF, Windows PE, macOS Mach-O) hidden in an obfuscated container, executing on npm install without importing the package. Later versions (8.18.0+) abandoned the install hook and self-executed from index.js to defeat --ignore-scripts. The stealer harvested AWS/GCP/Azure, crypto wallet, AI-assistant, and messaging credentials; Socket detected it about 6 minutes after publication.",
+    "tags": [
+      "npm",
+      "supply-chain",
+      "infostealer",
+      "jscrambler",
+      "credential-theft"
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
+    "id": "auto-cve-2008-4128",
+    "title": "18-year-old Cisco IOS CSRF flaw (CVE-2008-4128) added to CISA KEV",
+    "category": "kev",
+    "severity": "Medium",
+    "cve": "CVE-2008-4128",
+    "cvss": null,
+    "date": "2026-07-13",
+    "actor": null,
+    "source": "Security Affairs",
+    "url": "https://securityaffairs.com/195262/security/u-s-cisa-adds-a-cisco-ios-flaw-to-its-known-exploited-vulnerabilities-catalog.html",
+    "summary": "CISA added CVE-2008-4128, a set of cross-site request forgery flaws in the HTTP administration interface of Cisco IOS 12.4 (Cisco 871 Integrated Services Routers), to its KEV catalog on July 13, 2026, citing active exploitation. An attacker can trick an authenticated administrator into executing arbitrary commands via crafted URIs, potentially compromising the device. Remediation was due July 16, 2026.",
+    "tags": [
+      "cisco",
+      "ios",
+      "csrf",
+      "kev",
+      "legacy"
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
     "id": "auto-cve-2026-8451",
     "title": "Citrix NetScaler 'CitrixBleed' memory overread (CVE-2026-8451) exploited within 24 hours of disclosure",
     "category": "kev",
