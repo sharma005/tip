@@ -7,6 +7,75 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-langflow-idor-flow-hijack-cve-2026-55255",
+    "title": "Hunt for Langflow /api/v1/responses IDOR flow hijacking (CVE-2026-55255)",
+    "description": "Sysdig's Threat Research Team observed in-the-wild exploitation (from June 25, 2026) of the Langflow IDOR CVE-2026-55255, where an authenticated attacker enumerates /api/v1/flows/ then replays another user's flow ID against /api/v1/responses to execute their flows, inject a 'leak api keys' prompt, and stage a second-stage loader. Hunt for enumeration of the flows endpoint followed by POSTs to /api/v1/responses, and for any outbound connection to the reported loader host 45.207.216.55.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "Network Flow Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-55255",
+    "queries": [
+      {
+        "name": "Outbound to Langflow second-stage loader host",
+        "query": "source logs\n| filter $d.event_type == \"network_connection\"\n| filter $d.dest_ip == \"45.207.216.55\"\n| groupby $d.hostname, $d.dest_ip, $d.dest_port\n| count() as conn_count\n| filter conn_count > 0\n| sort -conn_count"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-npm-preinstall-native-binary-jscrambler",
+    "title": "Hunt for malicious npm preinstall hooks spawning native binaries (jscrambler supply-chain)",
+    "description": "The jscrambler npm compromise (8.14.0, July 11, 2026) ran hidden cross-platform Rust binaries via an undocumented preinstall hook, and later versions self-executed from index.js to bypass --ignore-scripts. Hunt build and developer hosts for npm/node processes spawning unexpected native executables out of node_modules shortly after an install, which can indicate a poisoned dependency dropping an infostealer.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1195.002 - Compromise Software Supply Chain",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "DNS Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "jscrambler",
+    "queries": [
+      {
+        "name": "npm/node spawning native binaries from node_modules",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"npm\", \"node\", \"npm.exe\", \"node.exe\"]\n| filter $d.process_path ~ \"node_modules\"\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as spawn_count\n| filter spawn_count > 0\n| sort -spawn_count"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-sp-page-builder-uploadcustomicon-webshell-cve-2026-48908",
+    "title": "Hunt for SP Page Builder uploadCustomIcon webshell drops (CVE-2026-48908)",
+    "description": "CVE-2026-48908 (CVSS 10.0) is an unauthenticated arbitrary file upload in the SP Page Builder Joomla extension, exploited in the wild via a POST to index.php?option=com_sppagebuilder&task=asset.uploadCustomIcon. Observed post-exploitation includes PHP webshells and file-manager backdoors written under /media/com_sppagebuilder/assets/ and creation of hidden Joomla super-administrator accounts. Hunt web servers for these upload requests and for new PHP files appearing in that asset path.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1505.003 - Server Software Component: Web Shell",
+    "dataSources": [
+      "Web Server Logs",
+      "File Integrity Monitoring",
+      "Web Proxy Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-48908",
+    "queries": [
+      {
+        "name": "SP Page Builder uploadCustomIcon POST attempts",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.uri ~ \"com_sppagebuilder\" && $d.uri ~ \"asset.uploadCustomIcon\"\n| filter $d.http_method == \"POST\"\n| groupby $d.src_ip, $d.host, $d.status_code\n| count() as upload_attempts\n| filter upload_attempts > 0\n| sort -upload_attempts"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-citrixbleed-netscaler-saml-memory-overread-exploita",
     "title": "Hunt for CitrixBleed NetScaler SAML memory-overread exploitation (CVE-2026-8451)",
     "description": "SecurityWeek and watchTowr report active in-the-wild exploitation of CVE-2026-8451 ('CitrixBleed') within 24 hours of disclosure, a pre-auth memory overread in NetScaler ADC/Gateway SAML IdP endpoints that leaks session tokens. Hunt for anomalous or high-volume unauthenticated requests to NetScaler SAML/AAA endpoints from external IPs, followed by reuse of the same session from a different IP or geolocation, which can indicate token theft and session hijacking.",
