@@ -7,6 +7,93 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-langflow-cve-2026-55255-second-stage-loader",
+    "connector": "otx",
+    "title": "Langflow CVE-2026-55255 exploitation - second-stage loader infrastructure",
+    "date": "2026-07-08",
+    "severity": "Critical",
+    "summary": "Community tracking of in-the-wild exploitation of the Langflow IDOR CVE-2026-55255. Sysdig reported RCE payloads that download and execute a second-stage loader from an attacker-controlled host, alongside abuse of the /api/v1/responses endpoint to harvest embedded LLM, cloud and database secrets. Defenders should monitor and block the loader infrastructure.",
+    "tags": [
+      "langflow",
+      "cve-2026-55255",
+      "c2",
+      "idor"
+    ],
+    "iocs": [
+      {
+        "type": "IP",
+        "value": "45.207.216.55"
+      },
+      {
+        "type": "URL",
+        "value": "http://45.207.216.55:8084/slt"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
+    "id": "auto-conn-misp-jscrambler-npm-supply-chain-compromise",
+    "connector": "misp",
+    "title": "jscrambler npm supply-chain compromise - malicious package versions",
+    "date": "2026-07-11",
+    "severity": "High",
+    "summary": "Supply-chain event suitable for MISP sharing: an attacker used a stolen npm token to publish malicious jscrambler releases embedding cross-platform Rust infostealer binaries. Multiple malicious versions were published within hours; later builds dropped the preinstall hook to evade --ignore-scripts. Pin/quarantine the affected versions and rotate any secrets exposed on affected build hosts.",
+    "tags": [
+      "npm",
+      "supply-chain",
+      "jscrambler",
+      "infostealer"
+    ],
+    "iocs": [
+      {
+        "type": "npm package",
+        "value": "jscrambler@8.14.0"
+      },
+      {
+        "type": "npm package",
+        "value": "jscrambler@8.16.0"
+      },
+      {
+        "type": "npm package",
+        "value": "jscrambler@8.17.0"
+      },
+      {
+        "type": "npm package",
+        "value": "jscrambler@8.18.0"
+      },
+      {
+        "type": "npm package",
+        "value": "jscrambler@8.20.0"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
+    "id": "auto-conn-otx-sp-page-builder-cve-2026-48908-webshell-upload",
+    "connector": "otx",
+    "title": "SP Page Builder for Joomla CVE-2026-48908 - mass webshell upload exploitation",
+    "date": "2026-07-07",
+    "severity": "Critical",
+    "summary": "Community tracking of active exploitation of the unauthenticated file-upload RCE CVE-2026-48908 (CVSS 10.0) in the SP Page Builder Joomla extension. Attackers POST to the asset.uploadCustomIcon controller to drop PHP webshells and file-manager backdoors under the extension asset path and create hidden Joomla super-admin accounts. Hunt web logs for the upload URI and audit the asset directory.",
+    "tags": [
+      "joomla",
+      "cve-2026-48908",
+      "webshell",
+      "exploitation"
+    ],
+    "iocs": [
+      {
+        "type": "URI",
+        "value": "index.php?option=com_sppagebuilder&task=asset.uploadCustomIcon"
+      },
+      {
+        "type": "Path",
+        "value": "/media/com_sppagebuilder/assets/"
+      }
+    ],
+    "fetchedAt": "2026-07-14T13:43:58.000Z"
+  },
+  {
     "id": "auto-conn-otx-citrixbleed-netscaler-memory-overread-cve-2026-8451-actively",
     "connector": "otx",
     "title": "CitrixBleed NetScaler memory overread (CVE-2026-8451) actively exploited",
