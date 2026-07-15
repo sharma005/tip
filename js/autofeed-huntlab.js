@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-sonicwall-sma1000-ssrf-to-command-exec-cve-2026-15409",
+    "title": "Hunt for SonicWall SMA1000 SSRF-to-command-execution exploitation (CVE-2026-15409/15410)",
+    "description": "SonicWall confirmed active zero-day exploitation of SMA1000 appliances, chaining an unauthenticated SSRF (CVE-2026-15409) with a post-auth command injection (CVE-2026-15410) to run OS commands with admin privileges. Hunt for anomalous outbound requests originating from the SMA1000 Work Place interface and for unexpected shell or interpreter child processes spawned by appliance management components.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Firewall Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-15409",
+    "queries": [
+      {
+        "name": "SMA1000 appliance spawning shells or making anomalous outbound requests",
+        "query": "source logs\n| filter $d.device_type == \"sonicwall_sma1000\"\n| filter $d.event_type in [\"process_creation\", \"outbound_request\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"python\", \"curl\", \"wget\"] || $d.component == \"work_place_interface\"\n| groupby $d.src_ip, $d.component, $d.process_name, $d.uri\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-adfs-privilege-escalation-cve-2026-56155",
+    "title": "Hunt for AD FS privilege escalation abuse following CVE-2026-56155 exploitation",
+    "description": "Microsoft disclosed CVE-2026-56155, an actively exploited AD FS access-control flaw allowing a low-privileged local user to gain administrator rights on the federation server. Hunt for unexpected command shells spawned under the AD FS service process, and for anomalous privilege changes or token-issuance spikes on federation servers.",
+    "mitreTactic": "Privilege Escalation",
+    "mitreTechnique": "T1068 - Exploitation for Privilege Escalation",
+    "dataSources": [
+      "Windows Security Logs",
+      "EDR Logs",
+      "Identity Provider Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-56155",
+    "queries": [
+      {
+        "name": "AD FS service process spawning interactive shells",
+        "query": "source logs\n| filter $d.host_role == \"adfs_server\"\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"Microsoft.IdentityServer.ServiceHost.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"rundll32.exe\"]\n| groupby $d.hostname, $d.user, $d.process_name, $d.command_line\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-hypo-hunt-sharepoint-unauth-privesc-cve-2026-56164",
+    "title": "Hunt for SharePoint unauthenticated privilege-escalation exploitation (CVE-2026-56164)",
+    "description": "CVE-2026-56164 is an actively exploited SharePoint Server flaw (missing authentication for a critical function) that lets a remote unauthenticated attacker elevate privileges over the network. Hunt for w3wp.exe spawning command shells or the C# compiler on SharePoint web front-ends, a common indicator of post-exploitation webshell activity.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "IIS Logs",
+      "Web Server Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-56164",
+    "queries": [
+      {
+        "name": "SharePoint w3wp.exe spawning shells or csc.exe",
+        "query": "source logs\n| filter $d.application == \"sharepoint\"\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"w3wp.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"csc.exe\"]\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
     "id": "auto-hypo-hunt-langflow-idor-flow-hijack-cve-2026-55255",
     "title": "Hunt for Langflow /api/v1/responses IDOR flow hijacking (CVE-2026-55255)",
     "description": "Sysdig's Threat Research Team observed in-the-wild exploitation (from June 25, 2026) of the Langflow IDOR CVE-2026-55255, where an authenticated attacker enumerates /api/v1/flows/ then replays another user's flow ID against /api/v1/responses to execute their flows, inject a 'leak api keys' prompt, and stage a second-stage loader. Hunt for enumeration of the flows endpoint followed by POSTs to /api/v1/responses, and for any outbound connection to the reported loader host 45.207.216.55.",
