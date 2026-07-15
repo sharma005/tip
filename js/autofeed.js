@@ -6,6 +6,132 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-15409",
+    "title": "SonicWall SMA1000 unauthenticated SSRF (CVE-2026-15409) exploited as zero-day, chained for admin command execution",
+    "category": "kev",
+    "severity": "Critical",
+    "cve": "CVE-2026-15409",
+    "cvss": 10.0,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-sma1000-flaws-exploited-in-zero-day-attacks-patch-now/",
+    "summary": "SonicWall confirmed active zero-day exploitation of two SMA1000 appliance flaws. CVE-2026-15409 is a critical (CVSS 10.0) unauthenticated server-side request forgery in the SMA1000 Work Place interface; chained with CVE-2026-15410 (CVSS 7.2 post-auth code injection in the Appliance Management Console), unauthenticated remote attackers achieve arbitrary OS command execution with administrative privileges. CISA added both to the KEV catalog on July 14, 2026, with a July 17 federal remediation deadline.",
+    "tags": [
+      "sonicwall",
+      "sma1000",
+      "ssrf",
+      "zero-day",
+      "kev"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-cve-2026-55944",
+    "title": "Critical unauthenticated RCE in Microsoft Dynamics 365 Business Central (CVE-2026-55944)",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-55944",
+    "cvss": 9.8,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "Rapid7",
+    "url": "https://www.rapid7.com/blog/post/em-patch-tuesday-july-2026/",
+    "summary": "Microsoft's July 2026 Patch Tuesday fixed CVE-2026-55944, a CVSS 9.8 deserialization-of-untrusted-data flaw (CWE-502) affecting Microsoft Dynamics NAV and Dynamics 365 Business Central (On-Premises). An unauthenticated remote attacker can execute arbitrary code over the network. No exploitation was reported at disclosure, but the low attack complexity and unauthenticated vector make it a priority patch.",
+    "tags": [
+      "microsoft",
+      "dynamics-365",
+      "rce",
+      "deserialization",
+      "patch-tuesday"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-cve-2026-50518",
+    "title": "Windows DHCP Server heap-overflow RCE (CVE-2026-50518, CVE-2026-56159)",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-50518",
+    "cvss": 9.8,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "Rapid7",
+    "url": "https://www.rapid7.com/blog/post/em-patch-tuesday-july-2026/",
+    "summary": "Two CVSS 9.8 heap-based buffer overflow flaws (CWE-122) in Windows DHCP Server, CVE-2026-50518 and CVE-2026-56159, allow unauthenticated remote attackers to execute code with no user interaction and low attack complexity. Both were patched in the July 2026 Patch Tuesday; DHCP servers reachable from untrusted network segments should be prioritized.",
+    "tags": [
+      "microsoft",
+      "windows",
+      "dhcp",
+      "rce",
+      "patch-tuesday"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-cve-2026-56188",
+    "title": "Windows Server Network driver race-condition RCE (CVE-2026-56188)",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-56188",
+    "cvss": 9.8,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "Rapid7",
+    "url": "https://www.rapid7.com/blog/post/em-patch-tuesday-july-2026/",
+    "summary": "CVE-2026-56188 is a CVSS 9.8 race-condition flaw (CWE-362) in the Windows Server Network driver that lets an unauthenticated remote attacker execute code with no user interaction and low attack complexity. Fixed in Microsoft's record-breaking July 2026 Patch Tuesday.",
+    "tags": [
+      "microsoft",
+      "windows-server",
+      "rce",
+      "race-condition",
+      "patch-tuesday"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-cve-2026-56155",
+    "title": "Microsoft AD FS privilege-escalation zero-day (CVE-2026-56155) exploited in the wild",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-56155",
+    "cvss": 7.8,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-july-2026-patch-tuesday-fixes-massive-570-flaws-3-zero-days/",
+    "summary": "CVE-2026-56155 is an actively exploited insufficient-access-control flaw in Active Directory Federation Services (AD FS). With local access and low privileges, an attacker can elevate to administrator, fully compromising the federation server that underpins single sign-on across the Active Directory environment. Microsoft credited its DART incident-response team, and CISA added it to the KEV catalog on July 14, 2026. CVSS 7.8.",
+    "tags": [
+      "microsoft",
+      "adfs",
+      "zero-day",
+      "privilege-escalation",
+      "kev"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-cve-2026-56164",
+    "title": "Microsoft SharePoint Server privilege-escalation zero-day (CVE-2026-56164) actively exploited",
+    "category": "zeroday",
+    "severity": "High",
+    "cve": "CVE-2026-56164",
+    "cvss": null,
+    "date": "2026-07-14",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/microsoft-patches-record-622-flaws.html",
+    "summary": "Microsoft patched CVE-2026-56164, an actively exploited SharePoint Server flaw stemming from missing authentication for a critical function, allowing a remote unauthorized attacker to elevate privileges over the network without user interaction. It was one of two zero-days under active attack in the record July 2026 Patch Tuesday (622 CVEs).",
+    "tags": [
+      "microsoft",
+      "sharepoint",
+      "zero-day",
+      "privilege-escalation",
+      "patch-tuesday"
+    ],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
     "id": "auto-jscrambler-npm-supply-chain-infostealer",
     "title": "jscrambler npm package compromised in supply-chain attack dropping cross-platform infostealer",
     "category": "supplychain",
