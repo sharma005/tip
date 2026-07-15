@@ -7,6 +7,69 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-sonicwall-sma1000-zero-day-cve-2026-15409-15410",
+    "connector": "otx",
+    "title": "SonicWall SMA1000 zero-day exploitation (CVE-2026-15409, CVE-2026-15410)",
+    "date": "2026-07-14",
+    "severity": "Critical",
+    "summary": "OTX/OSINT tracking of active exploitation of two SonicWall SMA1000 flaws: a CVSS 10.0 unauthenticated SSRF (CVE-2026-15409) chained with a post-auth command injection (CVE-2026-15410) for admin-level OS command execution. Both were added to the CISA KEV catalog on July 14, 2026.",
+    "tags": [
+      "sonicwall",
+      "sma1000",
+      "kev",
+      "zero-day"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-conn-otx-microsoft-adfs-zero-day-cve-2026-56155",
+    "connector": "otx",
+    "title": "Microsoft AD FS privilege-escalation zero-day exploited (CVE-2026-56155)",
+    "date": "2026-07-14",
+    "severity": "High",
+    "summary": "Community tracking of the actively exploited AD FS access-control flaw CVE-2026-56155 (CVSS 7.8), which lets a low-privileged local attacker escalate to administrator on federation servers. Patched in the July 2026 Patch Tuesday and added to CISA KEV.",
+    "tags": [
+      "microsoft",
+      "adfs",
+      "zero-day",
+      "kev"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-conn-otx-microsoft-sharepoint-zero-day-cve-2026-56164",
+    "connector": "otx",
+    "title": "Microsoft SharePoint privilege-escalation zero-day exploited (CVE-2026-56164)",
+    "date": "2026-07-14",
+    "severity": "High",
+    "summary": "OSINT tracking of active exploitation of CVE-2026-56164, a missing-authentication flaw in SharePoint Server allowing remote unauthenticated privilege escalation over the network. One of two exploited zero-days in Microsoft's record July 2026 Patch Tuesday.",
+    "tags": [
+      "microsoft",
+      "sharepoint",
+      "zero-day"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
+    "id": "auto-conn-misp-microsoft-july-2026-patch-tuesday-critical-unauth-rce",
+    "connector": "misp",
+    "title": "Microsoft July 2026 Patch Tuesday critical unauthenticated RCEs (Dynamics 365, Windows DHCP, Server Network driver)",
+    "date": "2026-07-14",
+    "severity": "Critical",
+    "summary": "MISP-style sharing of the record 622-CVE July 2026 Patch Tuesday, highlighting CVSS 9.8 unauthenticated RCEs: Dynamics 365 Business Central (CVE-2026-55944), Windows DHCP Server (CVE-2026-50518 / CVE-2026-56159) and the Windows Server Network driver (CVE-2026-56188).",
+    "tags": [
+      "microsoft",
+      "patch-tuesday",
+      "rce",
+      "critical"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-15T18:43:59.000Z"
+  },
+  {
     "id": "auto-conn-otx-langflow-cve-2026-55255-second-stage-loader",
     "connector": "otx",
     "title": "Langflow CVE-2026-55255 exploitation - second-stage loader infrastructure",
