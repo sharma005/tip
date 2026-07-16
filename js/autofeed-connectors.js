@@ -7,6 +7,22 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-microsoft-sharepoint-server-deserialization-rce-exploited-cv",
+    "connector": "otx",
+    "title": "Microsoft SharePoint Server deserialization RCE exploited (CVE-2026-58644)",
+    "date": "2026-07-15",
+    "severity": "Critical",
+    "summary": "Open-source threat-intel communities are tracking exploitation risk around CVE-2026-58644, a critical (CVSS 9.8) unauthenticated deserialization remote-code-execution flaw in on-premises Microsoft SharePoint Server (2016, 2019, Subscription Edition) fixed in the July 2026 Patch Tuesday. CISA urged immediate patching and AMSI Full Mode hardening after observing active exploitation of SharePoint environments; defenders should watch for w3wp.exe spawning shells and unexpected .aspx files in SharePoint layouts directories.",
+    "tags": [
+      "sharepoint",
+      "rce",
+      "deserialization",
+      "cve-2026-58644"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-16T18:44:44.837Z"
+  },
+  {
     "id": "auto-conn-otx-sonicwall-sma1000-zero-day-cve-2026-15409-15410",
     "connector": "otx",
     "title": "SonicWall SMA1000 zero-day exploitation (CVE-2026-15409, CVE-2026-15410)",
