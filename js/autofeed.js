@@ -6,6 +6,27 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-58644",
+    "title": "Critical unauthenticated SharePoint Server deserialization RCE (CVE-2026-58644) amid active SharePoint exploitation",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-58644",
+    "cvss": 9.8,
+    "date": "2026-07-15",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/14/cisa-urges-sharepoint-hardening-after-new-exploitations",
+    "summary": "CVE-2026-58644 is a critical (CVSS 9.8) deserialization-of-untrusted-data flaw in on-premises Microsoft SharePoint Server (2016, 2019, and Subscription Edition) addressed in the July 2026 Patch Tuesday, allowing an unauthenticated attacker to execute code remotely over the network. It is one of a cluster of on-prem SharePoint flaws (alongside CVE-2026-56164 and CVE-2026-55040) that CISA flagged for urgent patching and hardening after observing active exploitation of SharePoint environments, and Microsoft subsequently updated its advisory to reflect heightened exploitation risk. CISA recommends applying the July updates and enabling AMSI Full Mode request-body scanning.",
+    "tags": [
+      "sharepoint",
+      "rce",
+      "deserialization",
+      "patch-tuesday",
+      "cisa"
+    ],
+    "fetchedAt": "2026-07-16T18:44:44.837Z"
+  },
+  {
     "id": "auto-cve-2026-15409",
     "title": "SonicWall SMA1000 unauthenticated SSRF (CVE-2026-15409) exploited as zero-day, chained for admin command execution",
     "category": "kev",
