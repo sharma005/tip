@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-sharepoint-deserialization-rce-exploitation-cve-202",
+    "title": "Hunt for SharePoint deserialization RCE exploitation (CVE-2026-58644) via w3wp.exe child processes",
+    "description": "Following CISA's warning of active exploitation of on-premises Microsoft SharePoint Server and the July 2026 disclosure of CVE-2026-58644 - a critical unauthenticated deserialization RCE (CVSS 9.8) - hunt for post-exploitation activity where the SharePoint IIS worker process w3wp.exe spawns command interpreters, script hosts, or the C# compiler. Such child processes off w3wp.exe are a strong signal of webshell drop or in-memory code execution after exploitation of the SharePoint deserialization flaw.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Web Server Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-58644",
+    "queries": [
+      {
+        "name": "SharePoint w3wp.exe spawning shells / compilers",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"w3wp.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"csc.exe\", \"cscript.exe\", \"wscript.exe\"]\n| filter $d.timestamp >= \"2026-07-14T00:00:00Z\"\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-16T18:44:44.837Z"
+  },
+  {
     "id": "auto-hypo-hunt-sonicwall-sma1000-ssrf-to-command-exec-cve-2026-15409",
     "title": "Hunt for SonicWall SMA1000 SSRF-to-command-execution exploitation (CVE-2026-15409/15410)",
     "description": "SonicWall confirmed active zero-day exploitation of SMA1000 appliances, chaining an unauthenticated SSRF (CVE-2026-15409) with a post-auth command injection (CVE-2026-15410) to run OS commands with admin privileges. Hunt for anomalous outbound requests originating from the SMA1000 Work Place interface and for unexpected shell or interpreter child processes spawned by appliance management components.",
