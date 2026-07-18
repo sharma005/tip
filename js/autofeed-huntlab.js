@@ -7,6 +7,51 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-fortisandbox-unauthenticated-os-command-injection-e",
+    "title": "Hunt for FortiSandbox unauthenticated OS command injection exploitation (CVE-2026-25089 / CVE-2026-39808)",
+    "description": "CISA added two Fortinet FortiSandbox OS command injection flaws (CVE-2026-25089, CVE-2026-39808) to its KEV catalog on 2026-07-16 after in-the-wild exploitation. An unauthenticated attacker sends crafted HTTP requests to the appliance management interface to inject shell metacharacters and execute commands as the underlying OS user. Hunt for FortiSandbox web-facing services spawning shell/interpreter child processes and anomalous inbound HTTP requests to admin endpoints from external IPs.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "EDR Logs",
+      "Network Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-25089",
+    "queries": [
+      {
+        "name": "FortiSandbox web service spawning shell processes",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"java\", \"httpd\", \"nginx\", \"fortisandbox\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"python\", \"curl\", \"wget\", \"nc\"]\n| filter $d.timestamp >= \"2026-07-12T00:00:00Z\"\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-oracle-e-business-suite-payments-unauthenticated-fi",
+    "title": "Hunt for Oracle E-Business Suite Payments unauthenticated file read via ibytransmit (CVE-2026-46817)",
+    "description": "CVE-2026-46817 (CVSS 9.8) in Oracle E-Business Suite's Payments module is under active exploitation, with first in-the-wild activity observed on 2026-06-27 and CISA adding it to KEV on 2026-07-15. Attackers reach the unauthenticated 'ibytransmit' File Transmission endpoint and coerce an internal Oracle Java routine to read arbitrary server files such as /etc/passwd. Hunt for external HTTP requests to ibytransmit / File Transmission URIs on EBS hosts and for EBS application processes reading sensitive system files.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-46817",
+    "queries": [
+      {
+        "name": "Requests to Oracle EBS ibytransmit endpoint from external IPs",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path contains \"ibytransmit\"\n| filter $d.source_ip not in [${INTERNAL_RANGES}]\n| filter $d.timestamp >= \"2026-07-01T00:00:00Z\"\n| groupby $d.source_ip, $d.http_host, $d.url_path, $d.http_status\n| count() as req_count\n| sort -req_count"
+      }
+    ],
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-sharepoint-deserialization-rce-exploitation-cve-202",
     "title": "Hunt for SharePoint deserialization RCE exploitation (CVE-2026-58644) via w3wp.exe child processes",
     "description": "Following CISA's warning of active exploitation of on-premises Microsoft SharePoint Server and the July 2026 disclosure of CVE-2026-58644 - a critical unauthenticated deserialization RCE (CVSS 9.8) - hunt for post-exploitation activity where the SharePoint IIS worker process w3wp.exe spawns command interpreters, script hosts, or the C# compiler. Such child processes off w3wp.exe are a strong signal of webshell drop or in-memory code execution after exploitation of the SharePoint deserialization flaw.",
