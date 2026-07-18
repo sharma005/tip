@@ -6,6 +6,47 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Fortinet FortiSandbox unauthenticated OS command injection actively exploited (CVE-2026-25089)",
+    "category": "kev",
+    "severity": "Critical",
+    "cve": "CVE-2026-25089",
+    "cvss": 9.1,
+    "date": "2026-07-16",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/cisa-warns-feds-to-patch-exploited-fortinet-fortisandbox-flaws-by-sunday/",
+    "summary": "CISA added Fortinet FortiSandbox flaw CVE-2026-25089 to its KEV catalog on July 16, 2026 after reports of active exploitation. The unauthenticated OS command injection lets a remote attacker run arbitrary commands via specially crafted HTTP requests to the appliance's management interface, enabling full system compromise. It affects FortiSandbox 4.4.0-4.4.8 and 5.0.0-5.0.5 (plus Cloud/PaaS 5.0.4-5.0.5); fixed in 4.4.9 and 5.0.6. Federal agencies were ordered to patch by Sunday, July 19.",
+    "tags": [
+      "fortinet",
+      "fortisandbox",
+      "command-injection",
+      "kev",
+      "rce"
+    ],
+    "id": "auto-cve-2026-25089",
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
+    "title": "Fortinet FortiSandbox OS command injection added to CISA KEV (CVE-2026-39808)",
+    "category": "kev",
+    "severity": "Critical",
+    "cve": "CVE-2026-39808",
+    "cvss": 9.1,
+    "date": "2026-07-16",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/16/cisa-adds-three-known-exploited-vulnerabilities-catalog",
+    "summary": "CVE-2026-39808, a second Fortinet FortiSandbox OS command injection flaw (CVSS 9.1), was added to CISA's KEV catalog on July 16, 2026 alongside CVE-2026-25089 following evidence of in-the-wild exploitation. Like its companion bug, it allows an unauthenticated attacker to execute unauthorized commands through crafted HTTP requests. Affected FortiSandbox versions should be updated to 4.4.9 / 5.0.6 or later; BOD 26-04 set a federal remediation deadline of July 19, 2026.",
+    "tags": [
+      "fortinet",
+      "fortisandbox",
+      "command-injection",
+      "kev"
+    ],
+    "id": "auto-cve-2026-39808",
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
     "id": "auto-cve-2026-58644",
     "title": "Critical unauthenticated SharePoint Server deserialization RCE (CVE-2026-58644) amid active SharePoint exploitation",
     "category": "rce",
