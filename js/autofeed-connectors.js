@@ -7,6 +7,38 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "connector": "otx",
+    "title": "Oracle E-Business Suite Payments unauthenticated file read exploited (CVE-2026-46817)",
+    "date": "2026-07-15",
+    "severity": "Critical",
+    "summary": "CVE-2026-46817 (CVSS 9.8) in Oracle E-Business Suite's Payments module is being actively exploited; the unauthenticated 'ibytransmit' endpoint can be abused to read arbitrary files (e.g. /etc/passwd) from the server. First in-the-wild exploitation was captured on 2026-06-27 and CISA added it to KEV on 2026-07-15; Shadowserver tracks roughly 950 exposed EBS instances online.",
+    "tags": [
+      "oracle",
+      "ebusiness-suite",
+      "cve-2026-46817",
+      "file-disclosure"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-oracle-e-business-suite-payments-unauthenticated-file-read-e",
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
+    "connector": "otx",
+    "title": "Fortinet FortiSandbox OS command injection flaws added to CISA KEV (CVE-2026-25089, CVE-2026-39808)",
+    "date": "2026-07-16",
+    "severity": "Critical",
+    "summary": "CISA added two Fortinet FortiSandbox OS command injection vulnerabilities (CVE-2026-25089 and CVE-2026-39808, both CVSS 9.1) to its KEV catalog on 2026-07-16 after reports of active exploitation. Both allow an unauthenticated attacker to run commands via crafted HTTP requests; a third related flaw (CVE-2026-39813) was also reported exploited. Upgrade to FortiSandbox 4.4.9 / 5.0.6 or later.",
+    "tags": [
+      "fortinet",
+      "fortisandbox",
+      "command-injection",
+      "kev"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-fortinet-fortisandbox-os-command-injection-flaws-added-to-ci",
+    "fetchedAt": "2026-07-18T18:45:39.935Z"
+  },
+  {
     "id": "auto-conn-otx-microsoft-sharepoint-server-deserialization-rce-exploited-cv",
     "connector": "otx",
     "title": "Microsoft SharePoint Server deserialization RCE exploited (CVE-2026-58644)",
