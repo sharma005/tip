@@ -8,6 +8,72 @@
 const TIP_AUTOFEED_CONNECTORS = [
   {
     "connector": "otx",
+    "title": "HollowGraph malware abuses Microsoft Graph and M365 calendars for C2",
+    "date": "2026-07-20",
+    "severity": "High",
+    "summary": "New HollowGraph malware, linked to the Iranian-associated Cavern C2 framework, uses a compromised Microsoft 365 account and the Graph API to hide commands and exfiltrated data inside far-future calendar events, with DNS tunnelling as a backup channel. Reporting indicates targeting of organizations in Israel for espionage, with at least 12 systems infected.",
+    "tags": [
+      "hollowgraph",
+      "cavern",
+      "graph-api",
+      "c2",
+      "espionage"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-hollowgraph-malware-abuses-microsoft-graph-and-m365-calendar",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "connector": "otx",
+    "title": "ACR Stealer intrusions use ClickFix lures to steal browser secrets",
+    "date": "2026-07-16",
+    "severity": "Medium",
+    "summary": "Microsoft Defender Experts reported increased ACR Stealer activity from late April to mid-June 2026 using ClickFix social-engineering lures to trick users into running attacker commands that steal browser credentials, authentication tokens and sensitive documents from enterprise environments.",
+    "tags": [
+      "acr-stealer",
+      "clickfix",
+      "infostealer",
+      "credential-theft"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-acr-stealer-intrusions-use-clickfix-lures-to-steal-browser-s",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "connector": "pulsedive",
+    "title": "UTA0533 exploits SonicWall SMA 1000 zero-days to plant KNUCKLEBALL",
+    "date": "2026-07-17",
+    "severity": "Critical",
+    "summary": "Volexity detailed UTA0533 chaining SonicWall SMA 1000 zero-days CVE-2026-15409 (SSRF, CVSS 10.0) and CVE-2026-15410 (code injection) since June 22, 2026 to gain root on VPN appliances, deploying KNUCKLEBALL malware plus the Suo5 proxy and ORANGETAIL webshell to steal credentials and tunnel traffic.",
+    "tags": [
+      "uta0533",
+      "sonicwall",
+      "sma1000",
+      "zero-day",
+      "knuckleball"
+    ],
+    "iocs": [],
+    "id": "auto-conn-pulsedive-uta0533-exploits-sonicwall-sma-1000-zero-days-to-plant-knuck",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "connector": "misp",
+    "title": "Coca-Cola Fairlife ransomware attack halts US dairy production",
+    "date": "2026-07-16",
+    "severity": "High",
+    "summary": "Coca-Cola confirmed a ransomware attack on its Fairlife dairy subsidiary that forced suspension of all US Fairlife production. Product quality/safety and Canadian operations were reportedly unaffected; no group has claimed responsibility and the intrusion vector is undisclosed.",
+    "tags": [
+      "ransomware",
+      "coca-cola",
+      "fairlife",
+      "manufacturing"
+    ],
+    "iocs": [],
+    "id": "auto-conn-misp-coca-cola-fairlife-ransomware-attack-halts-us-dairy-producti",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "connector": "otx",
     "title": "Oracle E-Business Suite Payments unauthenticated file read exploited (CVE-2026-46817)",
     "date": "2026-07-15",
     "severity": "Critical",
