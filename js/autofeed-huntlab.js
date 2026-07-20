@@ -7,6 +7,74 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for HollowGraph Microsoft 365 calendar and Graph API C2 activity",
+    "description": "HollowGraph, assessed as part of the Iranian-linked Cavern C2 framework, abuses a compromised Microsoft 365 account to authenticate to the Microsoft Graph API and hides commands and exfiltrated data inside calendar events dated far in the future (e.g. 2050). It also uses DNS tunnelling as a secondary channel. Hunt for anomalous Graph API app authentication and calendar events with unusual future dates or attachment activity.",
+    "mitreTactic": "Command and Control",
+    "mitreTechnique": "T1102 - Web Service",
+    "dataSources": [
+      "Microsoft 365 Audit Logs",
+      "Graph API Logs",
+      "DNS Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "Cavern Manticore",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "M365 calendar events with far-future dates via Graph API",
+        "query": "source logs\n| filter $d.event_type == \"graph_api_call\"\n| filter $d.operation in [\"Calendar.Create\", \"Calendar.Update\", \"Event.Create\"]\n| filter $d.event_start >= \"2040-01-01T00:00:00Z\"\n| groupby $d.user_principal_name, $d.client_app_id\n| count() as suspicious_events\n| filter suspicious_events > 0\n| sort -suspicious_events"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-hollowgraph-microsoft-365-calendar-and-graph-api-c2",
+    "status": "active",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "title": "Hunt for ACR Stealer ClickFix execution chains",
+    "description": "Microsoft Defender Experts reported increased ACR Stealer activity from late April to mid-June 2026 using ClickFix social-engineering lures that trick users into pasting attacker-supplied commands into the Run dialog, leading to script execution that steals browser credentials, tokens and documents. Hunt for mshta/powershell processes spawned shortly after clipboard-driven Run dialog usage.",
+    "mitreTactic": "Execution",
+    "mitreTechnique": "T1059.001 - PowerShell",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Suspicious script execution consistent with ClickFix lures",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"explorer.exe\", \"mshta.exe\"]\n| filter $d.process_name in [\"powershell.exe\", \"cmd.exe\", \"mshta.exe\"]\n| filter $d.command_line.contains(\"http\") || $d.command_line.contains(\"-enc\")\n| groupby $d.hostname, $d.user_name, $d.command_line\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-acr-stealer-clickfix-execution-chains",
+    "status": "active",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "title": "Hunt for UTA0533 SonicWall SMA post-exploitation webshell and proxy",
+    "description": "Volexity attributes exploitation of SonicWall SMA 1000 zero-days (CVE-2026-15409/15410) to UTA0533, which after gaining root deploys custom malware (KNUCKLEBALL) and loads Java tooling into a legitimate SonicWall process, including the Suo5 proxy and a Behinder-like webshell tracked as ORANGETAIL, to maintain access and tunnel traffic. Hunt SonicWall appliance and adjacent network logs for anomalous outbound tunnels and webshell-like request patterns.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1505.003 - Web Shell",
+    "dataSources": [
+      "VPN Appliance Logs",
+      "Web Proxy Logs",
+      "Network Flow Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": "UTA0533",
+    "linkedFeedItemRef": "CVE-2026-15409",
+    "queries": [
+      {
+        "name": "SonicWall SMA anomalous proxy/webshell requests",
+        "query": "source logs\n| filter $d.source_device_type == \"sonicwall_sma\"\n| filter $d.request_uri.contains(\"/wsproxy\") || $d.request_uri.contains(\"cgi-bin\")\n| filter $d.http_method in [\"POST\", \"CONNECT\"]\n| groupby $d.src_ip, $d.request_uri\n| count() as req_count\n| filter req_count > 5\n| sort -req_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-uta0533-sonicwall-sma-post-exploitation-webshell-an",
+    "status": "active",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-fortisandbox-unauthenticated-os-command-injection-e",
     "title": "Hunt for FortiSandbox unauthenticated OS command injection exploitation (CVE-2026-25089 / CVE-2026-39808)",
     "description": "CISA added two Fortinet FortiSandbox OS command injection flaws (CVE-2026-25089, CVE-2026-39808) to its KEV catalog on 2026-07-16 after in-the-wild exploitation. An unauthenticated attacker sends crafted HTTP requests to the appliance management interface to inject shell metacharacters and execute commands as the underlying OS user. Hunt for FortiSandbox web-facing services spawning shell/interpreter child processes and anomalous inbound HTTP requests to admin endpoints from external IPs.",
