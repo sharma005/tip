@@ -7,6 +7,53 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "UTA0533",
+    "aliases": [],
+    "type": "apt",
+    "origin": "Unknown (suspected China)",
+    "motivation": "Espionage",
+    "sectors": [
+      "Enterprises operating SonicWall SMA VPN appliances"
+    ],
+    "ttps": [
+      "T1190",
+      "T1505.003",
+      "T1090"
+    ],
+    "campaigns": [
+      "SonicWall SMA 1000 zero-day exploitation (CVE-2026-15409/15410), June-July 2026"
+    ],
+    "iocs": [],
+    "notes": "Undocumented threat actor tracked by Volexity that exploited SonicWall SMA 1000 SSRF and code-injection zero-days (CVE-2026-15409/15410) as early as June 22, 2026 to gain root on VPN appliances. Post-exploitation it deployed the KNUCKLEBALL malware and loaded Java-based tooling - the Suo5 proxy and a Behinder-like webshell dubbed ORANGETAIL - into a legitimate SonicWall process to harvest credentials and tunnel traffic. Attribution is unconfirmed; some reporting suspects a Chinese nexus.",
+    "id": "auto-adv-uta0533",
+    "active": true,
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
+    "name": "GoSerpent",
+    "aliases": [],
+    "type": "apt",
+    "origin": "Unknown",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "Diplomatic"
+    ],
+    "ttps": [
+      "T1090",
+      "T1071",
+      "T1560"
+    ],
+    "campaigns": [
+      "Long-running espionage against Southeast Asian government and diplomatic entities (active since ~2021; evolved tooling deployed May 2026)"
+    ],
+    "iocs": [],
+    "notes": "Kaspersky GReAT disclosed (July 2026) a patient espionage campaign using the previously undocumented Go-based backdoor GoSerpent against government and diplomatic entities in Southeast Asia, assessed active since at least 2021. Operators deploy SOCKS5 proxies, credential dumpers and data-theft tooling, returning in May 2026 with an evolved toolset (Stowaway RAT/proxy, TmcLoader and TmcPayload) to exfiltrate previously collected data over network shares. Kaspersky assesses a probable but unconfirmed link to the TetrisPhantom actor based on overlapping victims and tradecraft.",
+    "id": "auto-adv-goserpent",
+    "active": true,
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
     "id": "auto-adv-uat-7810",
     "name": "UAT-7810",
     "aliases": [],
