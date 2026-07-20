@@ -6,6 +6,27 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Coca-Cola confirms Fairlife ransomware attack halts US dairy production",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-16",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/coca-cola-says-fairlife-ransomware-attack-halts-us-dairy-production/",
+    "summary": "Coca-Cola disclosed on July 16, 2026 that its Fairlife dairy subsidiary detected unauthorized third-party activity tied to a ransomware attack, forcing suspension of all US Fairlife production while systems are investigated and restored. The company says product quality and safety are unaffected and Canadian operations continue. No ransomware group has publicly claimed the attack and the initial access vector has not been disclosed.",
+    "tags": [
+      "ransomware",
+      "coca-cola",
+      "fairlife",
+      "manufacturing",
+      "supply-chain"
+    ],
+    "id": "auto-coca-cola-confirms-fairlife-ransomware-attack-halts-us-dairy",
+    "fetchedAt": "2026-07-20T19:14:34.526833Z"
+  },
+  {
     "title": "Fortinet FortiSandbox unauthenticated OS command injection actively exploited (CVE-2026-25089)",
     "category": "kev",
     "severity": "Critical",
