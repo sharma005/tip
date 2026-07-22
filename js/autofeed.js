@@ -6,6 +6,28 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "WordPress Core \"wp2shell\" unauthenticated RCE chain (CVE-2026-63030, CVE-2026-60137) exploited to deploy webshells",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-63030",
+    "cvss": 7.5,
+    "date": "2026-07-21",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/critical-wp2shell-wordpress-flaws-exploited-to-install-webshells/",
+    "summary": "wp2shell is an unauthenticated RCE chain in WordPress core combining CVE-2026-63030 (a REST API batch-endpoint route-confusion auth bypass, CVSS 7.5) with CVE-2026-60137 (a SQL injection in WP_Query's author__not_in parameter, CVSS 9.1). A single crafted request against a stock install needs no plugin, theme, or authentication, letting attackers dump the database (password hashes and secret keys), create rogue admin accounts, and drop PHP webshells. Disclosed by Searchlight Cyber on July 17, 2026 (fixed in WordPress 6.9.5 and 7.0.2); CISA added both CVEs to the KEV catalog on July 21 after Patchstack, Wiz, watchTowr, and Wordfence confirmed in-the-wild exploitation.",
+    "tags": [
+      "wordpress",
+      "wp2shell",
+      "rce",
+      "exploited",
+      "kev",
+      "webshell"
+    ],
+    "id": "auto-cve-2026-63030",
+    "fetchedAt": "2026-07-22T18:45:28.539Z"
+  },
+  {
     "title": "Microsoft SharePoint deserialization RCE (CVE-2026-50522) actively exploited; attackers steal IIS machine keys",
     "category": "rce",
     "severity": "Critical",
