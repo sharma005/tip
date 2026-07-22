@@ -7,6 +7,55 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "UAC-0145",
+    "aliases": [],
+    "type": "apt",
+    "origin": "Russia",
+    "motivation": "Espionage",
+    "sectors": [
+      "Ukrainian government",
+      "Ukrainian organizations"
+    ],
+    "ttps": [
+      "T1189",
+      "T1204",
+      "T1059.001",
+      "T1102"
+    ],
+    "campaigns": [
+      "ClickFix fake-CAPTCHA campaign against Ukrainian targets (June-July 2026)"
+    ],
+    "iocs": [],
+    "notes": "CERT-UA tracks UAC-0145 as a sub-cluster within Sandworm, the GRU-affiliated Russian military-intelligence unit. In June-July 2026 the group largely abandoned traditional malware delivery for the ClickFix technique: compromised websites present a fake CAPTCHA that tricks visitors into copying and running a PowerShell command via the Windows Run dialog. Observed payloads drop a VBS file into the Startup folder (GHETTOVIBE) and run SCOUTCURL, a PowerShell reconnaissance script. The actor leverages the Cloaking.House service and SMARTAXE malware, which uses Ethereum smart contracts to resolve remote domains, hardening its C2 against takedown.",
+    "id": "auto-adv-uac-0145",
+    "active": true,
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "name": "CylindricalCanine",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "China",
+    "motivation": "Financial",
+    "sectors": [
+      "Code-signing / certificate providers",
+      "Gambling",
+      "Gaming"
+    ],
+    "ttps": [
+      "T1588.004",
+      "T1553.002"
+    ],
+    "campaigns": [
+      "April 2026 DigiCert code-signing certificate theft (attributed July 2026)"
+    ],
+    "iocs": [],
+    "notes": "Expel attributed the April 2026 DigiCert security incident to CylindricalCanine, a subgroup of the Chinese cybercrime cluster GoldenEyeDog (aka APT-Q-27, Dragon Breath, Miuuti Group), historically focused on the gambling and gaming sectors. The actor used malware to access a DigiCert support member's device and stole code-signing certificates intended for DigiCert customers. CylindricalCanine are active users of malware tracked as Golden Gh0st Loader and Golden Gh0st RAT.",
+    "id": "auto-adv-cylindricalcanine",
+    "active": true,
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
     "name": "UTA0533",
     "aliases": [],
     "type": "apt",
