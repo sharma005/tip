@@ -8,6 +8,96 @@
 const TIP_AUTOFEED_CONNECTORS = [
   {
     "connector": "otx",
+    "title": "ServiceNow AI Platform pre-auth RCE CVE-2026-6875 exploited in the wild",
+    "date": "2026-07-20",
+    "severity": "Critical",
+    "summary": "Defused observed in-the-wild exploitation of CVE-2026-6875, a pre-authentication sandbox-escape code-injection RCE in the ServiceNow AI Platform disclosed July 13. Observed payloads target the unauthenticated /assessment_thanks.do endpoint to achieve unauthenticated code execution and full instance compromise. Self-hosted instances not patched since July 13 remain at risk.",
+    "tags": [
+      "servicenow",
+      "cve-2026-6875",
+      "rce",
+      "pre-auth",
+      "exploited"
+    ],
+    "iocs": [
+      {
+        "type": "Endpoint",
+        "value": "/assessment_thanks.do"
+      }
+    ],
+    "id": "auto-conn-otx-servicenow-ai-platform-pre-auth-rce-cve-2026-6875-exploited-",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "connector": "otx",
+    "title": "SharePoint deserialization RCE CVE-2026-50522 exploited to steal IIS machine keys",
+    "date": "2026-07-21",
+    "severity": "Critical",
+    "summary": "watchTowr reports active exploitation of CVE-2026-50522 (CVSS 9.8), a deserialization RCE in on-premises Microsoft SharePoint Server, after a public PoC. Attackers pull IIS machine keys via a single request to persist; CISA warns multiple SharePoint flaws (CVE-2026-32201, CVE-2026-45659, CVE-2026-56164, CVE-2026-58644, CVE-2026-50522) are being chained for RCE and persistence. Defenders must rotate machine keys, not just patch.",
+    "tags": [
+      "sharepoint",
+      "cve-2026-50522",
+      "rce",
+      "machine-keys",
+      "exploited"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-sharepoint-deserialization-rce-cve-2026-50522-exploited-to-s",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "connector": "pulsedive",
+    "title": "UAC-0145 (Sandworm) shifts to ClickFix with Ethereum smart-contract C2",
+    "date": "2026-07-19",
+    "severity": "High",
+    "summary": "CERT-UA reports UAC-0145, a Sandworm sub-cluster, using ClickFix fake-CAPTCHA lures on compromised websites to trick Ukrainian users into running PowerShell that drops the GHETTOVIBE VBS autorun payload and the SCOUTCURL recon script. The campaign uses the Cloaking.House service and SMARTAXE malware, which resolves C2 domains via Ethereum smart contracts to resist takedown.",
+    "tags": [
+      "uac-0145",
+      "sandworm",
+      "clickfix",
+      "ukraine",
+      "smartaxe"
+    ],
+    "iocs": [],
+    "id": "auto-conn-pulsedive-uac-0145-sandworm-shifts-to-clickfix-with-ethereum-smart-con",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "connector": "otx",
+    "title": "CylindricalCanine (GoldenEyeDog) linked to DigiCert code-signing certificate theft",
+    "date": "2026-07-17",
+    "severity": "High",
+    "summary": "Expel attributed the April 2026 DigiCert incident to CylindricalCanine, a subgroup of the Chinese cybercrime cluster GoldenEyeDog (APT-Q-27 / Dragon Breath / Miuuti Group). The actor accessed a DigiCert support member's device and stole code-signing certificates intended for customers, using malware tracked as Golden Gh0st Loader and Golden Gh0st RAT.",
+    "tags": [
+      "cylindricalcanine",
+      "goldeneyedog",
+      "digicert",
+      "code-signing",
+      "china"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-cylindricalcanine-goldeneyedog-linked-to-digicert-code-signi",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "connector": "otx",
+    "title": "North Korean Contagious Interview hides OtterCookie malware in SVG flag images",
+    "date": "2026-07-17",
+    "severity": "High",
+    "summary": "Elastic Security Labs details a DPRK-aligned Contagious Interview cluster (tracked REF9403) that fragments an OtterCookie-aligned payload across HTML comment blocks of SVG country-flag images used in fake coding-assessment repos. On project start the code reassembles into a four-stage payload: browser/crypto-wallet stealer, file stealer, Socket.IO RAT, and clipboard stealer, with zero antivirus detections at publication.",
+    "tags": [
+      "contagious-interview",
+      "ottercookie",
+      "dprk",
+      "steganography",
+      "svg"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-north-korean-contagious-interview-hides-ottercookie-malware-",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "connector": "otx",
     "title": "HollowGraph malware abuses Microsoft Graph and M365 calendars for C2",
     "date": "2026-07-20",
     "severity": "High",
