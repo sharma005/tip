@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for wp2shell WordPress Core RCE exploitation (CVE-2026-63030, CVE-2026-60137)",
+    "description": "Multiple vendors (Patchstack, Wiz, watchTowr, Wordfence) confirmed in-the-wild exploitation of the wp2shell WordPress core RCE chain within hours of its July 17, 2026 disclosure. Attackers send crafted requests to the REST API batch endpoint (CVE-2026-63030) chained with a WP_Query SQL injection (CVE-2026-60137) to exfiltrate the database and drop PHP webshells. Hunt web/proxy logs for POSTs to the /wp-json/batch/v1 endpoint, HTTP 207/200 Multi-Status responses, and user agents containing \"wp2shell\" or \"rezwp2shell\", plus creation of unexpected admin users or new PHP files in webroots.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "WAF Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-63030",
+    "queries": [
+      {
+        "name": "WordPress REST batch endpoint hits with wp2shell markers",
+        "query": "source logs\n| filter $d.url_path ~ \"/wp-json/batch/v1\"\n| filter $d.http_status in [200, 207]\n| filter $d.http_method == \"POST\" || $d.user_agent ~ \"(?i)(wp2shell|rezwp2shell)\"\n| groupby $d.client_ip, $d.host, $d.user_agent\n| count() as req_count\n| filter req_count > 0\n| sort -req_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-wp2shell-wordpress-core-rce-exploitation-cve-2026-6",
+    "status": "active",
+    "fetchedAt": "2026-07-22T18:45:28.539Z"
+  },
+  {
     "title": "Hunt for SharePoint CVE-2026-50522 exploitation and IIS machine-key theft",
     "description": "watchTowr observed active exploitation of CVE-2026-50522 (deserialization RCE) against on-premises SharePoint after a public PoC, with attackers extracting IIS machine keys via a single request to establish persistence. Hunt for anomalous requests to SharePoint _layouts endpoints, w3wp.exe spawning command interpreters, and signs of ViewState/machine-key access, since patching alone does not evict actors who already stole keys.",
     "mitreTactic": "Credential Access",
