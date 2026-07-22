@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "ShinyHunters lists Abbott Laboratories on leak site, threatens to publish stolen data",
+    "type": "leak",
+    "source": "ShinyHunters data leak site (reported by BleepingComputer)",
+    "date": "2026-07-18",
+    "snippet": "The ShinyHunters extortion gang added Abbott Laboratories to its dark web data leak site, threatening to publish allegedly stolen data after a July 18 deadline (later extended to July 21) unless Abbott negotiates. ShinyHunters claims it breached Abbott through a mid-June vishing attack that compromised a Microsoft Entra SSO account; Abbott is investigating this alongside a separate LabCentral-portal breach claim by an actor called ShadowByt3$, and says operations are unaffected.",
+    "relevance": 65,
+    "flagged": false,
+    "tags": [
+      "shinyhunters",
+      "abbott",
+      "extortion",
+      "healthcare",
+      "data-leak"
+    ],
+    "id": "auto-dw-shinyhunters-lists-abbott-laboratories-on-leak-site-threaten",
+    "fetchedAt": "2026-07-22T18:45:28.539Z"
+  },
+  {
     "title": "Anubis ransomware claims Coca-Cola's Fairlife attack, threatens to leak 1TB",
     "type": "ransomware",
     "source": "BleepingComputer (reporting on Anubis leak site)",
