@@ -7,6 +7,75 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for SharePoint CVE-2026-50522 exploitation and IIS machine-key theft",
+    "description": "watchTowr observed active exploitation of CVE-2026-50522 (deserialization RCE) against on-premises SharePoint after a public PoC, with attackers extracting IIS machine keys via a single request to establish persistence. Hunt for anomalous requests to SharePoint _layouts endpoints, w3wp.exe spawning command interpreters, and signs of ViewState/machine-key access, since patching alone does not evict actors who already stole keys.",
+    "mitreTactic": "Credential Access",
+    "mitreTechnique": "T1552 - Unsecured Credentials",
+    "dataSources": [
+      "IIS Logs",
+      "Web Server Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-50522",
+    "queries": [
+      {
+        "name": "SharePoint w3wp.exe spawning shells or machine-key access",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"w3wp.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"csc.exe\", \"reg.exe\"]\n| filter $d.command_line ~ \"machineKey\" || $d.command_line ~ \"web.config\" || $d.process_name in [\"cmd.exe\", \"powershell.exe\"]\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as hits\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-sharepoint-cve-2026-50522-exploitation-and-iis-mach",
+    "status": "active",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "title": "Hunt for ServiceNow CVE-2026-6875 sandbox-escape RCE via assessment_thanks.do",
+    "description": "CVE-2026-6875 is a pre-authentication code-injection flaw in the ServiceNow AI Platform under active exploitation. Public research and observed in-the-wild payloads target the unauthenticated /assessment_thanks.do endpoint to escape the script sandbox and execute code. Hunt web/proxy logs for unauthenticated POSTs to /assessment_thanks.do, especially with large or encoded bodies and anomalous user agents, on self-hosted instances not patched since July 13.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-6875",
+    "queries": [
+      {
+        "name": "Unauthenticated requests to ServiceNow assessment_thanks.do",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path ~ \"/assessment_thanks.do\"\n| filter $d.auth_user == null || $d.auth_user == \"\"\n| groupby $d.source_ip, $d.http_method, $d.status_code\n| count() as requests\n| filter requests > 0\n| sort -requests"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-servicenow-cve-2026-6875-sandbox-escape-rce-via-ass",
+    "status": "active",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "title": "Hunt for UAC-0145 ClickFix PowerShell execution from fake CAPTCHA lures",
+    "description": "Sandworm sub-cluster UAC-0145 uses ClickFix fake-CAPTCHA pages to trick Ukrainian users into pasting and running PowerShell via the Windows Run dialog, dropping a VBS autorun payload (GHETTOVIBE) into the Startup folder and running the SCOUTCURL recon script. Hunt for PowerShell or mshta spawned from a browser or explorer.exe with download/clipboard behaviour and for new VBS files written to Startup directories.",
+    "mitreTactic": "Execution",
+    "mitreTechnique": "T1204 - User Execution",
+    "dataSources": [
+      "EDR Logs",
+      "PowerShell Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "UAC-0145",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "PowerShell spawned from browser writing to Startup",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"powershell.exe\", \"mshta.exe\", \"wscript.exe\", \"cscript.exe\"]\n| filter $d.parent_process in [\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"explorer.exe\"]\n| filter $d.command_line ~ \"Startup\" || $d.command_line ~ \"DownloadString\" || $d.command_line ~ \".vbs\"\n| groupby $d.hostname, $d.user, $d.command_line\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-uac-0145-clickfix-powershell-execution-from-fake-ca",
+    "status": "active",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
     "title": "Hunt for HollowGraph Microsoft 365 calendar and Graph API C2 activity",
     "description": "HollowGraph, assessed as part of the Iranian-linked Cavern C2 framework, abuses a compromised Microsoft 365 account to authenticate to the Microsoft Graph API and hides commands and exfiltrated data inside calendar events dated far in the future (e.g. 2050). It also uses DNS tunnelling as a secondary channel. Hunt for anomalous Graph API app authentication and calendar events with unusual future dates or attachment activity.",
     "mitreTactic": "Command and Control",
