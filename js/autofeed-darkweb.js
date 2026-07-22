@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "Anubis ransomware claims Coca-Cola's Fairlife attack, threatens to leak 1TB",
+    "type": "ransomware",
+    "source": "BleepingComputer (reporting on Anubis leak site)",
+    "date": "2026-07-20",
+    "snippet": "The Anubis ransomware-as-a-service gang listed Coca-Cola and its Fairlife dairy subsidiary on its dark web leak site on July 20, claiming to have encrypted Fairlife's Nutanix infrastructure and exfiltrated roughly 1TB of confidential data. Anubis says it hit Fairlife about a week before the company's July 16 public disclosure and gave Coca-Cola one week to pay before the data is leaked.",
+    "relevance": 70,
+    "flagged": false,
+    "tags": [
+      "anubis",
+      "ransomware",
+      "coca-cola",
+      "fairlife",
+      "extortion"
+    ],
+    "id": "auto-dw-anubis-ransomware-claims-coca-cola-s-fairlife-attack-threate",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
     "title": "Accenture data offered for sale after confirmed breach",
     "type": "leak",
     "source": "BleepingComputer (reporting on underground forum)",
