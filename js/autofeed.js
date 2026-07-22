@@ -6,6 +6,49 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Microsoft SharePoint deserialization RCE (CVE-2026-50522) actively exploited; attackers steal IIS machine keys",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-50522",
+    "cvss": 9.8,
+    "date": "2026-07-21",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/critical-sharepoint-rce-cve-2026-50522.html",
+    "summary": "watchTowr reports active exploitation of CVE-2026-50522, a critical (CVSS 9.8) deserialization-of-untrusted-data RCE in on-premises Microsoft SharePoint Server, following release of a public proof-of-concept. Attackers pull SharePoint IIS machine keys via a single request to maintain persistent access, so patching alone is insufficient and exposed machine keys must be rotated. It is the third SharePoint flaw after CVE-2026-56164 and CVE-2026-58644 to see in-the-wild exploitation, and CISA has warned of multiple SharePoint vulnerabilities being chained for RCE and persistence.",
+    "tags": [
+      "sharepoint",
+      "rce",
+      "deserialization",
+      "exploited",
+      "machine-keys",
+      "microsoft"
+    ],
+    "id": "auto-cve-2026-50522",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
+    "title": "ServiceNow AI Platform pre-authentication RCE (CVE-2026-6875) exploited in the wild",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-6875",
+    "cvss": null,
+    "date": "2026-07-20",
+    "actor": null,
+    "source": "Help Net Security",
+    "url": "https://www.helpnetsecurity.com/2026/07/20/servicenow-cve-2026-6875-exploited/",
+    "summary": "Threat-intel firm Defused observed in-the-wild exploitation of CVE-2026-6875, a pre-authentication code-injection flaw in the ServiceNow AI Platform that lets unauthenticated attackers escape the script sandbox and execute code remotely, fully compromising the instance and connected proxy servers. The flaw was publicly disclosed July 13 (found by Searchlight Cyber); observed payloads hit the same pre-auth endpoint (/assessment_thanks.do) documented in the public research. Self-hosted instances not yet patched with the July 13 update should be updated immediately.",
+    "tags": [
+      "servicenow",
+      "rce",
+      "code-injection",
+      "pre-auth",
+      "exploited"
+    ],
+    "id": "auto-cve-2026-6875",
+    "fetchedAt": "2026-07-22T12:19:09.910Z"
+  },
+  {
     "title": "Coca-Cola confirms Fairlife ransomware attack halts US dairy production",
     "category": "ransomware",
     "severity": "High",
@@ -94,7 +137,7 @@ const TIP_AUTOFEED = [
     "category": "kev",
     "severity": "Critical",
     "cve": "CVE-2026-15409",
-    "cvss": 10.0,
+    "cvss": 10,
     "date": "2026-07-14",
     "actor": null,
     "source": "BleepingComputer",
