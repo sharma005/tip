@@ -7,6 +7,59 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "Everest",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Manufacturing",
+      "Transportation",
+      "Healthcare"
+    ],
+    "ttps": [
+      "T1078"
+    ],
+    "campaigns": [
+      "Stadler Rail supplier data-exchange platform breach and $12.3M extortion (July 2026)"
+    ],
+    "iocs": [],
+    "notes": "Everest is a financially motivated extortion group that abandoned file encryption around 2020 in favour of pure data-theft extortion. In mid-July 2026 the group breached a data-exchange platform shared between Swiss rail-vehicle manufacturer Stadler Rail and one of its suppliers by compromising login credentials, stealing technical data and demanding roughly $12.3M (CHF 10M). Stadler refused to pay, filed a criminal complaint with Thurgau cantonal police, and said its own IT, production and in-service trains were unaffected; as of reporting Everest had not publicly listed Stadler on its leak site.",
+    "id": "auto-adv-everest",
+    "active": true,
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
+    "name": "Qilin",
+    "aliases": [
+      "Agenda"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Manufacturing",
+      "Business Services",
+      "Healthcare",
+      "Professional Services"
+    ],
+    "ttps": [
+      "T1190",
+      "T1133",
+      "T1078",
+      "T1566"
+    ],
+    "campaigns": [
+      "Exploitation of Check Point VPN authentication-bypass zero-day CVE-2026-50751 (2026)",
+      "PP+K advertising firm breach (July 2026)"
+    ],
+    "iocs": [],
+    "notes": "Qilin (aka Agenda) is a Russian-speaking ransomware-as-a-service operation that became the most active ransomware brand tracked by multiple vendors in 2026, with reporting citing a ~443% year-over-year surge in claimed victims and over 2,000 listings on its leak site (roughly one in five to six disclosed cases). Affiliates gain initial access via compromised VPN credentials, phishing and exposed remote services before moving laterally with built-in Windows tooling; researchers also documented affiliates running Linux encryptors through Windows Subsystem for Linux to evade Windows security tools. In June 2026 a Qilin affiliate was confirmed exploiting the Check Point VPN authentication-bypass zero-day CVE-2026-50751, and the group claimed a July 19, 2026 attack on US advertising firm PP+K.",
+    "id": "auto-adv-qilin",
+    "active": true,
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
     "name": "UAC-0145",
     "aliases": [],
     "type": "apt",
