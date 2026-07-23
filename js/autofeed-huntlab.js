@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for Check Point SmartConsole authentication-bypass exploitation (CVE-2026-16232)",
+    "description": "Check Point confirmed on July 22, 2026 that CVE-2026-16232, an improper-authentication flaw in the SmartConsole login process, is being exploited in the wild to obtain an application login token and log in to Security Management / Multi-Domain Management servers with full administrator privileges. Post-compromise, an attacker can alter security policy and push configuration to gateways. Hunt management-server and authentication logs for SmartConsole logins from unexpected or external source IPs (especially where Trusted Clients is unrestricted), token-based admin authentications with no preceding interactive credential prompt, and unplanned policy/object changes or newly created administrator accounts.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Authentication Logs",
+      "Firewall Management Logs",
+      "Network Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-16232",
+    "queries": [
+      {
+        "name": "SmartConsole app-token admin logins from external IPs",
+        "query": "source logs\n| filter $d.product == \"checkpoint_management\"\n| filter $d.event_type == \"smartconsole_login\"\n| filter $d.auth_method == \"application_token\"\n| filter $d.timestamp >= \"2026-07-20T00:00:00Z\"\n| groupby $d.source_ip, $d.admin_name\n| count() as logins\n| filter logins > 0\n| sort -logins"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-check-point-smartconsole-authentication-bypass-expl",
+    "status": "active",
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
     "title": "Hunt for wp2shell WordPress Core RCE exploitation (CVE-2026-63030, CVE-2026-60137)",
     "description": "Multiple vendors (Patchstack, Wiz, watchTowr, Wordfence) confirmed in-the-wild exploitation of the wp2shell WordPress core RCE chain within hours of its July 17, 2026 disclosure. Attackers send crafted requests to the REST API batch endpoint (CVE-2026-63030) chained with a WP_Query SQL injection (CVE-2026-60137) to exfiltrate the database and drop PHP webshells. Hunt web/proxy logs for POSTs to the /wp-json/batch/v1 endpoint, HTTP 207/200 Multi-Status responses, and user agents containing \"wp2shell\" or \"rezwp2shell\", plus creation of unexpected admin users or new PHP files in webroots.",
     "mitreTactic": "Initial Access",
