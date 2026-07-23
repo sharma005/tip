@@ -8,6 +8,23 @@
 const TIP_AUTOFEED_CONNECTORS = [
   {
     "connector": "otx",
+    "title": "Check Point SmartConsole authentication bypass CVE-2026-16232 exploited in the wild",
+    "date": "2026-07-22",
+    "severity": "Critical",
+    "summary": "Check Point disclosed active exploitation of CVE-2026-16232 (CVSS 9.1), an improper-authentication flaw in the SmartConsole login process that lets an unauthenticated attacker obtain an application login token and authenticate to Security Management / Multi-Domain Management servers as administrator. CISA added it to the KEV catalog on July 22, 2026 with a July 25 federal remediation deadline. Exploitation requires an internet-exposed management server with no Trusted Clients restriction; a July 22 Jumbo hotfix is available.",
+    "tags": [
+      "checkpoint",
+      "cve-2026-16232",
+      "authentication-bypass",
+      "kev",
+      "exploited"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-check-point-smartconsole-authentication-bypass-cve-2026-1623",
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
+    "connector": "otx",
     "title": "ServiceNow AI Platform pre-auth RCE CVE-2026-6875 exploited in the wild",
     "date": "2026-07-20",
     "severity": "Critical",
