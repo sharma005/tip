@@ -6,6 +6,28 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Check Point SmartConsole authentication bypass (CVE-2026-16232) exploited as a zero-day for full management-server takeover",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": "CVE-2026-16232",
+    "cvss": 9.1,
+    "date": "2026-07-22",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/check-point-patches-smartconsole-zero-day-exploited-in-attacks/",
+    "summary": "Check Point warned that CVE-2026-16232 (CVSS 9.1), an improper-authentication flaw in the SmartConsole login process, is being exploited in the wild against a small number of customers. An unauthenticated remote attacker able to reach a Security Management or Multi-Domain Management server can obtain an application login token and authenticate with full administrator privileges, then modify security policy and configuration pushed to gateways. Check Point issued a July 22 Jumbo hotfix and CISA added the flaw to its KEV catalog with a July 25 federal remediation deadline; exploitation requires an internet-exposed management IP with no Trusted Clients restriction.",
+    "tags": [
+      "checkpoint",
+      "smartconsole",
+      "authentication-bypass",
+      "zero-day",
+      "kev",
+      "cve-2026-16232"
+    ],
+    "id": "auto-cve-2026-16232",
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
     "title": "WordPress Core \"wp2shell\" unauthenticated RCE chain (CVE-2026-63030, CVE-2026-60137) exploited to deploy webshells",
     "category": "rce",
     "severity": "Critical",
