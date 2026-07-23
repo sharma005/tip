@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "Everest extortion gang breaches Stadler Rail supplier platform, demands $12.3M",
+    "type": "leak",
+    "source": "Everest extortion group (reported by Help Net Security / The Register)",
+    "date": "2026-07-23",
+    "snippet": "Swiss rail-vehicle manufacturer Stadler Rail disclosed that the Everest extortion gang stole technical data after compromising credentials for a data-exchange platform shared with one of its suppliers, then demanded roughly $12.3M (CHF 10M). Stadler refused to negotiate and filed a criminal complaint; it said personal data, in-service trains, IT and production were unaffected. As of reporting Everest had not publicly claimed the attack or listed Stadler on its leak site, so the extortion remains ongoing.",
+    "relevance": 55,
+    "tags": [
+      "everest",
+      "extortion",
+      "stadler-rail",
+      "supply-chain",
+      "manufacturing"
+    ],
+    "id": "auto-dw-everest-extortion-gang-breaches-stadler-rail-supplier-platfo",
+    "flagged": false,
+    "fetchedAt": "2026-07-23T18:44:55.355Z"
+  },
+  {
     "title": "ShinyHunters lists Abbott Laboratories on leak site, threatens to publish stolen data",
     "type": "leak",
     "source": "ShinyHunters data leak site (reported by BleepingComputer)",
