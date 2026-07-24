@@ -6,6 +6,28 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Langflow unauthenticated RCE (CVE-2026-0770) actively exploited; CISA orders urgent patching",
+    "category": "kev",
+    "severity": "Critical",
+    "cve": "CVE-2026-0770",
+    "cvss": 9.8,
+    "date": "2026-07-21",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-langflow-rce-flaw/",
+    "summary": "CISA added CVE-2026-0770, a critical (CVSS 9.8) unauthenticated remote code execution flaw in Langflow, to its KEV catalog on July 21, 2026 after confirming active exploitation. The bug is in the /api/v1/validate/code endpoint, where attacker-controlled input reaches an exec() call, letting an unauthenticated remote attacker run arbitrary code on Langflow 1.4.2 and earlier. Reported exploitation payloads attempt to deploy malware and steal AWS credentials, environment variables and container metadata, with 220+ attempts observed from 64 source IPs. CISA set a federal remediation deadline and urged all Langflow operators to patch immediately and rotate any exposed secrets.",
+    "tags": [
+      "langflow",
+      "rce",
+      "kev",
+      "ai",
+      "unauthenticated",
+      "cve-2026-0770"
+    ],
+    "id": "auto-cve-2026-0770",
+    "fetchedAt": "2026-07-24T18:43:50.964Z"
+  },
+  {
     "title": "Check Point SmartConsole authentication bypass (CVE-2026-16232) exploited as a zero-day for full management-server takeover",
     "category": "zeroday",
     "severity": "Critical",
