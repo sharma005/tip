@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for Langflow unauthenticated RCE exploitation (CVE-2026-0770)",
+    "description": "CISA confirmed active exploitation of CVE-2026-0770, a critical (CVSS 9.8) unauthenticated RCE in Langflow (<= 1.4.2) whose /api/v1/validate/code endpoint passes attacker-controlled input into an exec() call. Observed payloads attempt to deploy malware and harvest AWS credentials, environment variables and container/cloud metadata. Hunt web/proxy and application logs for POST requests to /api/v1/validate/code (or /validate) containing tokens like exec_globals, __import__ or subprocess, unexpected cloud-metadata (169.254.169.254) access or outbound connections from the Langflow host, and new child processes spawned by the Langflow service.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Web Server Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-0770",
+    "queries": [
+      {
+        "name": "Langflow /validate/code exploitation attempts",
+        "query": "source logs\n| filter $d.event_type == \"http_request\"\n| filter $d.url_path in [\"/api/v1/validate/code\", \"/api/v1/validate\"]\n| filter $d.http_method == \"POST\"\n| filter $d.request_body contains \"exec_globals\" || $d.request_body contains \"__import__\" || $d.request_body contains \"subprocess\"\n| groupby $d.source_ip, $d.url_path, $d.status_code\n| count() as attempts\n| filter attempts > 0\n| sort -attempts"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-langflow-unauthenticated-rce-exploitation-cve-2026-",
+    "status": "active",
+    "fetchedAt": "2026-07-24T18:43:50.964Z"
+  },
+  {
     "title": "Hunt for Check Point SmartConsole authentication-bypass exploitation (CVE-2026-16232)",
     "description": "Check Point confirmed on July 22, 2026 that CVE-2026-16232, an improper-authentication flaw in the SmartConsole login process, is being exploited in the wild to obtain an application login token and log in to Security Management / Multi-Domain Management servers with full administrator privileges. Post-compromise, an attacker can alter security policy and push configuration to gateways. Hunt management-server and authentication logs for SmartConsole logins from unexpected or external source IPs (especially where Trusted Clients is unrestricted), token-based admin authentications with no preceding interactive credential prompt, and unplanned policy/object changes or newly created administrator accounts.",
     "mitreTactic": "Initial Access",
