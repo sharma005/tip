@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for APT-C-60 SpyGlace delivery via mshta.exe and LNK/VHDX lures",
+    "description": "APT-C-60, a South Korea-aligned espionage group, is running recruitment-themed spearphishing against organizations in Japan and East Asia to deploy its SpyGlace backdoor. Reported chains attach a malicious LNK file (or, more recently, a VHDX disk image) that abuses mshta.exe to execute embedded JavaScript, which then stages SpyGlace from legitimate developer/cloud services (Proton Drive, Bitbucket, GitHub). Hunt endpoint telemetry for mshta.exe spawned from Explorer or a mounted VHDX volume with script content or remote URLs on its command line, plus follow-on outbound connections to developer/file-hosting domains.",
+    "mitreTactic": "Execution",
+    "mitreTechnique": "T1218.005 - Mshta",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "APT-C-60",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "mshta.exe launched from Explorer/mounted image",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name == \"mshta.exe\"\n| filter $d.parent_process in [\"explorer.exe\", \"cmd.exe\", \"wscript.exe\"]\n| groupby $d.hostname, $d.user, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-apt-c-60-spyglace-delivery-via-mshta-exe-and-lnk-vh",
+    "fetchedAt": "2026-07-25T18:43:52.798Z"
+  },
+  {
     "title": "Hunt for Langflow unauthenticated RCE exploitation (CVE-2026-0770)",
     "description": "CISA confirmed active exploitation of CVE-2026-0770, a critical (CVSS 9.8) unauthenticated RCE in Langflow (<= 1.4.2) whose /api/v1/validate/code endpoint passes attacker-controlled input into an exec() call. Observed payloads attempt to deploy malware and harvest AWS credentials, environment variables and container/cloud metadata. Hunt web/proxy and application logs for POST requests to /api/v1/validate/code (or /validate) containing tokens like exec_globals, __import__ or subprocess, unexpected cloud-metadata (169.254.169.254) access or outbound connections from the Langflow host, and new child processes spawned by the Langflow service.",
     "mitreTactic": "Initial Access",
