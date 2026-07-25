@@ -7,6 +7,31 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "APT-C-60",
+    "aliases": [],
+    "type": "apt",
+    "origin": "South Korea",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "Technology"
+    ],
+    "ttps": [
+      "T1566.001",
+      "T1204.002",
+      "T1218.005",
+      "T1105"
+    ],
+    "campaigns": [
+      "SpyGlace backdoor espionage against Japanese organizations (2025-2026)"
+    ],
+    "iocs": [],
+    "notes": "APT-C-60 is a South Korea-aligned cyber-espionage group that has continued targeting organizations in Japan and East Asia through 2026, deploying updated versions of its SpyGlace backdoor. Recent intrusions begin with recruitment-themed spearphishing that delivers a malicious LNK file (and, more recently, VHDX disk-image attachments) which abuse mshta.exe to run embedded JavaScript and stage SpyGlace via legitimate developer/cloud services such as Proton Drive, Bitbucket and GitHub. Activity is documented by JPCERT/CC, Cyble and other vendors.",
+    "active": true,
+    "id": "auto-adv-apt-c-60",
+    "fetchedAt": "2026-07-25T18:43:52.798Z"
+  },
+  {
     "name": "Everest",
     "aliases": [],
     "type": "criminal",
