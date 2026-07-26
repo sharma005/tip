@@ -7,6 +7,30 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-steam-forum-clickfix-xmrig-cryptominer-install-via-",
+    "title": "Hunt for Steam forum ClickFix XMRig cryptominer install via PowerShell, Defender exclusion, and scheduled task",
+    "description": "BleepingComputer reported (July 25, 2026) that threat actors are abusing Steam discussion forums in a ClickFix campaign: fake accounts post PowerShell \"fixes\" for game/PC issues that, when run with admin rights, install an XMRig cryptominer. The loader poses as an optimization utility (\"msf utility \\ PC Opt\"), adds a Microsoft Defender exclusion, creates a hidden directory at C:\\Windows\\Background, and registers a scheduled task (prefixed \"XMRig-\") to run the miner with SYSTEM privileges at startup. Hunt for these host-side artifacts across endpoints where users may have pasted a \"fix\" command.",
+    "mitreTactic": "Execution",
+    "mitreTechnique": "T1059.001 - PowerShell",
+    "dataSources": [
+      "EDR / Process Creation Logs",
+      "PowerShell Script Block Logs",
+      "Windows Scheduled Task Logs",
+      "Microsoft Defender Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "XMRig ClickFix artifacts: Defender exclusion, hidden dir, or XMRig- scheduled task",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"powershell.exe\", \"schtasks.exe\", \"MpCmdRun.exe\", \"reg.exe\"]\n| filter $d.command_line.contains(\"XMRig-\") || $d.command_line.contains(\"Add-MpPreference -ExclusionPath\") || $d.command_line.contains(\"C:\\\\Windows\\\\Background\")\n| groupby $d.hostname, $d.user_name, $d.process_name\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-07-26T18:42:58.158Z"
+  },
+  {
     "title": "Hunt for APT-C-60 SpyGlace delivery via mshta.exe and LNK/VHDX lures",
     "description": "APT-C-60, a South Korea-aligned espionage group, is running recruitment-themed spearphishing against organizations in Japan and East Asia to deploy its SpyGlace backdoor. Reported chains attach a malicious LNK file (or, more recently, a VHDX disk image) that abuses mshta.exe to execute embedded JavaScript, which then stages SpyGlace from legitimate developer/cloud services (Proton Drive, Bitbucket, GitHub). Hunt endpoint telemetry for mshta.exe spawned from Explorer or a mounted VHDX volume with script content or remote URLs on its command line, plus follow-on outbound connections to developer/file-hosting domains.",
     "mitreTactic": "Execution",
