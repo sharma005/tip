@@ -7,6 +7,23 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "ShinyHunters breach data reused in $2,000 Bitcoin sextortion email campaign",
+    "type": "credential",
+    "source": "BleepingComputer",
+    "date": "2026-07-25",
+    "snippet": "BleepingComputer reported that email addresses exposed in breaches previously leaked by the ShinyHunters extortion group are being reused to send sextortion emails demanding $2,000 in Bitcoin. Leaked data seen in the campaign includes records from the Amtrak, Hallmark, Substack, Betterment, CarGurus, ADT, Panera Bread, and McGraw Hill breaches. The messages appear to come from an opportunistic actor who downloaded the previously leaked data rather than from ShinyHunters directly, using the real exposed addresses to make the threats look credible.",
+    "relevance": 40,
+    "flagged": false,
+    "tags": [
+      "shinyhunters",
+      "sextortion",
+      "data-leak",
+      "credentials"
+    ],
+    "id": "auto-dw-shinyhunters-breach-data-reused-in-2-000-bitcoin-sextortion-",
+    "fetchedAt": "2026-07-26T18:42:58.158Z"
+  },
+  {
     "title": "Everest extortion gang breaches Stadler Rail supplier platform, demands $12.3M",
     "type": "leak",
     "source": "Everest extortion group (reported by Help Net Security / The Register)",
