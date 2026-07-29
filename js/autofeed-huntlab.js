@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-msarat-headless-browser-c2-via-chrome-devtools-prot",
+    "title": "Hunt for msaRAT headless-browser C2 via Chrome DevTools Protocol (Chaos ransomware)",
+    "description": "Cisco Talos reported that Chaos ransomware's msaRAT launches Chrome/Edge in headless mode with remote debugging enabled and tunnels C2 over WebRTC. Hunt for browser processes started with --headless and --remote-debugging-port by non-standard parent processes, which is rare in normal user activity.",
+    "mitreTactic": "Command and Control",
+    "mitreTechnique": "T1572 - Protocol Tunneling",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "Chaos",
+    "linkedFeedItemRef": "msaRAT",
+    "queries": [
+      {
+        "name": "Headless browser with remote-debugging from unusual parent",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"chrome.exe\", \"msedge.exe\"]\n| filter $d.command_line.contains(\"--headless\") && $d.command_line.contains(\"--remote-debugging-port\")\n| filter $d.parent_process_name !in [\"explorer.exe\", \"chrome.exe\", \"msedge.exe\", \"services.exe\"]\n| groupby $d.hostname, $d.parent_process_name, $d.user\n| count() as launches\n| filter launches > 0\n| sort -launches"
+      }
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-jfrog-artifactory-zero-day-exploitation-cve-2026-65",
+    "title": "Hunt for JFrog Artifactory zero-day exploitation (CVE-2026-65921 path traversal and SSRF)",
+    "description": "JFrog patched Artifactory zero-days (CVE-2026-65921 path traversal, CVE-2026-65923/65924 SSRF) chained for arbitrary file write and outbound access. Hunt on self-hosted Artifactory hosts for file writes containing traversal sequences and for outbound requests to internal metadata or unexpected external endpoints originating from the Artifactory service.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Application Logs",
+      "EDR Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-65921",
+    "queries": [
+      {
+        "name": "Artifactory path traversal file write or SSRF egress",
+        "query": "source logs\n| filter $d.service == \"artifactory\"\n| filter $d.event_type == \"file_write\" || $d.event_type == \"http_request\"\n| filter $d.file_path.contains(\"..\") || $d.request_url.contains(\"169.254.169.254\")\n| groupby $d.hostname, $d.file_path, $d.request_url\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-cl0p-exploitation-of-ptc-windchill-flexplm-cve-2026",
+    "title": "Hunt for Cl0p exploitation of PTC Windchill/FlexPLM (CVE-2026-12569) JSP webshells",
+    "description": "ReliaQuest and Ransom-ISAC reported active, likely-Cl0p exploitation of CVE-2026-12569 (CVSS 9.8) in PTC Windchill and FlexPLM, deploying hex-named JSP webshells under /Windchill/login/. Hunt for creation of .jsp files with hex-only names in that path and for the Windchill/Tomcat process spawning shells.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1505.003 - Server Software Component: Web Shell",
+    "dataSources": [
+      "File Integrity Monitoring",
+      "Web Server Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-12569",
+    "queries": [
+      {
+        "name": "Hex-named JSP webshell dropped under Windchill login path",
+        "query": "source logs\n| filter $d.event_type == \"file_creation\"\n| filter $d.file_path.contains(\"/Windchill/login/\")\n| filter $d.file_name.matches(\"^[a-f0-9]{6,}\\\\.jsp$\")\n| groupby $d.hostname, $d.file_path\n| count() as webshell_writes\n| filter webshell_writes > 0\n| sort -webshell_writes"
+      }
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-fastjson-cve-2026-16723-zero-day-rce-exploitation-i",
     "title": "Hunt for FastJson CVE-2026-16723 zero-day RCE exploitation in Java/Spring Boot apps",
     "description": "FastJson 1.x has an unpatched, actively exploited RCE zero-day (CVE-2026-16723) reported by BleepingComputer/Imperva on July 21, 2026, hitting US organizations. Malicious JSON abuses FastJson's type-resolution to execute code, commonly in Spring Boot fat-JAR services. Hunt for Java application processes spawning shell/download utilities shortly after handling web requests, which would indicate successful post-exploitation command execution.",
