@@ -7,6 +7,63 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-laundry-bear",
+    "name": "Laundry Bear",
+    "aliases": [
+      "Void Blizzard",
+      "TA488"
+    ],
+    "type": "apt",
+    "origin": "Russia",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "Defense",
+      "Nuclear",
+      "Research",
+      "NATO"
+    ],
+    "ttps": [
+      "T1566",
+      "T1539",
+      "T1111",
+      "T1114"
+    ],
+    "campaigns": [
+      "Zimbra Collaboration Suite half-click phishing (CVE-2025-66376)"
+    ],
+    "iocs": [],
+    "notes": "Russian state-linked espionage actor named in a July 2026 joint advisory (CISA AA26-204a). The group exploited a Zimbra Collaboration Suite Classic UI stored-XSS zero-day (CVE-2025-66376) via a 'half-click' crafted HTML email that abuses CSS @import handling to run JavaScript inside an authenticated webmail session. It attempted to exfiltrate up to 90 days of emails, contacts, passwords, and 2FA tokens from Ukrainian government, US government and defense, nuclear, scientific, and European targets.",
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-adv-chaos",
+    "name": "Chaos",
+    "aliases": [
+      "Chaos RaaS"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Multiple"
+    ],
+    "ttps": [
+      "T1486",
+      "T1071.001",
+      "T1572"
+    ],
+    "campaigns": [
+      "msaRAT browser-tunneled C2 operations (2026)"
+    ],
+    "iocs": [
+      "172.86.126.18",
+      "is-01-ast.ols-img-12.workers.dev"
+    ],
+    "notes": "Ransomware-as-a-service group first confirmed by Cisco Talos in February 2025 (distinct from the older same-named Chaos ransomware builder family). In July 2026 Talos tied the group to msaRAT, a Rust RAT that tunnels C2 through headless Chrome/Edge via the Chrome DevTools Protocol and a WebRTC/Twilio TURN relay to evade network detection. Rapid7 has separately reported the Chaos ransomware being leveraged by Iranian state actor MuddyWater to disguise espionage as financially motivated activity.",
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
     "name": "APT-C-60",
     "aliases": [],
     "type": "apt",
