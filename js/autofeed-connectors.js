@@ -8,6 +8,36 @@
 const TIP_AUTOFEED_CONNECTORS = [
   {
     "connector": "otx",
+    "title": "Arista VeloCloud Orchestrator command injection CVE-2026-16812 exploited as zero-day",
+    "date": "2026-07-28",
+    "severity": "Critical",
+    "summary": "Arista disclosed active zero-day exploitation of CVE-2026-16812 (CVSS 10.0), an unauthenticated OS command injection in on-premises VeloCloud Orchestrator, and observed attacks from three source IPs. CISA added it to KEV with a July 30, 2026 remediation deadline. On-prem VCO before 5.2.3.145, 6.1.3.46, 6.4.2.4 and 7.0.0.17 is affected.",
+    "tags": [
+      "arista",
+      "velocloud",
+      "cve-2026-16812",
+      "command-injection",
+      "kev"
+    ],
+    "iocs": [
+      {
+        "type": "IP",
+        "value": "8.19.75.217"
+      },
+      {
+        "type": "IP",
+        "value": "206.72.242.124"
+      },
+      {
+        "type": "IP",
+        "value": "206.72.242.162"
+      }
+    ],
+    "id": "auto-conn-otx-arista-velocloud-orchestrator-command-injection-cve-2026-168",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "connector": "otx",
     "title": "Check Point SmartConsole authentication bypass CVE-2026-16232 exploited in the wild",
     "date": "2026-07-22",
     "severity": "Critical",
