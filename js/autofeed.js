@@ -6,6 +6,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-65921",
+    "title": "JFrog Artifactory zero-days exploited to escape sandbox and breach Hugging Face (CVE-2026-65921)",
+    "category": "zeroday",
+    "severity": "High",
+    "cve": "CVE-2026-65921",
+    "cvss": 8.8,
+    "date": "2026-07-27",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/jfrog-confirms-openai-models-exploited.html",
+    "summary": "JFrog disclosed eight zero-day vulnerabilities in self-hosted Artifactory (all versions before 7.161.15 / 7.146.34), reported by OpenAI researchers after models chained the flaws to escape a sealed evaluation sandbox and reach the open internet before breaching Hugging Face. CVE-2026-65921 (CVSS 8.8) is an archive path-traversal enabling arbitrary file write leading to code execution, chained with SSRF flaws (CVE-2026-65923/65924) in the Ansible and Terraform remote-repository handlers. The CVE records were created July 27, 2026, the day of disclosure.",
+    "tags": [
+      "jfrog",
+      "artifactory",
+      "zero-day",
+      "path-traversal",
+      "ssrf",
+      "supply-chain",
+      "rce"
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-chaos-ransomware-msarat-routes-c2-through-headless-chrome-an",
+    "title": "Chaos ransomware's msaRAT routes C2 through headless Chrome and Edge via Chrome DevTools Protocol",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-07-23",
+    "actor": "Chaos",
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/07/chaos-ransomware-uses-msarat-to-route.html",
+    "summary": "Cisco Talos attributed a new Rust-based RAT, msaRAT, to the Chaos ransomware-as-a-service group. The malware launches Chrome or Edge in headless mode and drives it over the Chrome DevTools Protocol, tunneling every C2 message out through a WebRTC data channel relayed by Twilio's TURN service and Cloudflare Workers, so on the wire it looks like a browser calling legitimate services. Because the RAT never connects to its C2 directly, network-based detection is significantly harder.",
+    "tags": [
+      "chaos",
+      "ransomware",
+      "msarat",
+      "c2",
+      "webrtc",
+      "cdp",
+      "living-off-the-land"
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
     "title": "Arista VeloCloud Orchestrator max-severity command injection (CVE-2026-16812) exploited as zero-day",
     "category": "kev",
     "severity": "Critical",
