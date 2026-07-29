@@ -6,6 +6,43 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "Arista VeloCloud Orchestrator max-severity command injection (CVE-2026-16812) exploited as zero-day",
+    "category": "kev",
+    "severity": "Critical",
+    "cve": "CVE-2026-16812",
+    "cvss": 10.0,
+    "date": "2026-07-28",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/arista-patches-velocloud-orchestrator-zero-day-exploited-in-attacks/",
+    "summary": "Arista patched CVE-2026-16812, a maximum-severity (CVSS 10.0) unauthenticated OS command injection flaw in on-premises VeloCloud Orchestrator (VCO), after confirming active zero-day exploitation. An attacker with only network access to the VCO web interface can run arbitrary commands with privileged access, fully compromising the orchestrator and the SD-WAN it manages. On-prem versions before 5.2.3.145, 6.1.3.46, 6.4.2.4 and 7.0.0.17 are affected; hosted/dedicated VCO was patched pre-disclosure. CISA added the flaw to its KEV catalog with a July 30, 2026 federal remediation deadline, and Arista published attacker source IPs.",
+    "tags": [
+      "arista",
+      "velocloud",
+      "cve-2026-16812",
+      "command-injection",
+      "kev",
+      "sd-wan"
+    ],
+    "id": "auto-cve-2026-16812",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "title": "FastJson 1.x unpatched zero-day RCE (CVE-2026-16723) actively exploited against US organizations",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": "CVE-2026-16723",
+    "cvss": 9.0,
+    "date": "2026-07-21",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/hackers-target-us-firms-in-fastjson-rce-zero-day-attacks/",
+    "summary": "A critical (CVSS 9.0) remote code execution zero-day in the FastJson Java library, CVE-2026-16723, is being actively exploited in the wild, primarily against US-based organizations across financial services, healthcare, retail and other sectors. The flaw lies in FastJson's type-resolution logic, which performs attacker-controlled resource lookups before enforcing AutoType restrictions, so malicious JSON can trigger code execution even with AutoType disabled. It affects FastJson 1.2.68 through 1.2.83 (Spring Boot fat-JAR deployments observed) with no patch available for the 1.x branch. Maintainers published an advisory on July 21, 2026; defenders should enable SafeMode and migrate to FastJson 2.x.",
+    "tags": [],
+    "id": "auto-cve-2026-16723",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
     "title": "Langflow unauthenticated RCE (CVE-2026-0770) actively exploited; CISA orders urgent patching",
     "category": "kev",
     "severity": "Critical",
