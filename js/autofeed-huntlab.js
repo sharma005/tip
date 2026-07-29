@@ -7,6 +7,74 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-fastjson-cve-2026-16723-zero-day-rce-exploitation-i",
+    "title": "Hunt for FastJson CVE-2026-16723 zero-day RCE exploitation in Java/Spring Boot apps",
+    "description": "FastJson 1.x has an unpatched, actively exploited RCE zero-day (CVE-2026-16723) reported by BleepingComputer/Imperva on July 21, 2026, hitting US organizations. Malicious JSON abuses FastJson's type-resolution to execute code, commonly in Spring Boot fat-JAR services. Hunt for Java application processes spawning shell/download utilities shortly after handling web requests, which would indicate successful post-exploitation command execution.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-16723",
+    "queries": [
+      {
+        "name": "Java processes spawning shells or download tools",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"java\", \"java.exe\"]\n| filter $d.process_name in [\"sh\", \"bash\", \"cmd.exe\", \"powershell.exe\", \"curl\", \"wget\"]\n| filter $d.timestamp >= \"2026-07-21T00:00:00Z\"\n| groupby $d.hostname, $d.parent_process, $d.process_name, $d.command_line\n| count() as spawn_count\n| sort -spawn_count"
+      }
+    ],
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-arista-velocloud-orchestrator-command-injection-cve",
+    "title": "Hunt for Arista VeloCloud Orchestrator command injection (CVE-2026-16812) exploitation",
+    "description": "Arista disclosed active zero-day exploitation of CVE-2026-16812 (CVSS 10.0), an unauthenticated OS command injection in on-prem VeloCloud Orchestrator, and published attacker source IPs (July 28, 2026). Hunt for inbound connections from the known malicious IPs to VCO management interfaces, and for unexpected OS commands executed by the VCO web-service account.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Firewall Logs",
+      "Web Proxy Logs",
+      "EDR Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-16812",
+    "queries": [
+      {
+        "name": "Connections from known VeloCloud exploitation source IPs",
+        "query": "source logs\n| filter $d.event_type == \"network_connection\"\n| filter $d.source_ip in [\"8.19.75.217\", \"206.72.242.124\", \"206.72.242.162\"]\n| filter $d.timestamp >= \"2026-07-20T00:00:00Z\"\n| groupby $d.source_ip, $d.destination_ip, $d.destination_port\n| count() as conn_count\n| sort -conn_count"
+      }
+    ],
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-the-gentlemen-ransomware-shadow-copy-deletion-befor",
+    "title": "Hunt for The Gentlemen ransomware shadow-copy deletion before encryption",
+    "description": "The Gentlemen ransomware group (active through 2026, latest listing Thialf ice arena July 23, 2026) uses Fortinet/VPN access, credential abuse and a self-propagating Go encryptor for double extortion, per Microsoft and Group-IB reporting. Like most crypto-ransomware it deletes volume shadow copies and backups to inhibit recovery before mass encryption. Hunt for backup/shadow-copy deletion utility execution across endpoints as an early pre-encryption signal.",
+    "mitreTactic": "Impact",
+    "mitreTechnique": "T1490 - Inhibit System Recovery",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "The Gentlemen",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "Shadow copy / backup deletion utilities",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"vssadmin.exe\", \"wbadmin.exe\", \"bcdedit.exe\", \"wmic.exe\"]\n| filter $d.timestamp >= \"2026-07-16T00:00:00Z\"\n| groupby $d.hostname, $d.user, $d.process_name, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-steam-forum-clickfix-xmrig-cryptominer-install-via-",
     "title": "Hunt for Steam forum ClickFix XMRig cryptominer install via PowerShell, Defender exclusion, and scheduled task",
     "description": "BleepingComputer reported (July 25, 2026) that threat actors are abusing Steam discussion forums in a ClickFix campaign: fake accounts post PowerShell \"fixes\" for game/PC issues that, when run with admin rights, install an XMRig cryptominer. The loader poses as an optimization utility (\"msf utility \\ PC Opt\"), adds a Microsoft Defender exclusion, creates a hidden directory at C:\\Windows\\Background, and registers a scheduled task (prefixed \"XMRig-\") to run the miner with SYSTEM privileges at startup. Hunt for these host-side artifacts across endpoints where users may have pasted a \"fix\" command.",
