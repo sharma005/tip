@@ -7,6 +7,60 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "Bank of Baroda ~1TB customer and corporate banking data leaked on dark web by 'TripleX'",
+    "type": "leak",
+    "source": "Business Standard",
+    "date": "2026-07-24",
+    "snippet": "Business Standard and others reported that on July 24, 2026 a ransomware/extortion group calling itself 'TripleX' listed India's state-owned Bank of Baroda on its dark web leak site, allegedly exposing nearly 1TB of data. The trove reportedly includes savings/current and loan account records, net-banking and NRI customer data, Aadhaar numbers and branch/ATM records drawn from multiple branches. The bank confirmed an employee email-account compromise led to unauthorised access to certain internal files, while stating core banking systems were not touched.",
+    "relevance": 72,
+    "flagged": false,
+    "tags": [
+      "bank-of-baroda",
+      "triplex",
+      "data-leak",
+      "india",
+      "pii"
+    ],
+    "id": "auto-dw-bank-of-baroda-1tb-customer-and-corporate-banking-data-leake",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "title": "The Gentlemen ransomware lists Thialf ice arena on leak site",
+    "type": "leak",
+    "source": "DeXpose",
+    "date": "2026-07-23",
+    "snippet": "Threat-intel reporting (DeXpose, GalaxyWarden) noted that on July 23, 2026 the double-extortion group 'The Gentlemen' claimed the Thialf ice arena (thialf.nl) in Heerenveen, Netherlands on its dark web leak site, stating internal files were exfiltrated. The world-renowned speed-skating venue is a comparatively small victim but fits the group's pattern of naming diverse organizations to pressure ransom payment.",
+    "relevance": 38,
+    "flagged": false,
+    "tags": [
+      "the-gentlemen",
+      "ransomware",
+      "thialf",
+      "data-leak",
+      "netherlands"
+    ],
+    "id": "auto-dw-the-gentlemen-ransomware-lists-thialf-ice-arena-on-leak-site",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
+    "title": "Flying Eagle Android RAT source code circulating on criminal Telegram channels",
+    "type": "chatter",
+    "source": "The Hacker News",
+    "date": "2026-07-28",
+    "snippet": "Hunt.io and researcher NetAskari published joint research (The Hacker News, July 28, 2026) showing the leaked source code for the Flying Eagle (飞鹰) Android RAT and device-control framework is circulating through criminal Telegram channels as a 388MB archive. Using TLS certificate and panel fingerprints, they traced 170 active servers running the framework and documented a successor platform, 'Night Dragon,' targeting Chinese users. The leak lowers the barrier to entry and is fueling a fractured criminal ecosystem building on the codebase.",
+    "relevance": 55,
+    "flagged": false,
+    "tags": [
+      "flying-eagle",
+      "android",
+      "rat",
+      "telegram",
+      "source-code-leak"
+    ],
+    "id": "auto-dw-flying-eagle-android-rat-source-code-circulating-on-criminal",
+    "fetchedAt": "2026-07-29T17:09:02.760Z"
+  },
+  {
     "title": "ShinyHunters breach data reused in $2,000 Bitcoin sextortion email campaign",
     "type": "credential",
     "source": "BleepingComputer",
