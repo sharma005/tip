@@ -7,6 +7,94 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-chaos-ransomware-msarat-browser-tunneled-c2-via-chrome-devto",
+    "connector": "otx",
+    "title": "Chaos ransomware msaRAT: browser-tunneled C2 via Chrome DevTools Protocol",
+    "date": "2026-07-23",
+    "severity": "High",
+    "summary": "Cisco Talos detailed msaRAT, a Rust RAT attributed to the Chaos RaaS group that drives headless Chrome/Edge over the Chrome DevTools Protocol and relays C2 through WebRTC/Twilio TURN and Cloudflare Workers to evade network detection. Talos published detection content and network indicators.",
+    "tags": [
+      "chaos",
+      "msarat",
+      "ransomware",
+      "c2",
+      "cdp"
+    ],
+    "iocs": [
+      {
+        "type": "IP",
+        "value": "172.86.126.18"
+      },
+      {
+        "type": "Domain",
+        "value": "is-01-ast.ols-img-12.workers.dev"
+      },
+      {
+        "type": "ClamAV",
+        "value": "Win.Downloader.ChaosRaas-10060321-0"
+      }
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-conn-otx-jfrog-artifactory-zero-day-chain-cve-2026-65921-exploited-to",
+    "connector": "otx",
+    "title": "JFrog Artifactory zero-day chain (CVE-2026-65921) exploited to escape sandbox, breach Hugging Face",
+    "date": "2026-07-27",
+    "severity": "High",
+    "summary": "JFrog patched eight self-hosted Artifactory zero-days reported by OpenAI researchers. CVE-2026-65921 (CVSS 8.8) is an archive path-traversal allowing arbitrary file write to RCE; CVE-2026-65923/65924 are SSRF flaws in the Ansible/Terraform remote-repo handlers. Chaining them yielded an outbound channel used to reach Hugging Face and steal credentials. Fixed in Artifactory 7.161.15 / 7.146.34.",
+    "tags": [
+      "jfrog",
+      "artifactory",
+      "zero-day",
+      "ssrf",
+      "path-traversal"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-conn-misp-cl0p-linked-exploitation-of-ptc-windchill-flexplm-cve-2026-1",
+    "connector": "misp",
+    "title": "Cl0p-linked exploitation of PTC Windchill/FlexPLM (CVE-2026-12569) drops JSP webshells",
+    "date": "2026-07-23",
+    "severity": "Critical",
+    "summary": "ReliaQuest and Ransom-ISAC reported active exploitation of CVE-2026-12569 (CVSS 9.8), a critical unsafe-deserialization pre-auth RCE in PTC Windchill PDMLink and FlexPLM. Attackers chain a pre-auth information disclosure in the FlexPLM WSDL endpoint with a flaw in the Windchill login servlet to gain unauthenticated RCE and deploy hex-named JSP webshells under /Windchill/login/ for data theft. Tradecraft overlaps prior Cl0p data-theft campaigns.",
+    "tags": [
+      "clop",
+      "ptc-windchill",
+      "flexplm",
+      "rce",
+      "webshell",
+      "cve-2026-12569"
+    ],
+    "iocs": [
+      {
+        "type": "URI Path",
+        "value": "/Windchill/login/ (hex-named .jsp webshell)"
+      }
+    ],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
+    "id": "auto-conn-misp-russian-laundry-bear-exploits-zimbra-zero-day-cve-2025-66376",
+    "connector": "misp",
+    "title": "Russian 'Laundry Bear' exploits Zimbra zero-day CVE-2025-66376 for zero-click email theft",
+    "date": "2026-07-23",
+    "severity": "High",
+    "summary": "A July 2026 joint advisory (CISA AA26-204a) warns that Russian state-linked actor Laundry Bear (Void Blizzard / TA488) exploited a Zimbra Collaboration Suite Classic UI stored-XSS zero-day, CVE-2025-66376, via a 'half-click' HTML email abusing CSS @import to run JavaScript in authenticated webmail sessions, exfiltrating emails, contacts, passwords, and 2FA tokens. Patched in Zimbra 10.1.13.",
+    "tags": [
+      "zimbra",
+      "laundry-bear",
+      "void-blizzard",
+      "xss",
+      "espionage",
+      "cve-2025-66376"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-07-29T18:46:01.726Z"
+  },
+  {
     "connector": "otx",
     "title": "Arista VeloCloud Orchestrator command injection CVE-2026-16812 exploited as zero-day",
     "date": "2026-07-28",
