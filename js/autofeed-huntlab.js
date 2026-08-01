@@ -7,6 +7,49 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-cve-2026-20316-hard-coded-credential-logins-to-cisc",
+    "title": "Hunt for CVE-2026-20316 hard-coded credential logins to Cisco Secure FMC",
+    "description": "CISA added CVE-2026-20316 to its KEV catalog on July 29, 2026 after confirming active exploitation of a hard-coded low-privilege account in Cisco Secure Firewall Management Center. Hunt for successful local-account authentications to FMC management interfaces originating from unexpected or external source addresses, which should be rare for a central firewall manager.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1078.001 - Default Accounts",
+    "dataSources": [
+      "Authentication Logs",
+      "Network Device Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-20316",
+    "queries": [
+      {
+        "name": "FMC local-account logins from non-management source IPs",
+        "query": "source logs\n| filter $d.appliance_type == \"cisco_secure_fmc\"\n| filter $d.event_type == \"authentication\" && $d.outcome == \"success\"\n| filter $d.auth_method == \"local\"\n| filter $d.src_ip not in [\"10.0.0.0/8\", \"172.16.0.0/12\", \"192.168.0.0/16\"]\n| groupby $d.username, $d.src_ip\n| count() as logins\n| filter logins > 0\n| sort -logins"
+      }
+    ],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-fortios-cve-2025-68686-crafted-http-information-dis",
+    "title": "Hunt for FortiOS CVE-2025-68686 crafted-HTTP information disclosure and symlink persistence",
+    "description": "CISA added CVE-2025-68686 to its KEV catalog on July 27, 2026. The flaw lets an attacker use crafted HTTP requests to bypass Fortinet's fix for the SSL-VPN symbolic-link persistency mechanism and read sensitive files, and it presumes an earlier filesystem-level compromise. Hunt for anomalous GET requests to FortiOS SSL-VPN language/theme endpoints that return unusually large responses, and for unexpected symlinks appearing in the web root.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1505.003 - Server Software Component: Web Shell",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Network Traffic",
+      "File Monitoring"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2025-68686",
+    "queries": [
+      {
+        "name": "Large responses from FortiOS SSL-VPN remote paths",
+        "query": "source logs\n| filter $d.device_vendor == \"fortinet\"\n| filter $d.http_method == \"GET\"\n| filter $d.url_path ~ \"/remote/\"\n| filter $d.http_status == 200 && $d.response_bytes > 10000\n| groupby $d.src_ip, $d.url_path\n| count() as hits\n| filter hits > 5\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-msarat-headless-browser-c2-via-chrome-devtools-prot",
     "title": "Hunt for msaRAT headless-browser C2 via Chrome DevTools Protocol (Chaos ransomware)",
     "description": "Cisco Talos reported that Chaos ransomware's msaRAT launches Chrome/Edge in headless mode with remote debugging enabled and tunnels C2 over WebRTC. Hunt for browser processes started with --headless and --remote-debugging-port by non-standard parent processes, which is rare in normal user activity.",
