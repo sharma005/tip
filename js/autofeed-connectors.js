@@ -7,6 +7,40 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-cisco-secure-fmc-hard-coded-credential-zero-day-cve-2026-203",
+    "connector": "otx",
+    "title": "Cisco Secure FMC hard-coded credential zero-day (CVE-2026-20316) actively exploited",
+    "date": "2026-07-29",
+    "severity": "High",
+    "summary": "CISA added CVE-2026-20316 to its KEV catalog on July 29, 2026 after confirming active exploitation of a hard-coded password in Cisco Secure Firewall Management Center that allows unauthenticated login via a low-privilege account (CVSS 8.9, reported by Horizon3.ai). Community trackers are circulating the CVE and affected-version details for detection; no public IOC values are confirmed yet.",
+    "tags": [
+      "cisco",
+      "fmc",
+      "cve-2026-20316",
+      "kev",
+      "hard-coded-credentials"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
+    "id": "auto-conn-misp-fortinet-fortios-crafted-http-information-disclosure-added-t",
+    "connector": "misp",
+    "title": "Fortinet FortiOS crafted-HTTP information disclosure added to CISA KEV (CVE-2025-68686)",
+    "date": "2026-07-27",
+    "severity": "High",
+    "summary": "CISA added CVE-2025-68686 to its KEV catalog on July 27, 2026. The FortiOS flaw (CWE-200) lets a remote attacker use crafted HTTP requests to bypass the fix for the SSL-VPN symbolic-link persistency mechanism and read sensitive data following an earlier filesystem-level compromise. MISP communities are tracking affected FortiOS builds (6.4 through 7.6.1) for detection; no new public IOC values are confirmed.",
+    "tags": [
+      "fortinet",
+      "fortios",
+      "cve-2025-68686",
+      "kev",
+      "information-disclosure"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
     "id": "auto-conn-otx-chaos-ransomware-msarat-browser-tunneled-c2-via-chrome-devto",
     "connector": "otx",
     "title": "Chaos ransomware msaRAT: browser-tunneled C2 via Chrome DevTools Protocol",
