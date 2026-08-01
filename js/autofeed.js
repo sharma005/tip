@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-20316",
+    "title": "Cisco Secure Firewall Management Center hard-coded credential zero-day exploited (CVE-2026-20316)",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-20316",
+    "cvss": 8.9,
+    "date": "2026-07-29",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/29/cisa-adds-one-known-exploited-vulnerability-catalog",
+    "summary": "CISA added CVE-2026-20316 to its Known Exploited Vulnerabilities catalog on July 29, 2026 based on evidence of active exploitation. The flaw is a use of hard-coded password (CWE-259) in Cisco Secure Firewall Management Center (FMC) that lets an unauthenticated remote attacker log in through a low-privilege account and reach sensitive data on the appliance. Cisco assigned CVSS 8.9 and the issue was reported by Horizon3.ai's attack research team; FCEB agencies were given an August 1, 2026 remediation deadline.",
+    "tags": [
+      "cisco",
+      "fmc",
+      "kev",
+      "hard-coded-credentials",
+      "cwe-259"
+    ],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
+    "id": "auto-cve-2025-68686",
+    "title": "Fortinet FortiOS information-disclosure flaw added to CISA KEV (CVE-2025-68686)",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2025-68686",
+    "cvss": null,
+    "date": "2026-07-27",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/07/27/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "summary": "CISA added CVE-2025-68686 to its Known Exploited Vulnerabilities catalog on July 27, 2026. The vulnerability is an exposure of sensitive information (CWE-200) in Fortinet FortiOS that a remote attacker can trigger with crafted HTTP requests to bypass the patch Fortinet developed for the symbolic-link persistency mechanism seen in earlier post-exploitation cases. Exploitation presumes the device was already compromised at the filesystem level, making this a secondary vector that extends the impact of prior FortiOS intrusions; affected builds span FortiOS 6.4 through 7.6.1.",
+    "tags": [
+      "fortinet",
+      "fortios",
+      "kev",
+      "information-disclosure",
+      "cwe-200"
+    ],
+    "fetchedAt": "2026-08-01T18:45:19.126Z"
+  },
+  {
     "id": "auto-cve-2026-65921",
     "title": "JFrog Artifactory zero-days exploited to escape sandbox and breach Hugging Face (CVE-2026-65921)",
     "category": "zeroday",
