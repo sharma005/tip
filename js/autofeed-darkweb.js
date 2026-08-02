@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "coinbasecartel extortion group lists European standards bodies CEN and CENELEC on leak site",
+    "type": "ransomware",
+    "source": "coinbasecartel leak site",
+    "date": "2026-08-01",
+    "snippet": "Threat-intel reporting (DeXpose, RedPacketSecurity, ransomware.live) noted that on August 1, 2026 the data-extortion group 'coinbasecartel' added the European standardization bodies CEN and CENELEC (Belgium) to its dark web leak site, threatening to publish stolen data unless negotiations begin. Active since September 2025, the group steals data and extorts victims without deploying an encryptor and has claimed 60+ victims across healthcare, technology, transportation, finance and telecom.",
+    "relevance": 60,
+    "flagged": false,
+    "tags": [
+      "coinbasecartel",
+      "extortion",
+      "data-leak",
+      "leak-site",
+      "europe"
+    ],
+    "id": "auto-dw-coinbasecartel-lists-cen-and-cenelec-on-leak-site",
+    "fetchedAt": "2026-08-02T18:45:20.617Z"
+  },
+  {
     "title": "Bank of Baroda ~1TB customer and corporate banking data leaked on dark web by 'TripleX'",
     "type": "leak",
     "source": "Business Standard",
