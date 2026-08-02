@@ -7,6 +7,31 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-coinbasecartel",
+    "name": "coinbasecartel",
+    "aliases": [
+      "Coinbase Cartel"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Healthcare",
+      "Technology",
+      "Transportation",
+      "Finance",
+      "Telecom"
+    ],
+    "ttps": [],
+    "campaigns": [
+      "Data-extortion claim against CEN and CENELEC (Aug 2026)"
+    ],
+    "iocs": [],
+    "notes": "coinbasecartel is a financially motivated data-extortion actor first observed in September 2025 that steals data and threatens to publish or sell it rather than deploying an encryptor. As of early August 2026 it has claimed 60+ victims across healthcare, technology, transportation, finance and telecom, most recently listing the European standardization bodies CEN and CENELEC on its leak site (Aug 1, 2026). Analysts assess the group may draw on affiliates linked to ShinyHunters, Scattered Spider and Lapsus$, and it is reportedly developing ESXi-targeted ransomware, suggesting a possible future shift toward encryption-based double extortion.",
+    "active": true,
+    "fetchedAt": "2026-08-02T18:45:20.617Z"
+  },
+  {
     "id": "auto-adv-laundry-bear",
     "name": "Laundry Bear",
     "aliases": [
