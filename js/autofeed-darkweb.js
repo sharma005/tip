@@ -7,6 +7,23 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "id": "auto-dw-inc-ransom-sonicwall-sma-breach-victims-on-leak-site",
+    "title": "INC Ransom publishes SonicWall SMA breach victims on its data leak site",
+    "type": "ransomware",
+    "source": "The Hacker News",
+    "date": "2026-08-02",
+    "snippet": "Following zero-day exploitation of SonicWall SMA 1000 appliances (CVE-2026-15409 / CVE-2026-15410), the INC Ransom group has posted a wave of new victims to its data leak site between July 17 and August 1, 2026, spanning private-sector and government organizations in Australia, the U.S., the U.A.E., Colombia and Switzerland. Ransomware.Live tracks the group at 885 claimed victims, the most recent added August 2, 2026.",
+    "relevance": 80,
+    "flagged": false,
+    "tags": [
+      "inc-ransom",
+      "sonicwall",
+      "ransomware",
+      "leak-site"
+    ],
+    "fetchedAt": "2026-08-03T18:47:35.894Z"
+  },
+  {
     "title": "coinbasecartel extortion group lists European standards bodies CEN and CENELEC on leak site",
     "type": "ransomware",
     "source": "coinbasecartel leak site",
