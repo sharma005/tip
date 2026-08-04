@@ -7,6 +7,40 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-n-able-n-central-cve-2026-18577-authentication-bypass-exploi",
+    "connector": "otx",
+    "title": "N-able N-central CVE-2026-18577 authentication bypass exploited in the wild",
+    "date": "2026-08-03",
+    "severity": "High",
+    "summary": "Community trackers are circulating CVE-2026-18577, an N-able N-central authentication bypass (CVSS 8.2, an incomplete patch of CVE-2026-18556) added to CISA's KEV catalog on August 3, 2026. Post-exploitation activity reported by Huntress and Rapid7 includes abuse of the N-central Take Control feature to reach managed endpoints and deployment of Cloudflare Tunnel (cloudflared) for persistence. No public IOC values are confirmed yet; detection focuses on unexpected Take Control activity and cloudflared execution.",
+    "tags": [
+      "n-able",
+      "n-central",
+      "cve-2026-18577",
+      "kev",
+      "rmm"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
+    "id": "auto-conn-misp-golden-chickens-venom-spider-resurfaces-with-new-modular-mal",
+    "connector": "misp",
+    "title": "Golden Chickens (Venom Spider) resurfaces with new modular malware families",
+    "date": "2026-07-30",
+    "severity": "High",
+    "summary": "Threat-intel communities are tracking the late-July 2026 resurgence of the Golden Chickens / Venom Spider Malware-as-a-Service operation with four new or updated modular families, including ChromEggscalator, a TerraStealerV2 successor built on the ChromElevator Chrome encryption-bypass tool for browser credential and session theft. The activity builds on Recorded Future Insikt Group's earlier attribution of the TerraStealerV2 and TerraLogger families to the same actor. No fresh public IOC values are confirmed for the new families yet.",
+    "tags": [
+      "golden-chickens",
+      "venom-spider",
+      "terrastealerv2",
+      "maas",
+      "infostealer"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
     "id": "auto-conn-otx-cisco-secure-fmc-hard-coded-credential-zero-day-cve-2026-203",
     "connector": "otx",
     "title": "Cisco Secure FMC hard-coded credential zero-day (CVE-2026-20316) actively exploited",
