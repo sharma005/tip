@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "id": "auto-dw-qilin-ransomware-posts-104-new-victims-to-its-leak-site-in-a",
+    "title": "Qilin ransomware posts 104 new victims to its leak site in August, outpacing Akira",
+    "type": "ransomware",
+    "source": "GBHackers",
+    "date": "2026-08-04",
+    "snippet": "Reporting in early August 2026 shows the Qilin (Agenda) ransomware-as-a-service operation claimed 104 organizations on its data leak site in August, nearly doubling second-place Akira and cementing Qilin as the most prolific ransomware brand of the period. Since RansomHub's decline in April, Qilin has accounted for roughly 18% of all logged ransomware incidents, aided by an aggressive affiliate program and customizable leak-site tooling.",
+    "relevance": 75,
+    "flagged": false,
+    "tags": [
+      "qilin",
+      "agenda",
+      "ransomware",
+      "leak-site",
+      "raas"
+    ],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
     "id": "auto-dw-inc-ransom-sonicwall-sma-breach-victims-on-leak-site",
     "title": "INC Ransom publishes SonicWall SMA breach victims on its data leak site",
     "type": "ransomware",
