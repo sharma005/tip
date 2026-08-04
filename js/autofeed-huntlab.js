@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-cloudflared-tunnels-deployed-after-n-able-n-central",
+    "title": "Hunt for cloudflared tunnels deployed after N-able N-central CVE-2026-18577 exploitation",
+    "description": "Attackers exploiting the N-able N-central authentication bypass (CVE-2026-18577, added to CISA KEV on August 3, 2026) have been observed gaining admin access to N-central servers, abusing the Take Control feature to reach managed endpoints, and installing Cloudflare Tunnel (cloudflared) for persistent remote access. Hunt for cloudflared execution on RMM servers and managed endpoints where it is not a sanctioned tool, especially first-seen installs after August 1, 2026.",
+    "mitreTactic": "Command and Control",
+    "mitreTechnique": "T1572 - Protocol Tunneling",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-18577",
+    "queries": [
+      {
+        "name": "cloudflared tunnel execution on servers and endpoints",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"cloudflared.exe\", \"cloudflared\"]\n| filter $d.command_line.contains(\"tunnel\")\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname, $d.parent_process\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-golden-chickens-chromeggscalator-chrome-credential-",
+    "title": "Hunt for Golden Chickens ChromEggscalator Chrome credential and session theft",
+    "description": "Golden Chickens (Venom Spider) resurfaced in late July 2026 with new modular malware including ChromEggscalator, a TerraStealerV2 successor built on the ChromElevator Chrome encryption-bypass tool to steal browser credentials and hijack sessions. Hunt for non-browser processes reading Chrome's Login Data or Local State files, a behavior typical of app-bound-encryption bypass stealers.",
+    "mitreTactic": "Credential Access",
+    "mitreTechnique": "T1555.003 - Credentials from Web Browsers",
+    "dataSources": [
+      "EDR Logs",
+      "File Access Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "Golden Chickens",
+    "linkedFeedItemRef": null,
+    "queries": [
+      {
+        "name": "non-browser process reading Chrome credential stores",
+        "query": "source logs\n| filter $d.event_type == \"file_access\"\n| filter $d.file_path.contains(\"\\\\Google\\\\Chrome\\\\User Data\") && ($d.file_path.contains(\"Login Data\") || $d.file_path.contains(\"Local State\"))\n| filter $d.process_name not in [\"chrome.exe\"]\n| filter $d.timestamp >= \"2026-07-25T00:00:00Z\"\n| groupby $d.hostname, $d.process_name\n| count() as access_count\n| filter access_count > 0\n| sort -access_count"
+      }
+    ],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-armored-likho-lnk-triggered-obfuscated-powershell-l",
+    "title": "Hunt for Armored Likho LNK-triggered obfuscated PowerShell loaders (CVE-2025-9491)",
+    "description": "Kaspersky's Armored Likho espionage campaign against government and electric-power targets weaponizes malicious LNK shortcuts exploiting CVE-2025-9491 to launch obfuscated PowerShell that loads a decoy document and a Python-based BusySnake stealer, with Go2Tunnel used for network tunneling. Hunt for PowerShell processes spawned by explorer.exe with encoded or hidden-window arguments, consistent with LNK-triggered execution.",
+    "mitreTactic": "Execution",
+    "mitreTechnique": "T1059.001 - PowerShell",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": "Armored Likho",
+    "linkedFeedItemRef": "CVE-2025-9491",
+    "queries": [
+      {
+        "name": "explorer-spawned PowerShell with encoded or hidden window",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name == \"powershell.exe\"\n| filter $d.parent_process in [\"explorer.exe\"]\n| filter $d.command_line.contains(\"-enc\") || $d.command_line.contains(\"-EncodedCommand\") || $d.command_line.contains(\"-w hidden\")\n| filter $d.timestamp >= \"2026-07-01T00:00:00Z\"\n| groupby $d.hostname, $d.user\n| count() as susp_ps\n| filter susp_ps > 0\n| sort -susp_ps"
+      }
+    ],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-cve-2026-20316-hard-coded-credential-logins-to-cisc",
     "title": "Hunt for CVE-2026-20316 hard-coded credential logins to Cisco Secure FMC",
     "description": "CISA added CVE-2026-20316 to its KEV catalog on July 29, 2026 after confirming active exploitation of a hard-coded low-privilege account in Cisco Secure Firewall Management Center. Hunt for successful local-account authentications to FMC management interfaces originating from unexpected or external source addresses, which should be rare for a central firewall manager.",
