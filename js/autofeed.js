@@ -6,6 +6,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-18577",
+    "title": "N-able N-central authentication bypass CVE-2026-18577 actively exploited, added to CISA KEV",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-18577",
+    "cvss": 8.2,
+    "date": "2026-08-03",
+    "actor": null,
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/alerts/2026/08/03/cisa-adds-one-known-exploited-vulnerability-catalog",
+    "summary": "CISA added CVE-2026-18577 to its Known Exploited Vulnerabilities catalog on August 3, 2026 after confirming active exploitation. The flaw is an authentication bypass and account-takeover issue in N-able N-central (an RMM platform) caused by incomplete patching of CVE-2026-18556, rated CVSS 8.2. Attackers observed exploiting it since August 1, 2026 gained administrative access to N-central servers and abused the built-in Take Control feature to pivot into managed endpoints, then deployed Cloudflare Tunnel (cloudflared) for persistent remote access. N-able fixed it in 2026.3 HF1 (2026.3.1.7); FCEB agencies were given an August 6, 2026 remediation deadline.",
+    "tags": [
+      "n-able",
+      "n-central",
+      "rmm",
+      "cve-2026-18577",
+      "kev",
+      "auth-bypass",
+      "supply-chain"
+    ],
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
     "id": "auto-cve-2026-20316",
     "title": "Cisco Secure Firewall Management Center hard-coded credential zero-day exploited (CVE-2026-20316)",
     "category": "kev",
@@ -98,7 +121,7 @@ const TIP_AUTOFEED = [
     "category": "kev",
     "severity": "Critical",
     "cve": "CVE-2026-16812",
-    "cvss": 10.0,
+    "cvss": 10,
     "date": "2026-07-28",
     "actor": null,
     "source": "BleepingComputer",
@@ -120,7 +143,7 @@ const TIP_AUTOFEED = [
     "category": "zeroday",
     "severity": "Critical",
     "cve": "CVE-2026-16723",
-    "cvss": 9.0,
+    "cvss": 9,
     "date": "2026-07-21",
     "actor": null,
     "source": "BleepingComputer",
