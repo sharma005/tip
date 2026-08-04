@@ -7,6 +7,36 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-golden-chickens",
+    "name": "Golden Chickens",
+    "aliases": [
+      "Venom Spider"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Financial",
+      "Fintech",
+      "Retail"
+    ],
+    "ttps": [
+      "T1566",
+      "T1204.002",
+      "T1555.003",
+      "T1056.001"
+    ],
+    "campaigns": [
+      "TerraStealerV2",
+      "TerraLogger",
+      "ChromEggscalator"
+    ],
+    "iocs": [],
+    "notes": "Golden Chickens (aka Venom Spider) is a financially motivated Malware-as-a-Service operator whose modular toolkit has historically been used by cybercrime groups including FIN6, Cobalt Group and Evilnum. In late July 2026 it resurfaced with four new or updated modular malware families, notably ChromEggscalator, a successor to TerraStealerV2 derived from the ChromElevator Chrome encryption-bypass tool, signaling a shift toward operator-driven, defense-evasive tooling for browser credential and session theft. Recorded Future's Insikt Group previously attributed the TerraStealerV2 and TerraLogger families to the same actor.",
+    "active": true,
+    "fetchedAt": "2026-08-04T18:49:38.411Z"
+  },
+  {
     "id": "auto-adv-coinbasecartel",
     "name": "coinbasecartel",
     "aliases": [
