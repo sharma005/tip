@@ -7,6 +7,75 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for Langflow unauthenticated RCE via auto_login and validate/code (CVE-2026-9198)",
+    "description": "Attackers are exploiting CVE-2026-9198 (CVSS 9.8) by chaining Langflow's /api/v1/auto_login endpoint, which issues SUPERUSER tokens to any network caller, with /api/v1/validate/code, which executes attacker-supplied Python via exec(), to gain full RCE on default Langflow deployments (versions 1.0.0-1.10.0, fixed in 1.10.1). Hunt web/proxy and application logs for requests to these endpoints from external sources, especially POSTs to /api/v1/validate/code shortly after an /api/v1/auto_login call.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "WAF Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-9198",
+    "queries": [
+      {
+        "name": "Langflow auto_login to validate/code exploitation chain",
+        "query": "source logs\n| filter $d.http_path in [\"/api/v1/auto_login\", \"/api/v1/validate/code\"]\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.src_ip, $d.http_path\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-langflow-unauthenticated-rce-via-auto-login-and-val",
+    "status": "active",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "title": "Hunt for FDMTP backdoor loader from trojanized QuickFox VPN installer",
+    "description": "A supply-chain compromise of the QuickFox VPN client (fixed in 3.59.6) shipped a trojanized Windows installer whose modified Electron renderer HTML downloads and runs a JavaScript loader; the loader fingerprints the host, then fetches and installs Mustang Panda's FDMTP implant. Hunt endpoints for QuickFox spawning scripting hosts or making outbound requests from its Electron/install process, and for suspicious child processes or persistence created shortly after QuickFox execution.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1195.002 - Compromise Software Supply Chain",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "DNS Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "Mustang Panda",
+    "linkedFeedItemRef": "QuickFox",
+    "queries": [
+      {
+        "name": "QuickFox spawning scripting or LOLBin child processes",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process.contains(\"QuickFox\") || $d.parent_process in [\"quickfox.exe\"]\n| filter $d.process_name in [\"node.exe\", \"wscript.exe\", \"cscript.exe\", \"powershell.exe\", \"mshta.exe\"]\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as spawn_count\n| filter spawn_count > 0\n| sort -spawn_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-fdmtp-backdoor-loader-from-trojanized-quickfox-vpn-",
+    "status": "active",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "title": "Hunt for INC ransomware post-exploitation web shells on SonicWall SMA 1000 (KNUCKLEBALL, Suo5, ORANGETAIL)",
+    "description": "INC Ransomware is the dominant actor chaining SonicWall SMA 1000 flaws CVE-2026-15409 (CVSS 10) and CVE-2026-15410 to reach internal networks. Resecurity reports the post-exploitation toolkit includes KNUCKLEBALL, a Python script that launches the open-source Suo5 HTTP proxy and a Behinder-like custom Java web shell dubbed ORANGETAIL. Hunt appliance and adjacent web servers for anomalous Java/web-shell process activity, Suo5 proxy patterns, and Python executing from appliance paths.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1505.003 - Server Software Component: Web Shell",
+    "dataSources": [
+      "Web Server Logs",
+      "EDR Logs",
+      "Network Traffic Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": "INC Ransom",
+    "linkedFeedItemRef": "CVE-2026-15409",
+    "queries": [
+      {
+        "name": "Web server or interpreter spawning shell/recon processes",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process in [\"java\", \"java.exe\", \"python\", \"python3\"]\n| filter $d.process_name in [\"cmd.exe\", \"sh\", \"bash\", \"whoami\", \"powershell.exe\"]\n| groupby $d.hostname, $d.parent_process, $d.process_name\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-inc-ransomware-post-exploitation-web-shells-on-soni",
+    "status": "active",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-cloudflared-tunnels-deployed-after-n-able-n-central",
     "title": "Hunt for cloudflared tunnels deployed after N-able N-central CVE-2026-18577 exploitation",
     "description": "Attackers exploiting the N-able N-central authentication bypass (CVE-2026-18577, added to CISA KEV on August 3, 2026) have been observed gaining admin access to N-central servers, abusing the Take Control feature to reach managed endpoints, and installing Cloudflare Tunnel (cloudflared) for persistent remote access. Hunt for cloudflared execution on RMM servers and managed endpoints where it is not a sanctioned tool, especially first-seen installs after August 1, 2026.",
