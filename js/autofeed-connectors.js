@@ -7,6 +7,55 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "connector": "otx",
+    "title": "Langflow CVE-2026-9198 unauthenticated RCE added to CISA KEV",
+    "date": "2026-08-05",
+    "severity": "Critical",
+    "summary": "OTX and community trackers are circulating CVE-2026-9198, a CVSS 9.8 code-injection flaw in Langflow that lets unauthenticated attackers chain /api/v1/auto_login (issues SUPERUSER tokens) with /api/v1/validate/code (executes code via exec()) for full RCE on default deployments 1.0.0-1.10.0. CISA added it to KEV on August 5, 2026; IBM fixed it in Langflow OSS 1.10.1. No public IOC values are confirmed; detection focuses on requests to these two endpoints.",
+    "tags": [
+      "langflow",
+      "cve-2026-9198",
+      "rce",
+      "kev"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-langflow-cve-2026-9198-unauthenticated-rce-added-to-cisa-kev",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "connector": "misp",
+    "title": "Autonomous AI (DeepSeek/Hermes Agent) exploitation campaign by Chinese-speaking actor KnYuan",
+    "date": "2026-08-03",
+    "severity": "High",
+    "summary": "Community intel is tracking a Chinese-speaking actor (knaithe/KnYuan) that Unit 42 found running a largely autonomous campaign using DeepSeek behind the Hermes Agent framework to enumerate targets, pull GitHub PoCs, and attempt exploitation across roughly 460 hosts. Three confirmed compromises leveraged Citrix NetScaler CVE-2026-3055; manual activity also hit Apache Tomcat CVE-2026-34486, Marimo and IKE VPN endpoints. Exposed material (API keys, scripts) was seen but not published as clean indicators.",
+    "tags": [
+      "ai",
+      "deepseek",
+      "hermes-agent",
+      "cve-2026-3055",
+      "unit42"
+    ],
+    "iocs": [],
+    "id": "auto-conn-misp-autonomous-ai-deepseek-hermes-agent-exploitation-campaign-by",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "connector": "otx",
+    "title": "QuickFox VPN supply-chain attack delivering Mustang Panda FDMTP backdoor",
+    "date": "2026-08-05",
+    "severity": "High",
+    "summary": "Trackers are sharing details of a supply-chain compromise of the QuickFox VPN client that trojanized the official Windows installer to deliver the FDMTP backdoor linked to Mustang Panda. A modified Electron renderer HTML downloads a JavaScript loader that fingerprints the victim before installing the implant; QuickFox removed the malicious components in version 3.59.6. No public IOC values are confirmed in the reporting reviewed.",
+    "tags": [
+      "quickfox",
+      "fdmtp",
+      "mustang-panda",
+      "supply-chain"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-quickfox-vpn-supply-chain-attack-delivering-mustang-panda-fd",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
     "id": "auto-conn-otx-n-able-n-central-cve-2026-18577-authentication-bypass-exploi",
     "connector": "otx",
     "title": "N-able N-central CVE-2026-18577 authentication bypass exploited in the wild",
