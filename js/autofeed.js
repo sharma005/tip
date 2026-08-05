@@ -6,6 +6,95 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "IBM Langflow code injection CVE-2026-9198 exploited for unauthenticated RCE, added to CISA KEV",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-9198",
+    "cvss": 9.8,
+    "date": "2026-08-05",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/cisa-flags-langflow-rce-tomcat-and-n.html",
+    "summary": "CISA added CVE-2026-9198 to its Known Exploited Vulnerabilities catalog on August 5, 2026 after confirming active exploitation. The flaw (CVSS 9.8, CWE-94 code injection) lets unauthenticated attackers chain Langflow's /api/v1/auto_login endpoint — which mints SUPERUSER tokens to any network caller — with /api/v1/validate/code, which executes user code via exec(), to achieve full remote code execution on default Langflow deployments (versions 1.0.0 through 1.10.0). IBM fixed it in Langflow OSS 1.10.1. FCEB agencies were given an August 7, 2026 remediation deadline.",
+    "tags": [
+      "langflow",
+      "ibm",
+      "cve-2026-9198",
+      "rce",
+      "kev",
+      "code-injection",
+      "ai"
+    ],
+    "id": "auto-cve-2026-9198",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "title": "Apache Tomcat EncryptInterceptor bypass CVE-2026-34486 exploited in autonomous AI campaign, added to CISA KEV",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-34486",
+    "cvss": 7.5,
+    "date": "2026-08-05",
+    "actor": "knaithe (KnYuan)",
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/cisa-flags-langflow-rce-tomcat-and-n.html",
+    "summary": "CISA added CVE-2026-34486 to its KEV catalog on August 5, 2026. The flaw (CVSS 7.5) is a missing-encryption weakness in Apache Tomcat that allows bypass of EncryptInterceptor, the cluster component that adds pre-shared-key encryption to messages between cluster nodes; it was fixed in April 2026 in versions 11.0.21, 10.1.54 and 9.0.117. Palo Alto Networks Unit 42 attributes exploitation to an AI-enabled autonomous campaign run by a Chinese-speaking actor (aliases knaithe/KnYuan) that used DeepSeek via the Hermes Agent framework alongside manual exploitation of Citrix NetScaler, Marimo and IKE VPN endpoints. The FCEB remediation deadline is August 7, 2026.",
+    "tags": [
+      "apache-tomcat",
+      "cve-2026-34486",
+      "kev",
+      "encryptinterceptor",
+      "unit42",
+      "ai"
+    ],
+    "id": "auto-cve-2026-34486",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "title": "N-able N-central authentication bypass CVE-2026-18556 added to CISA KEV amid active exploitation",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-18556",
+    "cvss": 8.2,
+    "date": "2026-08-05",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/cisa-flags-langflow-rce-tomcat-and-n.html",
+    "summary": "CISA added CVE-2026-18556 (CVSS 8.2), an authentication bypass in N-able N-central, to its Known Exploited Vulnerabilities catalog on August 5, 2026. An incomplete fix for this issue prompted N-able to issue a fresh patch tracked as CVE-2026-18577 (also CVSS 8.2, KEV-listed on August 3, 2026); the latest addition signals that both vulnerabilities are being actively exploited against the N-central RMM platform. FCEB agencies were given an August 7, 2026 remediation deadline.",
+    "tags": [
+      "n-able",
+      "n-central",
+      "cve-2026-18556",
+      "kev",
+      "auth-bypass",
+      "rmm"
+    ],
+    "id": "auto-cve-2026-18556",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "title": "QuickFox VPN supply-chain attack delivers Mustang Panda's FDMTP backdoor via trojanized Windows installer",
+    "category": "supplychain",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-05",
+    "actor": "Mustang Panda",
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/quickfox-supply-chain-attack-delivers.html",
+    "summary": "Researchers disclosed on August 5, 2026 a long-standing supply-chain compromise of QuickFox, a VPN and network-acceleration tool for overseas Chinese users, that trojanized the official Windows installer to deliver FDMTP — a backdoor linked to Chinese state-sponsored actor Mustang Panda. A modified Electron renderer HTML file downloads and runs a JavaScript loader that fingerprints the victim before fetching and installing the FDMTP implant; the malware sat in the app for roughly a year. QuickFox removed the malicious components in version 3.59.6.",
+    "tags": [
+      "quickfox",
+      "supply-chain",
+      "fdmtp",
+      "mustang-panda",
+      "backdoor",
+      "vpn"
+    ],
+    "id": "auto-quickfox-vpn-supply-chain-attack-delivers-mustang-panda-s-fd",
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
     "id": "auto-cve-2026-18577",
     "title": "N-able N-central authentication bypass CVE-2026-18577 actively exploited, added to CISA KEV",
     "category": "kev",
