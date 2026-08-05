@@ -7,6 +7,61 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "KnYuan",
+    "aliases": [
+      "knaithe"
+    ],
+    "type": "criminal",
+    "origin": "China",
+    "motivation": "Unknown",
+    "sectors": [],
+    "ttps": [
+      "T1190",
+      "T1588.005",
+      "T1595"
+    ],
+    "campaigns": [
+      "Autonomous AI cyberattack campaign (Hermes Agent + DeepSeek)"
+    ],
+    "iocs": [],
+    "notes": "KnYuan (also operating as knaithe) is a Chinese-speaking threat actor that Palo Alto Networks Unit 42 observed in 2026 running an AI-enabled, largely autonomous hacking campaign. The actor used DeepSeek as the reasoning engine behind the open-source Hermes Agent framework, orchestrated via Telegram, to autonomously enumerate targets, search GitHub for CVE PoCs, download exploit code and attempt exploitation across roughly 460 targets. Most autonomous attempts failed, but Unit 42 confirmed three compromises via Citrix NetScaler CVE-2026-3055; the actor also manually exploited Apache Tomcat (CVE-2026-34486), Marimo and IKE VPN endpoints. Discovery followed Hermes accidentally exposing the attacker's environment, including API keys and exploit scripts.",
+    "id": "auto-adv-knyuan",
+    "active": true,
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
+    "name": "Mustang Panda",
+    "aliases": [
+      "Earth Preta",
+      "Bronze President",
+      "Stately Taurus",
+      "RedDelta"
+    ],
+    "type": "apt",
+    "origin": "China",
+    "motivation": "Espionage",
+    "sectors": [
+      "Government",
+      "NGOs",
+      "Diaspora Communities",
+      "Telecommunications"
+    ],
+    "ttps": [
+      "T1195.002",
+      "T1059.007",
+      "T1105",
+      "T1071.001"
+    ],
+    "campaigns": [
+      "QuickFox VPN supply-chain compromise (FDMTP)"
+    ],
+    "iocs": [],
+    "notes": "Mustang Panda is a long-running Chinese state-sponsored espionage group known for targeting governments, NGOs and diaspora communities. In August 2026 researchers linked it to a long-standing supply-chain compromise of the QuickFox VPN client used by overseas Chinese users: a trojanized Windows installer used a modified Electron renderer HTML file to download and run a JavaScript loader that fingerprinted the victim before installing the modular FDMTP backdoor. The malware persisted in the official application for roughly a year before detection, with QuickFox removing the malicious components in version 3.59.6.",
+    "id": "auto-adv-mustang-panda",
+    "active": true,
+    "fetchedAt": "2026-08-05T18:46:21.613Z"
+  },
+  {
     "id": "auto-adv-golden-chickens",
     "name": "Golden Chickens",
     "aliases": [
