@@ -6,6 +6,27 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-shai-hulud-here-we-go-again-worm-hits-keyv-cacheable-and-400",
+    "title": "Shai-Hulud ‘Here We Go Again’ Worm Hits keyv, cacheable and 400+ npm Packages",
+    "category": "supplychain",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-04",
+    "actor": null,
+    "source": "Aikido Security",
+    "url": "https://www.aikido.dev/blog/keyv-and-friends-compromised-in-npm-supply-chain-attack",
+    "summary": "On August 4, 2026 an attacker compromised the GitHub account of the maintainer behind keyv (~127M weekly npm downloads) and injected a credential-stealing worm across the keyv/cacheable/flat-cache/file-entry-cache package family. Each package gained a \"preinstall\":\"node setup.mjs\" hook that silently downloads the Bun runtime and runs an obfuscated 728KB stealer (Math_Symbol.js) harvesting npm, GitHub, AWS, Kubernetes, Vault, Stripe and Slack secrets, then self-propagates. By Aug 5 at least 444 packages across 1,381 versions (2B+ monthly installs) were compromised, with encrypted secrets exfiltrated to public GitHub repos described \"Shai-Hulud: Here We Go Again\".",
+    "tags": [
+      "npm",
+      "supply-chain",
+      "shai-hulud",
+      "worm",
+      "credential-theft"
+    ],
+    "fetchedAt": "2026-08-08T02:33:19.739Z"
+  },
+  {
     "title": "IBM Langflow code injection CVE-2026-9198 exploited for unauthenticated RCE, added to CISA KEV",
     "category": "rce",
     "severity": "Critical",
