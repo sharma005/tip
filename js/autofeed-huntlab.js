@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-shai-hulud-npm-preinstall-worm-downloading-the-bun-",
+    "title": "Hunt for Shai-Hulud npm Preinstall Worm Downloading the Bun Runtime",
+    "description": "The August 2026 Shai-Hulud 'Here We Go Again' campaign trojanized keyv, cacheable and 400+ other npm packages, adding a \"preinstall\":\"node setup.mjs\" hook that downloads the Bun runtime from oven-sh/bun releases and executes an obfuscated credential stealer (Math_Symbol.js / math_init.js). Hunt developer, build and CI/CD hosts for node processes spawned from an npm preinstall step that then launch a freshly downloaded 'bun' binary or reach out to npm-cache[.]com — behavior that should be extremely rare in normal installs.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1195.002 - Compromise Software Supply Chain",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Web Proxy Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "Shai-Hulud",
+    "queries": [
+      {
+        "name": "npm preinstall spawning downloaded Bun runtime",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"node\", \"node.exe\"]\n| filter $d.command_line contains \"setup.mjs\" || $d.command_line contains \"preinstall\"\n| filter $d.child_process_name contains \"bun\" || $d.command_line contains \"oven-sh/bun\"\n| groupby $d.hostname, $d.user, $d.command_line\n| count() as exec_count\n| filter exec_count > 0\n| sort -exec_count"
+      }
+    ],
+    "status": "active",
+    "fetchedAt": "2026-08-08T02:33:19.739Z"
+  },
+  {
     "title": "Hunt for Langflow unauthenticated RCE via auto_login and validate/code (CVE-2026-9198)",
     "description": "Attackers are exploiting CVE-2026-9198 (CVSS 9.8) by chaining Langflow's /api/v1/auto_login endpoint, which issues SUPERUSER tokens to any network caller, with /api/v1/validate/code, which executes attacker-supplied Python via exec(), to gain full RCE on default Langflow deployments (versions 1.0.0-1.10.0, fixed in 1.10.1). Hunt web/proxy and application logs for requests to these endpoints from external sources, especially POSTs to /api/v1/validate/code shortly after an /api/v1/auto_login call.",
     "mitreTactic": "Initial Access",
