@@ -7,6 +7,40 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-shai-hulud-here-we-go-again-npm-worm-steals-cloud-and-ci-cd-",
+    "connector": "otx",
+    "title": "Shai-Hulud 'Here We Go Again' npm Worm Steals Cloud and CI/CD Secrets",
+    "date": "2026-08-04",
+    "severity": "Critical",
+    "summary": "A self-replicating supply-chain worm (Shai-Hulud 'Here We Go Again') compromised the keyv/cacheable npm package family on Aug 4, 2026 and spread to 400+ packages via stolen npm publish tokens. The payload steals npm/GitHub/AWS/Kubernetes/Vault/Stripe/Slack secrets and exfiltrates RSA-encrypted bundles to public GitHub repos, with a fallback C2 at npm-cache[.]com resolved dynamically via an Ethereum smart contract.",
+    "tags": [
+      "npm",
+      "supply-chain",
+      "shai-hulud",
+      "worm",
+      "credential-theft"
+    ],
+    "iocs": [
+      {
+        "type": "SHA-256",
+        "value": "54dc7ea54a1317cca0e890a2770630cf7fa6c97813e0cb9d2caa93012b350668"
+      },
+      {
+        "type": "SHA-256",
+        "value": "9fc2570b7cef51c1b8df116d144d11ff4096357be7d2c4c6367cfc2509cf1bcc"
+      },
+      {
+        "type": "Domain",
+        "value": "npm-cache[.]com"
+      },
+      {
+        "type": "ETH Address",
+        "value": "0xE1f2395ee43e45A1556EC6438a88c31B83493103"
+      }
+    ],
+    "fetchedAt": "2026-08-08T02:33:19.739Z"
+  },
+  {
     "connector": "otx",
     "title": "Langflow CVE-2026-9198 unauthenticated RCE added to CISA KEV",
     "date": "2026-08-05",
