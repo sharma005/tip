@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-metabase-unauthenticated-sqli-exploitation-via-api-",
+    "title": "Hunt for Metabase unauthenticated SQLi exploitation via /api/session/reset_password",
+    "description": "Detect exploitation of the Metabase unauthenticated SQL injection zero-day. The published indicator is a POST to /api/session/reset_password returning HTTP 400 immediately followed by a successful GET /api/user/current returning HTTP 200 from the same source, indicating an attacker bypassed authentication and obtained an admin session. Review reverse-proxy, Metabase application, and network telemetry for this request sequence against internet-facing Metabase instances running 1.58+ (branches 0.58-0.63).",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "Reverse Proxy Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "Metabase SQLi zero-day",
+    "queries": [
+      {
+        "name": "Metabase reset_password auth-bypass sequence",
+        "query": "source logs\n| filter $d.app == \"metabase\"\n| filter $d.http_path in [\"/api/session/reset_password\", \"/api/user/current\"]\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.src_ip, $d.http_path, $d.status_code\n| count() as hits\n| filter hits > 0\n| sort -hits"
+      }
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-storm-1175-stormencryptor-precursors-rmm-tools-adva",
+    "title": "Hunt for Storm-1175 StormEncryptor precursors: RMM tools, Advanced IP Scanner and Mimikatz",
+    "description": "After likely exploiting N-able N-central (CVE-2026-18577) for initial access, Storm-1175 uses legitimate remote-access tools (AnyDesk, SimpleHelp), Advanced IP Scanner for network discovery, and Mimikatz for credential theft before deploying StormEncryptor (files renamed with .encrypted; ransom note !!!README_FIRST!!!.txt). Hunt for the co-occurrence of these tools on the same host within a short window, prioritizing endpoints managed by N-central RMM.",
+    "mitreTactic": "Impact",
+    "mitreTechnique": "T1486 - Data Encrypted for Impact",
+    "dataSources": [
+      "EDR Logs",
+      "Process Creation Logs",
+      "Windows Event Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": "Storm-1175",
+    "linkedFeedItemRef": "CVE-2026-18577",
+    "queries": [
+      {
+        "name": "RMM + discovery + credential-theft tool co-occurrence",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"anydesk.exe\", \"simplehelp.exe\", \"advanced_ip_scanner.exe\", \"mimikatz.exe\"]\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname\n| distinct_count($d.process_name) as distinct_tools\n| filter distinct_tools >= 2\n| sort -distinct_tools"
+      }
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-jetbrains-teamcity-cve-2026-63077-unauthenticated-r",
     "title": "Hunt for JetBrains TeamCity CVE-2026-63077 unauthenticated RCE",
     "description": "CVE-2026-63077 is an unauthenticated RCE in JetBrains TeamCity On-Premises via unsafe deserialization in the agent polling protocol, added to CISA KEV on 2026-08-05 amid active exploitation. Hunt internet-facing TeamCity servers for anomalous child processes spawned by the TeamCity/Java server process and for unexpected outbound connections that follow inbound requests to agent endpoints.",
