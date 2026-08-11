@@ -7,6 +7,23 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "id": "auto-dw-gunra-ransomware-recruiting-penetration-testers-as-initial-a",
+    "title": "Gunra ransomware recruiting penetration testers as initial access brokers",
+    "type": "chatter",
+    "source": "Underground forums / CISA AA26-222a",
+    "date": "2026-08-10",
+    "snippet": "Reporting tied to CISA's #StopRansomware Gunra advisory notes the group has commercialized its ransomware-as-a-service platform by actively recruiting penetration testers and ethical hackers to act as initial access brokers, offering a share of ransom profits in exchange for enterprise network access. The move expands Gunra's supply of validated access and signals continued professionalization of the RaaS ecosystem.",
+    "relevance": 60,
+    "flagged": false,
+    "tags": [
+      "gunra",
+      "ransomware",
+      "initial-access",
+      "recruitment"
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
     "id": "auto-dw-tridentlocker-claims-3-4gb-data-theft-from-sedgwick-posts-sa",
     "title": "TridentLocker claims 3.4GB data theft from Sedgwick, posts samples on leak site",
     "type": "leak",
