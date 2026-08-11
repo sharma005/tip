@@ -7,6 +7,32 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-storm-1175",
+    "name": "Storm-1175",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "China",
+    "motivation": "Financial",
+    "sectors": [],
+    "ttps": [
+      "T1190",
+      "T1486",
+      "T1003",
+      "T1219",
+      "T1046"
+    ],
+    "campaigns": [
+      "StormEncryptor ransomware (August 2026)",
+      "N-able N-central CVE-2026-18577 exploitation"
+    ],
+    "iocs": [
+      "SHA-256: c19ded65e822bb43ad0381c58abf33b7c8890f7bcc7125058a0c849c7e1a6054"
+    ],
+    "notes": "Microsoft-tracked, China-based and financially motivated actor observed active again in August 2026 for the first time since April 2026. Storm-1175 shifted from deploying Medusa ransomware to a previously undocumented custom C++ payload, StormEncryptor (.encrypted extension; !!!README_FIRST!!!.txt note; three-day payment demand). Microsoft assesses it likely used the N-able N-central authentication-bypass CVE-2026-18577 for initial access, then moved rapidly to exfiltration and encryption using AnyDesk, SimpleHelp, Advanced IP Scanner and Mimikatz.",
+    "active": true,
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
     "id": "auto-adv-deadlock",
     "name": "DeadLock",
     "aliases": [],
