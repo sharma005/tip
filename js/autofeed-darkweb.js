@@ -7,6 +7,55 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "id": "auto-dw-tridentlocker-claims-3-4gb-data-theft-from-sedgwick-posts-sa",
+    "title": "TridentLocker claims 3.4GB data theft from Sedgwick, posts samples on leak site",
+    "type": "leak",
+    "source": "DataBreach.com",
+    "date": "2026-08-08",
+    "snippet": "The TridentLocker group claimed responsibility for stealing roughly 3.4GB of data from claims-management firm Sedgwick and posted sample files on its dark web leak site, per DataBreach.com reporting during the week of August 9, 2026.",
+    "relevance": 60,
+    "flagged": false,
+    "tags": [
+      "tridentlocker",
+      "data-leak",
+      "extortion"
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-dw-helix-ransomware-lists-highwoods-properties-and-morguard-on-",
+    "title": "Helix ransomware lists Highwoods Properties and Morguard on leak site",
+    "type": "ransomware",
+    "source": "DataBreach.com",
+    "date": "2026-08-07",
+    "snippet": "The Helix ransomware group listed U.S. real-estate firm Highwoods Properties and announced a cyberattack against Canadian real-estate company Morguard on August 7, 2026, according to DataBreach.com leak-site tracking.",
+    "relevance": 55,
+    "flagged": false,
+    "tags": [
+      "helix",
+      "ransomware",
+      "real-estate"
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-dw-ransomware-brand-splintering-315-leak-site-victim-posts-from",
+    "title": "Ransomware brand splintering: ~315 leak-site victim posts from 40 groups in a week",
+    "type": "chatter",
+    "source": "DataBreach.com / RansomLook",
+    "date": "2026-08-09",
+    "snippet": "Open-source tracker RansomLook recorded roughly 315 victim posts from 40 active ransomware groups over the prior seven days, with eight new brands appearing - including L Group (26 posts), Orova (25) and Dark Project (19) - reflecting continued fragmentation and rebranding across the ransomware ecosystem.",
+    "relevance": 45,
+    "flagged": false,
+    "tags": [
+      "ransomware",
+      "leak-site",
+      "ransomlook",
+      "trends"
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
     "id": "auto-dw-qilin-ransomware-posts-104-new-victims-to-its-leak-site-in-a",
     "title": "Qilin ransomware posts 104 new victims to its leak site in August, outpacing Akira",
     "type": "ransomware",
