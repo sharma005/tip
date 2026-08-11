@@ -7,6 +7,72 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-deadlock-ransomware-byovd-edr-killer-campaign",
+    "connector": "otx",
+    "title": "DeadLock ransomware BYOVD EDR-killer campaign",
+    "date": "2026-08-10",
+    "severity": "High",
+    "summary": "Cisco Talos and Microsoft report a financially motivated DeadLock ransomware operation using a BYOVD technique: a loader (EDRGay.exe) drops the vulnerable Baidu driver BdApiUtil.sys renamed DriverGay.sys (CVE-2024-51324) to terminate AV/EDR at the kernel level, followed by a Rust-based encryptor. Talos published Snort/ClamAV detection coverage and an IOC set.",
+    "tags": [
+      "deadlock",
+      "byovd",
+      "ransomware",
+      "edr-bypass"
+    ],
+    "iocs": [
+      {
+        "type": "Filename",
+        "value": "EDRGay.exe"
+      },
+      {
+        "type": "Filename",
+        "value": "DriverGay.sys"
+      },
+      {
+        "type": "Filename",
+        "value": "BdApiUtil.sys"
+      },
+      {
+        "type": "CVE",
+        "value": "CVE-2024-51324"
+      }
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-conn-misp-jetbrains-teamcity-cve-2026-63077-unauthenticated-rce-exploi",
+    "connector": "misp",
+    "title": "JetBrains TeamCity CVE-2026-63077 unauthenticated RCE exploited",
+    "date": "2026-08-05",
+    "severity": "Critical",
+    "summary": "CVE-2026-63077, an unauthenticated RCE in JetBrains TeamCity On-Premises via unsafe deserialization in the agent polling protocol, was added to CISA KEV on 2026-08-05 following in-the-wild exploitation. Community trackers are monitoring scanning and exploitation of internet-facing TeamCity servers. Patched in 2026.1.3 and 2025.11.7.",
+    "tags": [
+      "teamcity",
+      "cve-2026-63077",
+      "rce",
+      "kev"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-red-hat-acm-cve-2026-10090-privilege-escalation-to-cluster-a",
+    "connector": "pulsedive",
+    "title": "Red Hat ACM CVE-2026-10090 privilege escalation to cluster-admin",
+    "date": "2026-08-05",
+    "severity": "Critical",
+    "summary": "Red Hat disclosed CVE-2026-10090 (CVSS 9.9), an authorization gap in the Advanced Cluster Management application-subscription workflow. A user with namespace-scoped edit rights can point a Channel object at an attacker-controlled Helm repository and have the vulnerable controller deploy it with elevated permissions, escalating to full cluster-admin across managed clusters. Affects rhacm2/multicluster-operators-subscription-rhel9.",
+    "tags": [
+      "redhat",
+      "acm",
+      "kubernetes",
+      "cve-2026-10090",
+      "privesc"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
     "id": "auto-conn-otx-shai-hulud-here-we-go-again-npm-worm-steals-cloud-and-ci-cd-",
     "connector": "otx",
     "title": "Shai-Hulud 'Here We Go Again' npm Worm Steals Cloud and CI/CD Secrets",
