@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-63077",
+    "title": "JetBrains TeamCity unauthenticated RCE (CVE-2026-63077) added to CISA KEV amid active exploitation",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-63077",
+    "cvss": null,
+    "date": "2026-08-05",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/cisa-flags-teamcity-cve-2026-63077-rce.html",
+    "summary": "CVE-2026-63077 is a critical unauthenticated remote code execution flaw in JetBrains TeamCity On-Premises caused by deserialization of untrusted data (CWE-502) in the agent polling protocol. An attacker with only HTTP(S) network access can bypass authentication and execute arbitrary OS commands with the TeamCity server's privileges, with no credentials or user interaction. CISA added it to the Known Exploited Vulnerabilities catalog on August 5, 2026 after exploitation was observed in the wild. JetBrains fixed it in TeamCity 2026.1.3 and 2025.11.7 and offers an interim security patch plugin for older versions.",
+    "tags": [
+      "teamcity",
+      "cve-2026-63077",
+      "rce",
+      "deserialization",
+      "kev"
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-deadlock-ransomware-pairs-byovd-edr-killer-with-a-rust-based",
+    "title": "DeadLock ransomware pairs BYOVD EDR killer with a Rust-based encryptor",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-10",
+    "actor": "DeadLock",
+    "source": "Microsoft Security Blog",
+    "url": "https://www.microsoft.com/en-us/security/blog/2026/08/10/deadlock-ransomware-breaking-down-a-rust-based-encryptor-with-decentralized-recovery-infrastructure/",
+    "summary": "Microsoft and Cisco Talos detail an emerging, financially motivated DeadLock ransomware operation that uses a Rust-based encryptor and a Bring Your Own Vulnerable Driver (BYOVD) technique to disable endpoint defenses. A loader (EDRGay.exe) drops a vulnerable Baidu Antivirus driver, BdApiUtil.sys renamed DriverGay.sys (CVE-2024-51324), to terminate AV/EDR processes at the kernel level. A PowerShell script then bypasses UAC, disables Microsoft Defender, stops security/backup/database services, and deletes volume shadow copies before encryption. The group runs double extortion and has listed 80+ victims, more than half in Europe, on its leak site.",
+    "tags": [
+      "deadlock",
+      "ransomware",
+      "byovd",
+      "edr-bypass",
+      "cve-2024-51324"
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
     "id": "auto-shai-hulud-here-we-go-again-worm-hits-keyv-cacheable-and-400",
     "title": "Shai-Hulud ‘Here We Go Again’ Worm Hits keyv, cacheable and 400+ npm Packages",
     "category": "supplychain",
