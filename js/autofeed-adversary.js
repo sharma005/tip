@@ -7,6 +7,34 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "id": "auto-adv-deadlock",
+    "name": "DeadLock",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [],
+    "ttps": [
+      "T1562.001",
+      "T1490",
+      "T1489",
+      "T1548.002",
+      "T1059.001"
+    ],
+    "campaigns": [
+      "DeadLock BYOVD EDR-killer ransomware campaign (2025-2026)"
+    ],
+    "iocs": [
+      "EDRGay.exe",
+      "DriverGay.sys",
+      "BdApiUtil.sys",
+      "CVE-2024-51324"
+    ],
+    "notes": "DeadLock is a financially motivated ransomware operation first observed in mid-2025 that runs double extortion and, per Cisco Talos and Microsoft reporting in 2026, pairs a Rust-based encryptor with a BYOVD EDR-killer. Its loader EDRGay.exe drops the vulnerable Baidu driver BdApiUtil.sys (renamed DriverGay.sys, CVE-2024-51324) to terminate AV/EDR at the kernel level, then disables Microsoft Defender, stops backup/database services, and deletes volume shadow copies before encryption. The group has published 80+ victims on its leak site, more than half of them in Europe.",
+    "active": true,
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
     "name": "KnYuan",
     "aliases": [
       "knaithe"
