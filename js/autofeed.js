@@ -6,6 +6,69 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-metabase-unauthenticated-sql-injection-zero-day-cvss-10-0-ex",
+    "title": "Metabase unauthenticated SQL injection zero-day (CVSS 10.0) exploited to steal database credentials",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": 10.0,
+    "date": "2026-08-06",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/framework-tally-disclose-metabase-data-theft-attacks/",
+    "summary": "Metabase disclosed a maximum-severity (CVSS 10.0) unauthenticated SQL injection zero-day in the publicly reachable POST /api/session/reset_password endpoint, letting attackers inject arbitrary SQL without logging in, seize admin access, and steal credentials for connected databases. It affects every release from version 1.58 onward (branches 0.58 through 0.63). Metabase detected the abuse after its own Metabase Cloud SaaS was breached on August 3, 2026, and published its advisory on August 6. Framework, Tally, Kilo Code and n8n have since disclosed customer-data theft tied to the flaw.",
+    "tags": [
+      "metabase",
+      "sqli",
+      "zero-day",
+      "cvss10",
+      "data-theft"
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
+    "id": "auto-cve-2026-68820",
+    "title": "Windows AFD.sys zero-day (CVE-2026-68820) exploited by Lazarus to deploy FudModule rootkit",
+    "category": "zeroday",
+    "severity": "High",
+    "cve": "CVE-2026-68820",
+    "cvss": null,
+    "date": "2026-08-11",
+    "actor": "Lazarus Group",
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-august-2026-patch-tuesday-fixes-400-flaws-3-zero-days/",
+    "summary": "CVE-2026-68820 is a use-after-free elevation-of-privilege vulnerability in the Windows Ancillary Function Driver (AFD.sys) for WinSock. A locally authenticated attacker can trigger a race condition to elevate to SYSTEM with no user interaction. Microsoft patched it in the August 2026 Patch Tuesday after confirming in-the-wild exploitation; Check Point reported North Korea's Lazarus Group abused the AFD.sys flaw during an intrusion to deploy a new version of its FudModule kernel-mode rootkit.",
+    "tags": [
+      "windows",
+      "cve-2026-68820",
+      "afd",
+      "lazarus",
+      "fudmodule"
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
+    "id": "auto-cisa-stopransomware-advisory-warns-of-gunra-ransomware-doubl",
+    "title": "CISA #StopRansomware advisory warns of Gunra ransomware double-extortion campaign",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-10",
+    "actor": "Gunra",
+    "source": "CISA",
+    "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-222a",
+    "summary": "CISA and partners published a #StopRansomware advisory (AA26-222a) on the Gunra ransomware operation, a double-extortion group that has commercialized its platform by recruiting penetration testers and ethical hackers to serve as initial access brokers in exchange for a share of ransom profits. The advisory provides observed TTPs, indicators, and recommended mitigations for network defenders.",
+    "tags": [
+      "gunra",
+      "ransomware",
+      "stopransomware",
+      "cisa",
+      "double-extortion"
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
     "id": "auto-cve-2026-63077",
     "title": "JetBrains TeamCity unauthenticated RCE (CVE-2026-63077) added to CISA KEV amid active exploitation",
     "category": "rce",
