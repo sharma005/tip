@@ -7,6 +7,60 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "id": "auto-conn-otx-storm-1175-stormencryptor-ransomware-campaign",
+    "connector": "otx",
+    "title": "Storm-1175 StormEncryptor ransomware campaign",
+    "date": "2026-08-11",
+    "severity": "High",
+    "summary": "China-based, financially motivated Storm-1175 (a former Medusa affiliate) is deploying a new C++ ransomware strain, StormEncryptor, after likely exploiting N-able N-central (CVE-2026-18577) for initial access. The payload appends .encrypted and drops a !!!README_FIRST!!!.txt ransom note; the actor uses AnyDesk, SimpleHelp, Advanced IP Scanner and Mimikatz to move from access to exfiltration and encryption.",
+    "tags": [
+      "storm-1175",
+      "stormencryptor",
+      "ransomware",
+      "n-central"
+    ],
+    "iocs": [
+      {
+        "type": "SHA-256",
+        "value": "c19ded65e822bb43ad0381c58abf33b7c8890f7bcc7125058a0c849c7e1a6054"
+      }
+    ],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
+    "id": "auto-conn-misp-metabase-unauthenticated-sqli-zero-day-cvss-10-exploited-in-",
+    "connector": "misp",
+    "title": "Metabase unauthenticated SQLi zero-day (CVSS 10) exploited in the wild",
+    "date": "2026-08-06",
+    "severity": "Critical",
+    "summary": "Unauthenticated SQL injection (CVSS 10.0) in Metabase's POST /api/session/reset_password endpoint affecting versions 1.58+ (branches 0.58-0.63) is being exploited to gain admin access and steal connected-database credentials. Metabase Cloud was breached on August 3, 2026; Framework, Tally, Kilo Code and n8n disclosed related customer-data theft. Detection focus: a POST /api/session/reset_password (HTTP 400) followed by a successful GET /api/user/current (HTTP 200).",
+    "tags": [
+      "metabase",
+      "sqli",
+      "zero-day",
+      "cvss10"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
+    "id": "auto-conn-pulsedive-windows-afd-zero-day-cve-2026-68820-exploited-by-lazarus-for",
+    "connector": "pulsedive",
+    "title": "Windows AFD zero-day CVE-2026-68820 exploited by Lazarus for FudModule rootkit",
+    "date": "2026-08-11",
+    "severity": "High",
+    "summary": "CVE-2026-68820, a use-after-free elevation-of-privilege flaw in the Windows Ancillary Function Driver (AFD.sys) for WinSock, was patched in the August 2026 Patch Tuesday after in-the-wild exploitation. Check Point observed North Korea's Lazarus Group abusing it to elevate to SYSTEM and load a new version of the FudModule kernel-mode rootkit.",
+    "tags": [
+      "cve-2026-68820",
+      "windows",
+      "lazarus",
+      "fudmodule",
+      "afd"
+    ],
+    "iocs": [],
+    "fetchedAt": "2026-08-11T18:47:44.191Z"
+  },
+  {
     "id": "auto-conn-otx-deadlock-ransomware-byovd-edr-killer-campaign",
     "connector": "otx",
     "title": "DeadLock ransomware BYOVD EDR-killer campaign",
