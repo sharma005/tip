@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-jetbrains-teamcity-cve-2026-63077-unauthenticated-r",
+    "title": "Hunt for JetBrains TeamCity CVE-2026-63077 unauthenticated RCE",
+    "description": "CVE-2026-63077 is an unauthenticated RCE in JetBrains TeamCity On-Premises via unsafe deserialization in the agent polling protocol, added to CISA KEV on 2026-08-05 amid active exploitation. Hunt internet-facing TeamCity servers for anomalous child processes spawned by the TeamCity/Java server process and for unexpected outbound connections that follow inbound requests to agent endpoints.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "EDR Logs",
+      "Web Server Logs",
+      "Process Creation Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-63077",
+    "status": "active",
+    "queries": [
+      {
+        "name": "TeamCity server spawning shells",
+        "query": "source logs\n| filter $d.parent_process in [\"java.exe\", \"teamcity-server\", \"catalina.sh\"]\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"bash\", \"sh\", \"whoami\"]\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-deadlock-byovd-driver-abuse-disabling-edr",
+    "title": "Hunt for DeadLock BYOVD driver abuse disabling EDR",
+    "description": "The DeadLock ransomware operation (Microsoft and Cisco Talos, Aug 2026) uses a loader named EDRGay.exe to drop a vulnerable Baidu driver, BdApiUtil.sys renamed DriverGay.sys (CVE-2024-51324), and terminate AV/EDR processes at the kernel level before encrypting. Hunt for known-vulnerable drivers written to user directories such as \\Videos\\ and for kernel driver service creation immediately followed by security tooling being stopped.",
+    "mitreTactic": "Defense Evasion",
+    "mitreTechnique": "T1562.001 - Impair Defenses: Disable or Modify Tools",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Service Logs",
+      "Driver Load Events"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": "DeadLock",
+    "linkedFeedItemRef": null,
+    "status": "active",
+    "queries": [
+      {
+        "name": "Vulnerable driver dropped to user path",
+        "query": "source logs\n| filter $d.event_type == \"driver_load\" || $d.event_id in [7045, 6]\n| filter $d.driver_name in [\"DriverGay.sys\", \"BdApiUtil.sys\"] || $d.image_path ~ \"\\\\Users\\\\.*\\\\Videos\\\\.*\\.sys\"\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname, $d.driver_name, $d.image_path\n| count() as load_count\n| sort -load_count"
+      }
+    ],
+    "fetchedAt": "2026-08-11T11:17:34.985Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-shai-hulud-npm-preinstall-worm-downloading-the-bun-",
     "title": "Hunt for Shai-Hulud npm Preinstall Worm Downloading the Bun Runtime",
     "description": "The August 2026 Shai-Hulud 'Here We Go Again' campaign trojanized keyv, cacheable and 400+ other npm packages, adding a \"preinstall\":\"node setup.mjs\" hook that downloads the Bun runtime from oven-sh/bun releases and executes an obfuscated credential stealer (Math_Symbol.js / math_init.js). Hunt developer, build and CI/CD hosts for node processes spawned from an npm preinstall step that then launch a freshly downloaded 'bun' binary or reach out to npm-cache[.]com — behavior that should be extremely rare in normal installs.",
