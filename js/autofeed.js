@@ -6,12 +6,56 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "id": "auto-cve-2026-62878",
+    "title": "Windows DNS Server critical wormable RCE (CVE-2026-62878, CVSS 9.8) allows unauthenticated remote code execution",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-62878",
+    "cvss": 9.8,
+    "date": "2026-08-11",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/microsoft-patches-398-flaws-including.html",
+    "summary": "Microsoft's August 2026 Patch Tuesday fixed CVE-2026-62878, a critical (CVSS 9.8) stack-based buffer overflow in the Windows DNS Server that lets a remote, unauthenticated attacker execute code by sending specially crafted packets to an affected DNS server with no user interaction. ZDI's Dustin Childs flagged it as wormable, meaning a single exploit could self-propagate between DNS servers, though no worm has been observed yet. Organizations running Windows DNS should prioritize this patch given the pre-auth, network-reachable nature of the flaw.",
+    "tags": [
+      "windows",
+      "dns",
+      "rce",
+      "wormable",
+      "patch-tuesday",
+      "cvss9-8"
+    ],
+    "fetchedAt": "2026-08-14T08:29:00.652Z"
+  },
+  {
+    "id": "auto-cve-2026-20349",
+    "title": "Cisco Secure Firewall ASA/FTD flaw (CVE-2026-20349) exploited in the wild to crash VPN devices",
+    "category": "kev",
+    "severity": "High",
+    "cve": "CVE-2026-20349",
+    "cvss": 8.6,
+    "date": "2026-08-11",
+    "actor": null,
+    "source": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/news/security/cisco-warns-of-asa-and-ftd-vpn-flaw-exploited-to-crash-devices/",
+    "summary": "Cisco warned of CVE-2026-20349 (CVSS 8.6), an insufficient-error-checking flaw in the Remote Access SSL VPN service of Secure Firewall ASA and FTD software that lets an unauthenticated remote attacker send a crafted HTTP request to force the device to reload, causing a denial of service. CISA added it to the Known Exploited Vulnerabilities catalog on August 11, 2026 citing active exploitation, with a federal remediation deadline of August 14, 2026. Devices with SSL listen sockets enabled on internet-facing interfaces are exposed and should be patched to the fixed trains immediately.",
+    "tags": [
+      "cisco",
+      "asa",
+      "ftd",
+      "vpn",
+      "dos",
+      "cisa-kev"
+    ],
+    "fetchedAt": "2026-08-14T08:29:00.652Z"
+  },
+  {
     "id": "auto-metabase-unauthenticated-sql-injection-zero-day-cvss-10-0-ex",
     "title": "Metabase unauthenticated SQL injection zero-day (CVSS 10.0) exploited to steal database credentials",
     "category": "zeroday",
     "severity": "Critical",
     "cve": null,
-    "cvss": 10.0,
+    "cvss": 10,
     "date": "2026-08-06",
     "actor": null,
     "source": "BleepingComputer",
