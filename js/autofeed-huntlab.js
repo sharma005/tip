@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "id": "auto-hypo-hunt-for-exploitation-of-windows-dns-server-rce-cve-2026-628",
+    "title": "Hunt for exploitation of Windows DNS Server RCE CVE-2026-62878",
+    "description": "CVE-2026-62878 is a wormable, pre-authentication stack-based buffer overflow in the Windows DNS Server (patched in the August 2026 Patch Tuesday) that yields remote code execution as the DNS service. Hunt for post-exploitation signals such as the DNS service process (dns.exe) spawning command interpreters or LOLBins, and for abnormal DNS service crashes/restarts on domain controllers and DNS servers.",
+    "mitreTactic": "Lateral Movement",
+    "mitreTechnique": "T1210 - Exploitation of Remote Services",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Event Logs",
+      "DNS Logs"
+    ],
+    "priority": "P1",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-62878",
+    "queries": [
+      {
+        "name": "dns.exe spawning suspicious child processes",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"dns.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"rundll32.exe\", \"wscript.exe\", \"cscript.exe\"]\n| filter $d.timestamp >= \"2026-08-11T00:00:00Z\"\n| groupby $d.hostname, $d.process_name\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "fetchedAt": "2026-08-14T08:29:00.652Z"
+  },
+  {
+    "id": "auto-hypo-hunt-for-cve-2026-20349-cisco-asa-ftd-vpn-exploitation-causi",
+    "title": "Hunt for CVE-2026-20349 Cisco ASA/FTD VPN exploitation causing device reloads",
+    "description": "CVE-2026-20349 is an actively exploited flaw in the Remote Access SSL VPN service of Cisco Secure Firewall ASA/FTD where crafted HTTP requests force affected appliances to reload (DoS). Hunt for clusters of unexpected device reloads, tracebacks, or crashes on ASA/FTD hosts correlated with bursts of inbound HTTP to the SSL VPN listener from a small set of source IPs.",
+    "mitreTactic": "Impact",
+    "mitreTechnique": "T1499 - Endpoint Denial of Service",
+    "dataSources": [
+      "Firewall Logs",
+      "VPN Logs",
+      "Network Logs"
+    ],
+    "priority": "P2",
+    "status": "active",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-20349",
+    "queries": [
+      {
+        "name": "ASA/FTD reload and traceback spikes by source IP",
+        "query": "source logs\n| filter $d.device_type in [\"cisco_asa\", \"cisco_ftd\"]\n| filter $d.event_type in [\"device_reload\", \"traceback\", \"crash\"]\n| filter $d.timestamp >= \"2026-08-11T00:00:00Z\"\n| groupby $d.hostname, $d.src_ip\n| count() as event_count\n| filter event_count > 1\n| sort -event_count"
+      }
+    ],
+    "fetchedAt": "2026-08-14T08:29:00.652Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-metabase-unauthenticated-sqli-exploitation-via-api-",
     "title": "Hunt for Metabase unauthenticated SQLi exploitation via /api/session/reset_password",
     "description": "Detect exploitation of the Metabase unauthenticated SQL injection zero-day. The published indicator is a POST to /api/session/reset_password returning HTTP 400 immediately followed by a successful GET /api/user/current returning HTTP 200 from the same source, indicating an attacker bypassed authentication and obtained an admin session. Review reverse-proxy, Metabase application, and network telemetry for this request sequence against internet-facing Metabase instances running 1.58+ (branches 0.58-0.63).",
