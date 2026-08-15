@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for GeoServer jsonArrayContains SQL injection exploitation attempts",
+    "description": "A newly disclosed (Aug 12, 2026) unauthenticated SQL injection zero-day in GeoServer's jsonArrayContains filter is being actively probed and can lead to RCE in H2-backed deployments, with no patch available. Hunt internet-facing GeoServer/GeoWebCache endpoints for OGC filter requests containing jsonArrayContains alongside SQL metacharacters or boolean/time-based injection patterns, and for the GeoServer Java process spawning shells shortly after.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Proxy Logs",
+      "WAF Logs",
+      "Application Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "GeoServer jsonArrayContains SQL injection",
+    "queries": [
+      {
+        "name": "GeoServer requests invoking jsonArrayContains with injection markers",
+        "query": "source logs\n| filter $d.url_path contains \"/geoserver/\"\n| filter $d.query_string contains \"jsonArrayContains\"\n| filter $d.query_string ~ \"(?i)(union select|sleep\\\\(|pg_sleep|' or |information_schema|--)\"\n| filter $d.timestamp >= \"2026-08-12T00:00:00Z\"\n| groupby $d.src_ip, $d.http_status\n| count() as hits\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-geoserver-jsonarraycontains-sql-injection-exploitat",
+    "status": "active",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
+    "title": "Hunt for VMware vCenter CVE-2026-59310 path traversal and reverse_ssh cron persistence",
+    "description": "CVE-2026-59310 (CVSS 9.8) directory traversal in the vCenter Syslog server is being exploited in the wild; a suspected APT chains it to drop a malicious cron job that launches reverse_ssh, an open-source tool used to open SSH sessions back to attacker-controlled infrastructure. Hunt vCenter appliance hosts for new/modified cron entries, unexpected outbound SSH from the appliance, and processes matching reverse_ssh execution following path-traversal activity in Syslog handling.",
+    "mitreTactic": "Persistence",
+    "mitreTechnique": "T1053.003 - Scheduled Task/Job: Cron",
+    "dataSources": [
+      "Linux Audit Logs",
+      "Process Creation Logs",
+      "Network Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-59310",
+    "queries": [
+      {
+        "name": "vCenter appliance cron changes and reverse_ssh execution",
+        "query": "source logs\n| filter $d.hostname ~ \"(?i)vcenter|vcsa|photon\"\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"crontab\", \"sh\", \"bash\", \"ssh\"] || $d.command_line contains \"reverse_ssh\"\n| filter $d.command_line ~ \"(?i)(crontab|/etc/cron|reverse_ssh|-R |ssh .* -N)\"\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname, $d.command_line\n| count() as hits\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-vmware-vcenter-cve-2026-59310-path-traversal-and-re",
+    "status": "active",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
     "id": "auto-hypo-hunt-for-exploitation-of-windows-dns-server-rce-cve-2026-628",
     "title": "Hunt for exploitation of Windows DNS Server RCE CVE-2026-62878",
     "description": "CVE-2026-62878 is a wormable, pre-authentication stack-based buffer overflow in the Windows DNS Server (patched in the August 2026 Patch Tuesday) that yields remote code execution as the DNS service. Hunt for post-exploitation signals such as the DNS service process (dns.exe) spawning command interpreters or LOLBins, and for abnormal DNS service crashes/restarts on domain controllers and DNS servers.",
