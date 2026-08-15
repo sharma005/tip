@@ -7,6 +7,38 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "connector": "otx",
+    "title": "GeoServer jsonArrayContains SQL injection zero-day exploited for RCE",
+    "date": "2026-08-13",
+    "severity": "Critical",
+    "summary": "An unauthenticated SQL injection zero-day in GeoServer's jsonArrayContains filter (no CVE or patch as of Aug 13, 2026) is under active exploitation and can lead to RCE in H2-backed deployments. Exploitation attempts began within hours of the Aug 12 public disclosure, with hundreds of probes from a small set of source IPs — a strong candidate for OTX pulse tracking of scanning infrastructure.",
+    "tags": [
+      "geoserver",
+      "sql-injection",
+      "zero-day",
+      "rce"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-geoserver-jsonarraycontains-sql-injection-zero-day-exploited",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
+    "connector": "pulsedive",
+    "title": "VMware vCenter CVE-2026-59310 directory traversal exploited to deploy reverse_ssh",
+    "date": "2026-08-12",
+    "severity": "Critical",
+    "summary": "CVE-2026-59310 (CVSS 9.8), a directory-traversal flaw in the vCenter Syslog server, is being exploited in the wild by a suspected APT that chains it to a malicious cron job launching reverse_ssh for persistent remote access. QUIRSO observed 361 victim IPs across 47 countries beginning roughly five days after the July 29 disclosure — infrastructure and behavior worth tracking as Pulsedive indicators.",
+    "tags": [
+      "vmware",
+      "vcenter",
+      "cve-2026-59310",
+      "reverse-ssh"
+    ],
+    "iocs": [],
+    "id": "auto-conn-pulsedive-vmware-vcenter-cve-2026-59310-directory-traversal-exploited-",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
     "id": "auto-conn-otx-storm-1175-stormencryptor-ransomware-campaign",
     "connector": "otx",
     "title": "Storm-1175 StormEncryptor ransomware campaign",
