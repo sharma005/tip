@@ -7,6 +7,24 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "Cl0p leak site lists Shell, Philips, GE and Fiserv after PTC Windchill mass exploitation",
+    "type": "leak",
+    "source": "Cl0p leak site / BleepingComputer",
+    "date": "2026-08-13",
+    "snippet": "Cl0p added Shell and dozens of other organizations to its Tor extortion site, claiming data theft from close to 50 companies including Philips, GE and payments firm Fiserv via internet-facing PTC Windchill/FlexPLM product-lifecycle-management systems (CVE-2026-12569). The group claims 89GB of engineering drawings, facility testing reports, photos and project plans from Shell, which says it is investigating a potential incident; the victim counts come from Cl0p and remain unverified.",
+    "relevance": 78,
+    "tags": [
+      "cl0p",
+      "clop",
+      "data-leak",
+      "extortion",
+      "ptc"
+    ],
+    "id": "auto-dw-cl0p-leak-site-lists-shell-philips-ge-and-fiserv-after-ptc-w",
+    "flagged": false,
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
     "id": "auto-dw-gunra-ransomware-recruiting-penetration-testers-as-initial-a",
     "title": "Gunra ransomware recruiting penetration testers as initial access brokers",
     "type": "chatter",
