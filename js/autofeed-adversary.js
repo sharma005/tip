@@ -7,6 +7,36 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "Cl0p",
+    "aliases": [
+      "Clop",
+      "TA505",
+      "Lace Tempest"
+    ],
+    "type": "criminal",
+    "origin": "Russia",
+    "motivation": "Financial",
+    "sectors": [
+      "Manufacturing",
+      "Energy",
+      "Financial Services",
+      "Technology"
+    ],
+    "ttps": [
+      "T1190",
+      "T1567",
+      "T1486"
+    ],
+    "campaigns": [
+      "PTC Windchill/FlexPLM mass exploitation (CVE-2026-12569), August 2026"
+    ],
+    "iocs": [],
+    "notes": "Russia-linked, financially motivated extortion crew known for mass zero-day exploitation of managed file-transfer and enterprise apps (MOVEit, GoAnywhere, Cleo) and data-theft extortion via its Tor leak site. In August 2026 Cl0p claimed a sprawling campaign exploiting a PTC Windchill/FlexPLM flaw (CVE-2026-12569, on CISA KEV), naming Shell, Philips, GE and Fiserv among close to 50 alleged victims; Shell confirmed it is investigating a 'potential incident' after Cl0p claimed 89GB of engineering and facility data. Consistent with the group's pattern of weaponizing a single internet-facing vulnerability to breach many organizations at once.",
+    "id": "auto-adv-cl0p",
+    "active": true,
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
     "id": "auto-adv-storm-1175",
     "name": "Storm-1175",
     "aliases": [],
