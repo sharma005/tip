@@ -6,6 +6,47 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "GeoServer jsonArrayContains unauthenticated SQL injection zero-day exploited in the wild, can lead to RCE",
+    "category": "zeroday",
+    "severity": "Critical",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-12",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/unpatched-geoserver-zero-day-targeted.html",
+    "summary": "An unauthenticated SQL injection zero-day in the open-source GeoServer geospatial platform, disclosed publicly on August 12, 2026 and still without a CVE, CVSS score, or vendor patch, is under active exploitation. The flaw is in GeoServer's jsonArrayContains filter function for querying JSON array fields and can provide a path to remote code execution in certain H2 database deployments. Researchers observed scanning and exploitation attempts within hours of disclosure, with hundreds of probes from a small pool of IP addresses; no confirmed compromises were publicly reported as of August 13, 2026.",
+    "tags": [
+      "geoserver",
+      "sql-injection",
+      "zero-day",
+      "rce"
+    ],
+    "id": "auto-geoserver-jsonarraycontains-unauthenticated-sql-injection-ze",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
+    "title": "VMware vCenter directory-traversal flaw CVE-2026-59310 (CVSS 9.8) exploited in the wild for remote code execution",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-59310",
+    "cvss": 9.8,
+    "date": "2026-08-12",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/attackers-exploit-vmware-vcenter.html",
+    "summary": "CVE-2026-59310 is a directory-traversal vulnerability in VMware vCenter's Syslog server (Broadcom advisory VMSA-2026-0006, CVSS 9.8) that lets a network-adjacent attacker execute arbitrary code. Disclosed on July 29, 2026, it came under active exploitation roughly five days later: researchers at QUIRSO identified 361 unique victim IP addresses across 47 countries, with a suspected APT chaining path traversal to deploy a malicious cron job establishing reverse_ssh persistence to attacker infrastructure. Organizations should apply the fixed builds (9.1.0.0300, 9.0.2.0100, 8.0 U3k, 8.0 U2f) immediately.",
+    "tags": [
+      "vmware",
+      "vcenter",
+      "directory-traversal",
+      "rce",
+      "reverse-ssh"
+    ],
+    "id": "auto-cve-2026-59310",
+    "fetchedAt": "2026-08-15T02:24:48.047Z"
+  },
+  {
     "id": "auto-cve-2026-62878",
     "title": "Windows DNS Server critical wormable RCE (CVE-2026-62878, CVSS 9.8) allows unauthenticated remote code execution",
     "category": "rce",
