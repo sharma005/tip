@@ -8,6 +8,55 @@
 const TIP_AUTOFEED_CONNECTORS = [
   {
     "connector": "otx",
+    "title": "SharePoint on-prem JWT auth-bypass CVE-2026-55040 mass-exploited after public PoC",
+    "date": "2026-08-13",
+    "severity": "Critical",
+    "summary": "Following Rapid7's Aug 11, 2026 technical write-up and PoC, unauthenticated attackers are forging JWT tokens to bypass authentication on internet-facing SharePoint Server (Subscription Edition, 2019, 2016) via CVE-2026-55040 (CVSS 9.1), with a chained unauthenticated RCE path also demonstrated. Shadowserver tracks 8,500+ exposed servers - scanning/exploitation source infrastructure is a good candidate for OTX pulse tracking.",
+    "tags": [
+      "sharepoint",
+      "cve-2026-55040",
+      "auth-bypass",
+      "jwt"
+    ],
+    "iocs": [],
+    "id": "auto-conn-otx-sharepoint-on-prem-jwt-auth-bypass-cve-2026-55040-mass-explo",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
+    "connector": "misp",
+    "title": "INC Ransom cross-architecture ransomware campaign against chipmaker V-Silicon",
+    "date": "2026-08-13",
+    "severity": "High",
+    "summary": "Cybernews reconstructed an INC Ransom intrusion at semiconductor firm V-Silicon from the gang's exposed staging server. Payloads targeted uncommon architectures (PowerPC, RISC-V, SPARC, s390x); recovered data referenced an NXP Eindhoven SMB share and UnitedDS FTP credentials. Useful for MISP community sharing of INC TTPs and affected third-party infrastructure.",
+    "tags": [
+      "inc-ransom",
+      "ransomware",
+      "semiconductor",
+      "supply-chain"
+    ],
+    "iocs": [],
+    "id": "auto-conn-misp-inc-ransom-cross-architecture-ransomware-campaign-against-ch",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
+    "connector": "misp",
+    "title": "Gunra ransomware joint advisory AA26-222A - STIX IOCs and ATT&CK mapping released",
+    "date": "2026-08-10",
+    "severity": "High",
+    "summary": "CISA, FBI, NSA and partners released #StopRansomware advisory AA26-222A on Aug 10, 2026 detailing Gunra, a Conti-derived double-extortion RaaS hitting healthcare, finance, manufacturing, government and other critical-infrastructure sectors. The advisory ships downloadable STIX IOCs and maps tradecraft (NTDS dumping, pass-the-hash, SMB/RDP lateral movement, shadow-copy deletion, SharePoint exfiltration) to ATT&CK v19.1 - directly importable into MISP.",
+    "tags": [
+      "gunra",
+      "ransomware",
+      "stopransomware",
+      "cisa",
+      "conti"
+    ],
+    "iocs": [],
+    "id": "auto-conn-misp-gunra-ransomware-joint-advisory-aa26-222a-stix-iocs-and-att-",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
+    "connector": "otx",
     "title": "GeoServer jsonArrayContains SQL injection zero-day exploited for RCE",
     "date": "2026-08-13",
     "severity": "Critical",
