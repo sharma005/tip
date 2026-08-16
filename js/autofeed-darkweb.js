@@ -7,6 +7,23 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "INC Ransom adds chipmaker V-Silicon to leak site after staging server exposed",
+    "type": "ransomware",
+    "source": "INC Ransom leak site / Cybernews",
+    "date": "2026-08-13",
+    "snippet": "INC Ransom added multinational semiconductor firm V-Silicon to its Tor leak site after Cybernews reconstructed the intrusion from the gang's own publicly exposed staging server. Recovered tooling included cross-architecture ransomware (PowerPC, RISC-V, SPARC, s390x) and referenced third-party infrastructure tied to NXP (an Eindhoven SMB share) and UnitedDS (FTP credentials); victim/scope claims originate from the attacker artifacts and remain partly unverified.",
+    "relevance": 70,
+    "tags": [
+      "inc-ransom",
+      "ransomware",
+      "semiconductor",
+      "leak-site"
+    ],
+    "id": "auto-dw-inc-ransom-adds-chipmaker-v-silicon-to-leak-site-after-stagi",
+    "flagged": false,
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
     "title": "Cl0p leak site lists Shell, Philips, GE and Fiserv after PTC Windchill mass exploitation",
     "type": "leak",
     "source": "Cl0p leak site / BleepingComputer",
