@@ -6,6 +6,48 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED = [
   {
+    "title": "SharePoint on-prem JWT authentication bypass (CVE-2026-55040) mass-exploited within hours of public PoC",
+    "category": "rce",
+    "severity": "Critical",
+    "cve": "CVE-2026-55040",
+    "cvss": 9.1,
+    "date": "2026-08-13",
+    "actor": null,
+    "source": "The Hacker News",
+    "url": "https://thehackernews.com/2026/08/attackers-exploit-sharepoint.html",
+    "summary": "Attackers began mass-exploiting CVE-2026-55040, a critical (CVSS 9.1) authentication-bypass flaw in the JWT token-validation pipeline of on-premises SharePoint Server (Subscription Edition, 2019, and 2016), within hours of Rapid7 publishing a technical analysis and proof-of-concept on Aug 11, 2026. A remote, unauthenticated attacker can forge tokens and act as a SharePoint site user or administrator; Rapid7 also chained two further bugs to reach unauthenticated RCE. Shadowserver tracks 8,500+ internet-exposed servers still unpatched, and CISA has urged prompt patching and restricting external access to Central Administration.",
+    "tags": [
+      "sharepoint",
+      "auth-bypass",
+      "jwt",
+      "cve-2026-55040",
+      "rapid7"
+    ],
+    "id": "auto-cve-2026-55040",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
+    "title": "INC Ransom campaign against chipmaker V-Silicon exposed via attacker's own staging server",
+    "category": "ransomware",
+    "severity": "High",
+    "cve": null,
+    "cvss": null,
+    "date": "2026-08-13",
+    "actor": "INC Ransom",
+    "source": "Cybernews",
+    "url": "https://cybernews.com/security/hackers-exposed-ransomware-attack-v-silicon/",
+    "summary": "Cybernews researchers reconstructed an active INC Ransom (RaaS) intrusion against multinational chipmaker V-Silicon after the attackers left their own staging server publicly exposed. Recovered tooling showed network reconnaissance, credential theft, and ransomware payloads compiled for unusual architectures (PowerPC, RISC-V, SPARC, IBM s390x), suggesting intent to hit embedded, industrial and semiconductor-manufacturing systems. The exposed data also referenced third-party infrastructure - an SMB share tied to NXP's Eindhoven site and FTP credentials linked to UnitedDS. V-Silicon was subsequently added to INC's Tor leak site.",
+    "tags": [
+      "ransomware",
+      "inc-ransom",
+      "semiconductor",
+      "raas",
+      "supply-chain"
+    ],
+    "id": "auto-inc-ransom-campaign-against-chipmaker-v-silicon-exposed-via-",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
     "title": "GeoServer jsonArrayContains unauthenticated SQL injection zero-day exploited in the wild, can lead to RCE",
     "category": "zeroday",
     "severity": "Critical",
