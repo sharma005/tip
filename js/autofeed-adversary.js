@@ -7,6 +7,42 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "Gunra",
+    "aliases": [],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Healthcare",
+      "Finance",
+      "Manufacturing",
+      "Transportation",
+      "Government",
+      "Utilities",
+      "Education",
+      "Retail",
+      "Professional Services"
+    ],
+    "ttps": [
+      "T1003.003",
+      "T1550.002",
+      "T1021.002",
+      "T1021.001",
+      "T1070",
+      "T1490",
+      "T1486",
+      "T1213.002"
+    ],
+    "campaigns": [
+      "Double-extortion attacks on critical infrastructure (CISA #StopRansomware AA26-222A, Aug 2026)"
+    ],
+    "iocs": [],
+    "notes": "Gunra is a financially motivated double-extortion ransomware operation first observed by the FBI in April 2025 and derived from the leaked 2022 Conti source code. On Aug 10, 2026 CISA, FBI, NSA, DC3, USSS and South Korea's KNPA issued joint #StopRansomware advisory AA26-222A warning that Gunra targets multiple critical-infrastructure sectors, exfiltrating data before encryption and threatening publication via a Tor leak site. Reported tradecraft includes NTDS credential dumping, pass-the-hash, SMB/RDP lateral movement, indicator removal, Volume Shadow Copy manipulation and SharePoint data exfiltration; the advisory ships STIX IOCs mapped to ATT&CK v19.1.",
+    "id": "auto-adv-gunra",
+    "active": true,
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
     "name": "Cl0p",
     "aliases": [
       "Clop",
