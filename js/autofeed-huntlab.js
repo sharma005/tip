@@ -7,6 +7,52 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for SharePoint CVE-2026-55040 JWT auth-bypass exploitation and forged-admin activity",
+    "description": "Following Rapid7's Aug 11, 2026 PoC for CVE-2026-55040, attackers are forging JWT tokens to authenticate to on-prem SharePoint as site users/administrators and chaining to RCE. Hunt internet-facing SharePoint servers for unexpected administrative operations from anomalous or malformed token sessions, and for the IIS worker process w3wp.exe spawning command interpreters shortly after inbound requests to _api or authentication endpoints.",
+    "mitreTactic": "Initial Access",
+    "mitreTechnique": "T1190 - Exploit Public-Facing Application",
+    "dataSources": [
+      "Web Server Logs",
+      "EDR Logs",
+      "Authentication Logs"
+    ],
+    "priority": "P1",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "CVE-2026-55040",
+    "queries": [
+      {
+        "name": "SharePoint w3wp.exe spawning shells after suspected auth bypass",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.parent_process == \"w3wp.exe\"\n| filter $d.process_name in [\"cmd.exe\", \"powershell.exe\", \"cscript.exe\", \"wscript.exe\", \"csc.exe\"]\n| filter $d.timestamp >= \"2026-08-11T00:00:00Z\"\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as exec_count\n| sort -exec_count"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-sharepoint-cve-2026-55040-jwt-auth-bypass-exploitat",
+    "status": "active",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
+    "title": "Hunt for INC Ransom multi-architecture payload staging and credential theft (V-Silicon campaign)",
+    "description": "Cybernews exposed INC Ransom tooling used against chipmaker V-Silicon, including ransomware built for uncommon architectures (PowerPC, RISC-V, SPARC, s390x) plus network reconnaissance and credential dumping staged before encryption. Hunt for NTDS/credential-dumping activity and shadow-copy manipulation preceding bulk file operations, and for unexpected cross-architecture or unsigned binaries staged on embedded/manufacturing hosts.",
+    "mitreTactic": "Credential Access",
+    "mitreTechnique": "T1003.003 - OS Credential Dumping: NTDS",
+    "dataSources": [
+      "EDR Logs",
+      "Windows Security Event Logs",
+      "Network Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": "INC Ransom",
+    "linkedFeedItemRef": "V-Silicon",
+    "queries": [
+      {
+        "name": "NTDS extraction / shadow-copy tooling preceding encryption",
+        "query": "source logs\n| filter $d.event_type == \"process_creation\"\n| filter $d.process_name in [\"ntdsutil.exe\", \"vssadmin.exe\", \"esentutl.exe\", \"wbadmin.exe\"]\n| filter $d.command_line contains \"ntds\" || $d.command_line contains \"shadow\" || $d.command_line contains \"delete\"\n| filter $d.timestamp >= \"2026-08-01T00:00:00Z\"\n| groupby $d.hostname, $d.process_name, $d.command_line\n| count() as hits\n| sort -hits"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-inc-ransom-multi-architecture-payload-staging-and-c",
+    "status": "active",
+    "fetchedAt": "2026-08-16T02:16:24.175Z"
+  },
+  {
     "title": "Hunt for GeoServer jsonArrayContains SQL injection exploitation attempts",
     "description": "A newly disclosed (Aug 12, 2026) unauthenticated SQL injection zero-day in GeoServer's jsonArrayContains filter is being actively probed and can lead to RCE in H2-backed deployments, with no patch available. Hunt internet-facing GeoServer/GeoWebCache endpoints for OGC filter requests containing jsonArrayContains alongside SQL metacharacters or boolean/time-based injection patterns, and for the GeoServer Java process spawning shells shortly after.",
     "mitreTactic": "Initial Access",
