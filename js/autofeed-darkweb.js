@@ -7,6 +7,23 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_DARKWEB = [
   {
+    "title": "Dire Wolf ransomware lists Statista GmbH and healthcare provider Colla Health on leak site",
+    "type": "ransomware",
+    "source": "Dire Wolf leak site / LevelBlue SpiderLabs",
+    "date": "2026-08-15",
+    "snippet": "The Dire Wolf double-extortion group added German data firm Statista GmbH (Aug 10) and US healthcare provider Colla Health (Aug 15) to its Tor leak site among a batch of August 2026 victims that also included AliveCor, Swyft, and Fondo, claiming theft of internal data with threats to publish. The group has around 86 claimed victims to date across manufacturing, professional services, and healthcare; individual listing claims originate from the actor and remain partly unverified.",
+    "relevance": 65,
+    "tags": [
+      "dire-wolf",
+      "ransomware",
+      "leak-site",
+      "healthcare"
+    ],
+    "id": "auto-dw-dire-wolf-ransomware-lists-statista-gmbh-and-healthcare-prov",
+    "flagged": false,
+    "fetchedAt": "2026-08-17T03:01:42.000Z"
+  },
+  {
     "title": "INC Ransom adds chipmaker V-Silicon to leak site after staging server exposed",
     "type": "ransomware",
     "source": "INC Ransom leak site / Cybernews",
