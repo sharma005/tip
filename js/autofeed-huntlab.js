@@ -7,6 +7,29 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_HUNTLAB = [
   {
+    "title": "Hunt for City-Forum guest-user data harvesting across Salesforce and ServiceNow portals",
+    "description": "Reco disclosed the 'City-Forum' campaign on Aug 12, 2026: since at least March 2025 a single rented server in Germany has systematically harvested records from Salesforce Experience Cloud sites and ServiceNow Service Portals worldwide, abusing built-in guest/anonymous (unauthenticated) access rather than any CVE, stolen credentials, or auth bypass. Hunt public-facing Salesforce and ServiceNow portals for high-volume anonymous/guest object reads from a single external IP or ASN, especially sustained low-and-slow enumeration of records over long periods.",
+    "mitreTactic": "Collection",
+    "mitreTechnique": "T1213 - Data from Information Repositories",
+    "dataSources": [
+      "SaaS Audit Logs",
+      "Web Proxy Logs",
+      "WAF/CDN Logs"
+    ],
+    "priority": "P2",
+    "linkedAdversaryName": null,
+    "linkedFeedItemRef": "City-Forum",
+    "queries": [
+      {
+        "name": "High-volume guest/anonymous portal reads from a single source",
+        "query": "source logs\n| filter $d.app in [\"salesforce\", \"servicenow\"]\n| filter $d.auth_context == \"guest\" || $d.user_type == \"anonymous\"\n| filter $d.action in [\"record_read\", \"record_export\", \"api_query\"]\n| groupby $d.src_ip, $d.app\n| count() as reads, distinct_count($d.record_id) as records\n| filter records > 500\n| sort -records"
+      }
+    ],
+    "id": "auto-hypo-hunt-for-city-forum-guest-user-data-harvesting-across-salesf",
+    "status": "active",
+    "fetchedAt": "2026-08-17T03:01:42.000Z"
+  },
+  {
     "title": "Hunt for SharePoint CVE-2026-55040 JWT auth-bypass exploitation and forged-admin activity",
     "description": "Following Rapid7's Aug 11, 2026 PoC for CVE-2026-55040, attackers are forging JWT tokens to authenticate to on-prem SharePoint as site users/administrators and chaining to RCE. Hunt internet-facing SharePoint servers for unexpected administrative operations from anomalous or malformed token sessions, and for the IIS worker process w3wp.exe spawning command interpreters shortly after inbound requests to _api or authentication endpoints.",
     "mitreTactic": "Initial Access",
