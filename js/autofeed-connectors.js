@@ -7,6 +7,28 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_CONNECTORS = [
   {
+    "connector": "pulsedive",
+    "title": "City-Forum campaign harvesting Salesforce and ServiceNow guest-user data",
+    "date": "2026-08-12",
+    "severity": "High",
+    "summary": "Reco disclosed 'City-Forum' on Aug 12, 2026: a single Germany-hosted server that, since at least March 2025, has systematically pulled records from Salesforce Experience Cloud sites and ServiceNow Service Portals worldwide by abusing built-in guest/anonymous access - no CVE, credential theft, or auth bypass involved. The static domain and reused infrastructure make good indicators for community tracking of exposed-portal reconnaissance.",
+    "tags": [
+      "saas",
+      "salesforce",
+      "servicenow",
+      "guest-access",
+      "data-exposure"
+    ],
+    "iocs": [
+      {
+        "type": "Domain",
+        "value": "city-forum.com"
+      }
+    ],
+    "id": "auto-conn-pulsedive-city-forum-campaign-harvesting-salesforce-and-servicenow-gue",
+    "fetchedAt": "2026-08-17T03:01:42.000Z"
+  },
+  {
     "connector": "otx",
     "title": "SharePoint on-prem JWT auth-bypass CVE-2026-55040 mass-exploited after public PoC",
     "date": "2026-08-13",
