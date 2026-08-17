@@ -7,6 +7,53 @@
    ═══════════════════════════════════════════════════════════════════ */
 const TIP_AUTOFEED_ADVERSARY = [
   {
+    "name": "CRPx0",
+    "aliases": [
+      "CRPxO",
+      "CRPXO"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Healthcare",
+      "Technology",
+      "Financial Services"
+    ],
+    "ttps": [],
+    "campaigns": [],
+    "iocs": [],
+    "notes": "Ransomware group first observed in June 2026, initially claiming small US healthcare/dental practices before rapidly expanding to technology and financial-services victims (46 claimed victims by July 2026, with a growing cluster in Turkey alongside the US). CRPx0 runs a double-extortion model, using AES-256 for file encryption and RSA to protect keys. Bitdefender's August 2026 Threat Debrief flags its unusually fast growth as raising questions about the group's true scale and business model.",
+    "id": "auto-adv-crpx0",
+    "active": true,
+    "fetchedAt": "2026-08-17T03:01:42.000Z"
+  },
+  {
+    "name": "Dire Wolf",
+    "aliases": [
+      "Direwolf",
+      "DIREWOLF"
+    ],
+    "type": "criminal",
+    "origin": "Unknown",
+    "motivation": "Financial",
+    "sectors": [
+      "Manufacturing",
+      "Professional Services",
+      "Healthcare"
+    ],
+    "ttps": [],
+    "campaigns": [
+      "Statista GmbH leak-site listing (Aug 2026)",
+      "Colla Health leak-site listing (Aug 2026)"
+    ],
+    "iocs": [],
+    "notes": "Double-extortion ransomware group active since 2025 and still expanding in 2026, with roughly 86 publicly claimed victims by mid-August 2026 across about 30 countries, concentrated in manufacturing, professional services, and healthcare. August 2026 leak-site listings include Statista GmbH, AliveCor, Swyft, Fondo, and US healthcare provider Colla Health. Tracked in LevelBlue SpiderLabs research and public ransomware trackers.",
+    "id": "auto-adv-dire-wolf",
+    "active": true,
+    "fetchedAt": "2026-08-17T03:01:42.000Z"
+  },
+  {
     "name": "Gunra",
     "aliases": [],
     "type": "criminal",
